@@ -75,9 +75,7 @@ function initBattlefield() {
  */
 function handleCellClick(cell) {
     if (cell.classList.contains('hit') || cell.classList.contains('miss')) {
-        return
     }
-    cell.classList.add('miss')
 }
 
 /**
