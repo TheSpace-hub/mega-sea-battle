@@ -17,6 +17,7 @@ public class SenderOfPages {
 
     @GetMapping("/game/{id}")
     public String game(@PathVariable String id, Model model) {
+        model.addAttribute("id", id.toUpperCase());
         return "battlefield";
     }
 

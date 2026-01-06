@@ -12,19 +12,10 @@ let currentMode = 'all'
 let currentPlayer = 1
 
 document.addEventListener('DOMContentLoaded', function () {
-    updateGameName()
     initBattlefield()
     setupEventListeners()
     updateDisplay()
 })
-
-/**
- * Update the game name on top.
- */
-function updateGameName() {
-    let span = document.querySelector('#game-name')
-    span.innerText = window.location.pathname.split('/').pop().toUpperCase()
-}
 
 /**
  * Creating a battlefield.
