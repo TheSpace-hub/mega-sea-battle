@@ -1,3 +1,5 @@
+import {addPlayerIntoList} from "./list-of-players.js";
+
 const letters = ['А', 'Б', 'В', 'Г', 'Д', 'Е', 'Ж', 'З', 'И', 'К']
 
 const players = [

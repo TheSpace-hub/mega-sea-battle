@@ -1,12 +1,8 @@
-document.addEventListener('DOMContentLoaded', function () {
-    addPlayer('Злодей Крю')
-});
-
 /**
  * Add new player into list.
  * @param username Player's name.
  */
-function addPlayer(username) {
+export function addPlayerIntoList(username) {
     document.querySelector('#list-of-players').insertAdjacentHTML('beforeend', createItem(username))
 }
 
