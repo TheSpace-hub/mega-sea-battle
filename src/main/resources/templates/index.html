@@ -37,14 +37,14 @@
 
         <div class="row g-3" style="max-width: 500px;">
             <div class="col-md-8">
-                <label for="gameCode" class="form-label">Код игры (6 символов)</label>
+                <label for="game-id" class="form-label">Код игры (6 символов)</label>
                 <div class="input-group">
                     <span class="input-group-text">#</span>
-                    <input type="text" class="form-control" id="gameCode" placeholder="ABCDEF" maxlength="6" pattern="[A-Z0-9]{6}" title="Используйте только заглавные буквы и цифры, 6 символов">
+                    <input type="text" class="form-control" id="game-id" placeholder="ABCDEF" maxlength="6" pattern="[A-Z0-9]{6}" title="Используйте только заглавные буквы и цифры, 6 символов">
                 </div>
             </div>
             <div class="col-md-4 d-flex align-items-end">
-                <button type="button" class="btn btn-success w-100">Войти в игру</button>
+                <button type="button" class="btn btn-success w-100" id="join">Войти в игру</button>
             </div>
         </div>
         <div class="row mt-2" style="max-width: 500px;">

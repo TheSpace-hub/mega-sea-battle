@@ -1,4 +1,5 @@
 document.addEventListener("DOMContentLoaded", generateListOfGames)
+document.querySelector('#join').addEventListener('click', joinInToGame)
 
 /**
  * Fill in the list with the latest games.
@@ -47,4 +48,14 @@ function addGameToListOfGames(id, players, maxPlayers) {
     li.classList.add('d-flex')
 
     document.querySelector('#list-of-games').appendChild(li)
+}
+
+/**
+ * Open game button executor.
+ */
+function joinInToGame() {
+    const id = document.querySelector('#game-id').value
+    if (id === '')
+        return
+    window.location.href = '/game/' + id
 }
