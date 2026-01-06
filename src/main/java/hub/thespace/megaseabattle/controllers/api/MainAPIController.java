@@ -7,11 +7,10 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/list-of-games")
 @Slf4j
 public class MainAPIController {
 
-    @GetMapping
+    @GetMapping("/api/list-of-games")
     public List<GameConfig> getListOfGames() {
         return GameConfig.games;
     }
