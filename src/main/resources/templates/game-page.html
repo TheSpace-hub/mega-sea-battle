@@ -1,0 +1,656 @@
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <title>Морской бой - Игра #123</title>
+    <style>
+        :root {
+            --player1-color: #0d6efd; /* синий */
+            --player2-color: #dc3545; /* красный */
+            --player3-color: #198754; /* зеленый */
+            --player4-color: #ffc107; /* желтый */
+            --player5-color: #6f42c1; /* фиолетовый */
+        }
+
+        .player-color-dot {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 8px;
+            vertical-align: middle;
+        }
+
+        .battlefield {
+            display: grid;
+            grid-template-columns: 30px repeat(10, 1fr);
+            grid-template-rows: 30px repeat(10, 1fr);
+            gap: 0;
+            margin: 20px auto;
+            max-width: 480px;
+            width: 100%;
+            aspect-ratio: 1;
+            border: 1px solid #dee2e6;
+            box-sizing: border-box;
+        }
+
+        .cell {
+            width: 100%;
+            height: 100%;
+            border: 1px solid #0d6efd;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            background-color: rgba(13, 110, 253, 0.05);
+            cursor: pointer;
+            transition: all 0.2s;
+            box-sizing: border-box;
+            font-size: 0.9rem;
+        }
+
+        .cell:hover {
+            background-color: rgba(13, 110, 253, 0.15);
+        }
+
+        .cell.coordinate {
+            background-color: #f8f9fa;
+            border-color: #dee2e6;
+            font-weight: bold;
+            cursor: default;
+        }
+
+        .cell.coordinate:hover {
+            background-color: #f8f9fa;
+        }
+
+        .cell.ship {
+            background-color: #0d6efd;
+            color: white;
+        }
+
+        .cell.miss {
+            background-color: #e9ecef;
+        }
+
+        .cell.hit {
+            background-color: #dc3545;
+            color: white;
+        }
+
+        .player-active {
+            border-left: 4px solid #0d6efd;
+            background-color: rgba(13, 110, 253, 0.05);
+        }
+
+        .ship-preview {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            background-color: #0d6efd;
+            margin-right: 5px;
+            border-radius: 2px;
+        }
+
+        .ship-count {
+            font-size: 0.85rem;
+            color: #6c757d;
+        }
+
+        .player-1-color {
+            background-color: var(--player1-color);
+        }
+
+        .player-2-color {
+            background-color: var(--player2-color);
+        }
+
+        .player-3-color {
+            background-color: var(--player3-color);
+        }
+
+        .player-4-color {
+            background-color: var(--player4-color);
+        }
+
+        .player-5-color {
+            background-color: var(--player5-color);
+        }
+
+        .mode-active {
+            font-weight: bold;
+            border-color: #0d6efd !important;
+        }
+
+        .ship-legend {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+            flex-wrap: wrap;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            margin-right: 15px;
+        }
+
+        /* Исправления для кнопок режимов отображения */
+        .mode-buttons {
+            overflow-x: auto;
+            white-space: nowrap;
+            padding-bottom: 10px;
+        }
+
+        .mode-buttons .btn-group {
+            flex-wrap: nowrap;
+        }
+
+        /* Адаптивность */
+        @media (max-width: 1200px) {
+            .battlefield {
+                max-width: 420px;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .battlefield {
+                max-width: 380px;
+            }
+
+            .mode-buttons .btn {
+                padding: 0.25rem 0.5rem;
+                font-size: 0.85rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .battlefield {
+                max-width: 340px;
+            }
+
+            .cell {
+                font-size: 0.8rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .battlefield {
+                max-width: 300px;
+                grid-template-columns: 25px repeat(10, 1fr);
+                grid-template-rows: 25px repeat(10, 1fr);
+            }
+
+            .cell.coordinate {
+                font-size: 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+<main class="container py-4">
+    <header class="mb-4">
+        <div class="d-flex justify-content-between align-items-center">
+            <h1>Морской бой - Игра #123</h1>
+            <div>
+                <a href="/" class="btn btn-outline-primary btn-sm">Вернуться на главную</a>
+            </div>
+        </div>
+        <div class="alert alert-info mt-3">
+            <div class="d-flex justify-content-between align-items-center flex-wrap">
+                <div class="mb-2 mb-md-0">
+                    <strong>Статус:</strong> Ожидание хода игрока <span class="badge bg-primary">Морской Волк</span>
+                </div>
+                <div class="ship-legend">
+                    <div class="legend-item">
+                        <div class="ship-preview"></div>
+                        <span class="small">Корабль</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="ship-preview" style="background-color: #dc3545;"></div>
+                        <span class="small">Попадание</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="ship-preview" style="background-color: #e9ecef;"></div>
+                        <span class="small">Промах</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="row">
+        <div class="col-md-4 col-lg-3">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">Игроки в игре</h5>
+                </div>
+                <div class="card-body p-0">
+                    <ul class="list-group list-group-flush" id="players-list">
+                        <li class="list-group-item d-flex justify-content-between align-items-center player-active">
+                            <div>
+                                <span class="player-color-dot player-1-color"></span>
+                                <span>Морской Волк</span>
+                                <span class="badge bg-primary ms-2">Вы</span>
+                            </div>
+                            <div class="ship-count">4 корабля</div>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <div>
+                                <span class="player-color-dot player-2-color"></span>
+                                <span>Пират</span>
+                            </div>
+                            <div class="ship-count">4 корабля</div>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <div>
+                                <span class="player-color-dot player-3-color"></span>
+                                <span>Капитан</span>
+                            </div>
+                            <div class="ship-count">4 корабля</div>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <div>
+                                <span class="player-color-dot player-4-color"></span>
+                                <span>Адмирал</span>
+                            </div>
+                            <div class="ship-count">3 корабля</div>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <div>
+                                <span class="player-color-dot player-5-color"></span>
+                                <span>Штурман</span>
+                            </div>
+                            <div class="ship-count">4 корабля</div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="card-footer">
+                    <div class="small text-muted">Всего игроков: 5 из 5</div>
+                </div>
+            </div>
+
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">Ход игры</h5>
+                </div>
+                <div class="card-body" style="max-height: 300px; overflow-y: auto;">
+                    <div class="timeline">
+                        <div class="mb-2">
+                            <span class="badge bg-secondary">10:23</span>
+                            <span>Игра начата</span>
+                        </div>
+                        <div class="mb-2">
+                            <span class="badge bg-secondary">10:25</span>
+                            <span>Игрок <strong>Пират</strong> разместил корабли</span>
+                        </div>
+                        <div class="mb-2">
+                            <span class="badge bg-secondary">10:26</span>
+                            <span>Игрок <strong>Капитан</strong> разместил корабли</span>
+                        </div>
+                        <div class="mb-2">
+                            <span class="badge bg-secondary">10:27</span>
+                            <span>Игрок <strong>Адмирал</strong> разместил корабли</span>
+                        </div>
+                        <div class="mb-2">
+                            <span class="badge bg-secondary">10:28</span>
+                            <span>Игрок <strong>Штурман</strong> разместил корабли</span>
+                        </div>
+                        <div class="mb-2">
+                            <span class="badge bg-primary">10:30</span>
+                            <span>Ваш ход!</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-8 col-lg-9">
+            <div class="card">
+                <div class="card-header">
+                    <div class="d-flex justify-content-between align-items-center flex-wrap">
+                        <div class="mode-buttons">
+                            <div class="btn-group" role="group" aria-label="Режимы отображения">
+                                <button type="button" class="btn btn-outline-primary active mode-active" id="mode-all">
+                                    Все на одном поле
+                                </button>
+                                <button type="button" class="btn btn-outline-primary" id="mode-player1">Игрок "Морской
+                                    Волк"
+                                </button>
+                                <button type="button" class="btn btn-outline-primary" id="mode-player2">Игрок "Пират"
+                                </button>
+                                <button type="button" class="btn btn-outline-primary" id="mode-player3">Игрок
+                                    "Капитан"
+                                </button>
+                                <button type="button" class="btn btn-outline-primary" id="mode-player4">Игрок
+                                    "Адмирал"
+                                </button>
+                                <button type="button" class="btn btn-outline-primary" id="mode-player5">Игрок
+                                    "Штурман"
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="text-center mb-4">
+                        <h4 id="current-mode">Режим: Все игроки на одном поле</h4>
+                        <p class="text-muted" id="mode-description">
+                            На этом поле отображены корабли всех игроков. Цвет корабля соответствует цвету игрока в
+                            списке.
+                        </p>
+                    </div>
+
+                    <div class="d-flex justify-content-center">
+                        <div class="battlefield" id="battlefield">
+                            <!-- Координаты и игровое поле будут сгенерированы через JavaScript -->
+                        </div>
+                    </div>
+
+                    <button class="btn btn-primary" id="btn-end-turn" disabled>Завершить ход (ожидание)</button>
+                </div>
+            </div>
+
+            <div class="row mt-4">
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <h6 class="card-title mb-0">Статистика игры</h6>
+                        </div>
+                        <div class="card-body">
+                            <ul class="list-unstyled mb-0">
+                                <li class="mb-2">Ход: <strong>3</strong></li>
+                                <li class="mb-2">Всего выстрелов: <strong>12</strong></li>
+                                <li class="mb-2">Попаданий: <strong>5</strong></li>
+                                <li class="mb-2">Промахов: <strong>7</strong></li>
+                                <li>Уничтожено кораблей: <strong>2</strong></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <h6 class="card-title mb-0">Правила</h6>
+                        </div>
+                        <div class="card-body">
+                            <ul class="small mb-0">
+                                <li>На поле 10×10 каждый игрок размещает 10 кораблей</li>
+                                <li>Игроки ходят по очереди</li>
+                                <li>Цель — первым уничтожить все корабли противников</li>
+                                <li>Используйте переключатели для просмотра поля каждого игрока</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+        crossorigin="anonymous"></script>
+
+<script>
+    // Русские буквы для координат
+    const letters = ['А', 'Б', 'В', 'Г', 'Д', 'Е', 'Ж', 'З', 'И', 'К'];
+
+    // Игроки и их цвета
+    const players = [
+        {id: 1, name: 'Морской Волк', color: 'player-1-color'},
+        {id: 2, name: 'Пират', color: 'player-2-color'},
+        {id: 3, name: 'Капитан', color: 'player-3-color'},
+        {id: 4, name: 'Адмирал', color: 'player-4-color'},
+        {id: 5, name: 'Штурман', color: 'player-5-color'}
+    ];
+
+    // Текущий режим отображения
+    let currentMode = 'all';
+    let currentPlayer = 1; // ID текущего игрока (Морской Волк)
+
+    // Инициализация игрового поля
+    document.addEventListener('DOMContentLoaded', function () {
+        initBattlefield();
+        setupEventListeners();
+        updateDisplay();
+    });
+
+    // Создание игрового поля
+    function initBattlefield() {
+        const battlefield = document.getElementById('battlefield');
+
+        // Очищаем поле
+        battlefield.innerHTML = '';
+
+        // Создаем пустую левую верхнюю ячейку
+        const topLeftCell = document.createElement('div');
+        topLeftCell.className = 'cell coordinate';
+        battlefield.appendChild(topLeftCell);
+
+
+        // Создаем буквы для горизонтальных координат
+        for (let i = 0; i < 10; i++) {
+            const letterCell = document.createElement('div');
+            letterCell.className = 'cell coordinate';
+            letterCell.textContent = letters[i];
+            battlefield.appendChild(letterCell);
+        }
+
+        // Создаем строки с цифрами и ячейками поля
+        for (let row = 1; row <= 10; row++) {
+            // Цифра для вертикальной координаты
+            const numberCell = document.createElement('div');
+            numberCell.className = 'cell coordinate';
+            numberCell.textContent = row;
+            battlefield.appendChild(numberCell);
+
+            // Ячейки поля
+            for (let col = 1; col <= 10; col++) {
+                const cell = document.createElement('div');
+                cell.className = 'cell';
+                cell.dataset.row = row;
+                cell.dataset.col = col;
+
+                // Добавляем случайные корабли для демонстрации
+                // В реальной игре это будет загружаться с сервера
+                const hasShip = Math.random() > 0.85; // 15% шанс на корабль
+                const playerId = Math.floor(Math.random() * 5) + 1; // Случайный игрок
+
+                if (hasShip) {
+                    cell.dataset.ship = 'true';
+                    cell.dataset.player = playerId;
+                    cell.classList.add('ship');
+                    cell.classList.add(`player-${playerId}-color`);
+                }
+
+                // Некоторые ячейки могут быть с попаданиями или промахами
+                if (Math.random() > 0.93) {
+                    if (cell.dataset.ship) {
+                        cell.classList.remove('ship');
+                        cell.classList.add('hit');
+                    } else {
+                        cell.classList.add('miss');
+                    }
+                }
+
+                // Добавляем обработчик клика
+                cell.addEventListener('click', function () {
+                    if (currentMode === 'all' || (cell.dataset.player && parseInt(cell.dataset.player) === currentPlayer)) {
+                        handleCellClick(this);
+                    }
+                });
+
+                battlefield.appendChild(cell);
+            }
+        }
+    }
+
+    // Обработка клика по ячейке
+    function handleCellClick(cell) {
+        if (cell.classList.contains('hit') || cell.classList.contains('miss')) {
+            return; // Уже стреляли в эту ячейку
+        }
+
+        if (cell.dataset.ship === 'true') {
+            cell.classList.remove('ship');
+            cell.classList.add('hit');
+            cell.textContent = '✖';
+
+            // Показываем уведомление
+            showMessage('Попадание! Корабль поврежден', 'success');
+        } else {
+            cell.classList.add('miss');
+            cell.textContent = '•';
+
+            // Показываем уведомление
+            showMessage('Промах', 'info');
+        }
+    }
+
+    // Настройка обработчиков событий
+    function setupEventListeners() {
+        // Кнопки переключения режимов
+        document.getElementById('mode-all').addEventListener('click', function () {
+            setMode('all');
+        });
+
+        for (let i = 1; i <= 5; i++) {
+            document.getElementById(`mode-player${i}`).addEventListener('click', function () {
+                setMode(`player${i}`);
+            });
+        }
+
+        // Кнопка завершения хода
+        document.getElementById('btn-end-turn').addEventListener('click', function () {
+            showMessage('Ход завершен. Ожидание других игроков...', 'warning');
+            this.disabled = true;
+            this.textContent = 'Ожидание хода...';
+
+            // Через 3 секунды "передаем ход" другому игроку
+            setTimeout(() => {
+                showMessage('Сейчас ходит игрок "Пират"', 'info');
+                document.getElementById('btn-end-turn').textContent = 'Завершить ход (не ваш ход)';
+            }, 3000);
+        });
+    }
+
+    // Установка режима отображения
+    function setMode(mode) {
+        currentMode = mode;
+
+        // Обновляем активные кнопки
+        document.querySelectorAll('.btn-group .btn').forEach(btn => {
+            btn.classList.remove('active', 'mode-active');
+        });
+
+        const activeButton = document.getElementById(`mode-${mode}`);
+        activeButton.classList.add('active', 'mode-active');
+
+        // Обновляем отображение
+        updateDisplay();
+    }
+
+    // Обновление отображения в соответствии с текущим режимом
+    function updateDisplay() {
+        const battlefield = document.getElementById('battlefield');
+        const cells = battlefield.querySelectorAll('.cell:not(.coordinate)');
+        const modeTitle = document.getElementById('current-mode');
+        const modeDescription = document.getElementById('mode-description');
+
+        // Сбрасываем видимость всех ячеек
+        cells.forEach(cell => {
+            cell.style.opacity = '1';
+            cell.style.pointerEvents = 'auto';
+
+            // Сбрасываем подсветку кораблей
+            if (cell.classList.contains('ship')) {
+                cell.classList.remove('ship-hidden');
+            }
+        });
+
+        // Устанавливаем текст в зависимости от режима
+        if (currentMode === 'all') {
+            modeTitle.textContent = 'Режим: Все игроки на одном поле';
+            modeDescription.textContent = 'На этом поле отображены корабли всех игроков. Цвет корабля соответствует цвету игрока в списке.';
+
+            // В режиме "все на одном" показываем все корабли
+            cells.forEach(cell => {
+                if (cell.dataset.ship === 'true') {
+                    const playerId = parseInt(cell.dataset.player);
+                    // Устанавливаем цвет корабля в соответствии с игроком
+                    cell.style.backgroundColor = getComputedStyle(document.documentElement)
+                        .getPropertyValue(`--player${playerId}-color`);
+                    cell.style.color = 'white';
+                }
+            });
+        } else {
+            const playerId = parseInt(currentMode.replace('player', ''));
+            const player = players.find(p => p.id === playerId);
+
+            modeTitle.textContent = `Режим: Игрок "${player.name}"`;
+            modeDescription.textContent = `Вы видите поле игрока "${player.name}". Только его корабли отображены на поле.`;
+
+            // В режиме одного игрока показываем только его корабли
+            cells.forEach(cell => {
+                if (cell.dataset.ship === 'true') {
+                    const cellPlayerId = parseInt(cell.dataset.player);
+
+                    if (cellPlayerId === playerId) {
+                        // Корабль текущего игрока - показываем
+                        cell.style.backgroundColor = getComputedStyle(document.documentElement)
+                            .getPropertyValue(`--player${playerId}-color`);
+                        cell.style.color = 'white';
+                    } else {
+                        // Корабль другого игрока - скрываем
+                        cell.style.opacity = '0.3';
+                        cell.style.pointerEvents = 'none';
+
+                        // Если это не корабль текущего игрока, убираем класс ship
+                        if (!cell.classList.contains('hit')) {
+                            cell.classList.add('ship-hidden');
+                            cell.classList.remove('ship');
+                            cell.textContent = '';
+                        }
+                    }
+                } else {
+                    // Для пустых ячеек или ячеек с попаданиями/промахами
+                    if (!cell.classList.contains('hit') && !cell.classList.contains('miss')) {
+                        cell.style.opacity = '0.7';
+                    }
+                }
+            });
+        }
+    }
+
+    // Показать сообщение
+    function showMessage(text, type) {
+        // Создаем временное уведомление
+        const alertDiv = document.createElement('div');
+        alertDiv.className = `alert alert-${type} alert-dismissible fade show position-fixed`;
+        alertDiv.style.top = '20px';
+        alertDiv.style.right = '20px';
+        alertDiv.style.zIndex = '9999';
+        alertDiv.style.minWidth = '300px';
+        alertDiv.innerHTML = `
+            ${text}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Закрыть"></button>
+        `;
+
+        document.body.appendChild(alertDiv);
+
+        // Удаляем уведомление через 3 секунды
+        setTimeout(() => {
+            if (alertDiv.parentNode) {
+                alertDiv.remove();
+            }
+        }, 3000);
+    }
+</script>
+</body>
+</html>
