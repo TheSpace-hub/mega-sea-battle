@@ -31,6 +31,25 @@
         <p class="text-muted small mt-2">Цифры показывают текущее количество игроков в игре.</p>
     </section>
 
+    <section class="mb-5">
+        <h2>Присоединиться по коду</h2>
+        <p class="lead">Уже есть код игры? Введите его ниже</p>
+        <div class="row g-2 align-items-end" style="max-width: 500px;">
+            <div class="col-md-8">
+                <label for="gameCode" class="form-label">Код игры (6 символов)</label>
+                <div class="input-group">
+                    <span class="input-group-text">#</span>
+                    <input type="text" class="form-control" id="gameCode" placeholder="ABCDEF" maxlength="6"
+                           pattern="[A-Z0-9]{6}" title="Используйте только заглавные буквы и цифры, 6 символов">
+                </div>
+                <div class="form-text">Код состоит из 6 заглавных букв или цифр (например: X7B9F2)</div>
+            </div>
+            <div class="col-md-4">
+                <button type="button" class="btn btn-success w-100 h-100">Войти в игру</button>
+            </div>
+        </div>
+    </section>
+
     <section>
         <h2>Создать новую игру</h2>
         <p class="lead">Настройте параметры для новой игровой комнаты.</p>
