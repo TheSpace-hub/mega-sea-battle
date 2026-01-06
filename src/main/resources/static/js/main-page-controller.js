@@ -22,7 +22,6 @@ async function generateListOfGames() {
 
 /**
  * Add new game to list.
- * @param name Game's name.
  * @param id Game's id.
  * @param players Players in the game.
  * @param maxPlayers Max players of the game.
