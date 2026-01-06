@@ -20,5 +20,5 @@ function createItem(username) {
     </div>
     <div class="ship-count">Подключение...</div>
 </li>
-    `
+`
 }
