@@ -1,4 +1,5 @@
 import {addPlayerIntoList} from "./list-of-players.js";
+import {basicLog} from "./logging.js";
 
 const letters = ['А', 'Б', 'В', 'Г', 'Д', 'Е', 'Ж', 'З', 'И', 'К']
 
