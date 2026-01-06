@@ -23,7 +23,7 @@ public class MainAPIController {
      */
     @GetMapping("/list-of-games")
     public List<Game> getListOfGames() {
-        return Game.games;
+        return GameController.games;
     }
 
     /**

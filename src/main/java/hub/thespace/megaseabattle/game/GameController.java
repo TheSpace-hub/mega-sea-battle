@@ -1,5 +1,7 @@
 package hub.thespace.megaseabattle.game;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -7,6 +9,7 @@ import java.util.Random;
  */
 public class GameController {
 
+    public static List<Game> games = new ArrayList<>();
     private static final Random random = new Random();
 
     /**
@@ -16,7 +19,9 @@ public class GameController {
      * @return Game instance.
      */
     public static Game createGame(int playersCount) {
-        return new Game(generateId(), playersCount);
+        Game game = new Game(generateId(), playersCount);
+        games.add(game);
+        return game;
     }
 
     /**
