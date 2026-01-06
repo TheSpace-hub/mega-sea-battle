@@ -13,7 +13,7 @@ async function generateListOfGames() {
 
         const data = await response.json()
         for (const game of data) {
-            addGameToListOfGames(game['name'], game['id'], 0, game['maxPlayers'])
+            addGameToListOfGames(game['id'], 0, game['maxPlayers'])
         }
     } catch (error) {
         console.error(error)
@@ -27,11 +27,11 @@ async function generateListOfGames() {
  * @param players Players in the game.
  * @param maxPlayers Max players of the game.
  */
-function addGameToListOfGames(name, id, players, maxPlayers) {
+function addGameToListOfGames(id, players, maxPlayers) {
     const a = document.createElement('a')
     a.href = '/game/' + id
     a.classList.add('text-decoration-none')
-    a.innerHTML = 'Бой "' + name + '"'
+    a.innerHTML = 'Бой "' + id.toUpperCase() + '"'
 
     const span = document.createElement('span')
     span.classList.add('badge')
