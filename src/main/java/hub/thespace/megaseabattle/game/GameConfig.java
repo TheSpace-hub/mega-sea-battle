@@ -17,11 +17,13 @@ public class GameConfig {
     public static List<GameConfig> games = new ArrayList<>();
 
     private final String id;
+    private final String name;
     private final int maxPlayers;
     private final Map<String, Field> fields;
 
-    public GameConfig(String id, int maxPlayers) {
+    public GameConfig(String id, String name, int maxPlayers) {
         this.id = id;
+        this.name = name;
         this.maxPlayers = maxPlayers;
         this.fields = new HashMap<>();
     }
