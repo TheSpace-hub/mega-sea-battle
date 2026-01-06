@@ -1,0 +1,36 @@
+package hub.thespace.megaseabattle.game;
+
+
+import lombok.Getter;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+/**
+ * An object of this class belongs to an instance of the game.
+ */
+@Getter
+public class GameConfig {
+
+    public static List<GameConfig> games = new ArrayList<>();
+
+    private final String id;
+    private final Map<String, Field> fields;
+
+    public GameConfig(String id) {
+        this.id = id;
+        this.fields = new HashMap<>();
+    }
+
+    /**
+     * Add new player's field.
+     * @param username Player's username.
+     * @param field Player's field with ships.
+     */
+    public void addField(String username, Field field) {
+        this.fields.put(username, field);
+    }
+
+}
