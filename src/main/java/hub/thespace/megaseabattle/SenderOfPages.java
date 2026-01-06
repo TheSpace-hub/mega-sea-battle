@@ -1,5 +1,7 @@
 package hub.thespace.megaseabattle;
 
+import hub.thespace.megaseabattle.game.Game;
+import hub.thespace.megaseabattle.game.GameController;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,7 +19,12 @@ public class SenderOfPages {
 
     @GetMapping("/game/{id}")
     public String game(@PathVariable String id, Model model) {
-        model.addAttribute("id", id.toUpperCase());
+        Game game = GameController.getGameById(id);
+        if (game == null)
+            return "redirect:/";
+
+        model.addAttribute("id", game.getId().toUpperCase());
+        model.addAttribute("maxPlayers", game.getMaxPlayers());
         model.addAttribute("username", "Юзер");
         return "battlefield";
     }

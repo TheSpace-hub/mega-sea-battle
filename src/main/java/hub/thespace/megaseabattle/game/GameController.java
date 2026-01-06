@@ -13,6 +13,20 @@ public class GameController {
     private static final Random random = new Random();
 
     /**
+     * Get game by id.
+     *
+     * @param id Game's id.
+     * @return The Game instance.
+     */
+    public static Game getGameById(String id) {
+        for (Game game : games) {
+            if (game.getId().equals(id))
+                return game;
+        }
+        return null;
+    }
+
+    /**
      * Create new game.
      *
      * @param playersCount Players count.
