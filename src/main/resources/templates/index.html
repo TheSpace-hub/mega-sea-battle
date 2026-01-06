@@ -34,18 +34,22 @@
     <section class="mb-5">
         <h2>Присоединиться по коду</h2>
         <p class="lead">Уже есть код игры? Введите его ниже</p>
-        <div class="row g-2 align-items-end" style="max-width: 500px;">
+
+        <div class="row g-3" style="max-width: 500px;">
             <div class="col-md-8">
                 <label for="gameCode" class="form-label">Код игры (6 символов)</label>
                 <div class="input-group">
                     <span class="input-group-text">#</span>
-                    <input type="text" class="form-control" id="gameCode" placeholder="ABCDEF" maxlength="6"
-                           pattern="[A-Z0-9]{6}" title="Используйте только заглавные буквы и цифры, 6 символов">
+                    <input type="text" class="form-control" id="gameCode" placeholder="ABCDEF" maxlength="6" pattern="[A-Z0-9]{6}" title="Используйте только заглавные буквы и цифры, 6 символов">
                 </div>
-                <div class="form-text">Код состоит из 6 заглавных букв или цифр (например: X7B9F2)</div>
             </div>
-            <div class="col-md-4">
-                <button type="button" class="btn btn-success w-100 h-100">Войти в игру</button>
+            <div class="col-md-4 d-flex align-items-end">
+                <button type="button" class="btn btn-success w-100">Войти в игру</button>
+            </div>
+        </div>
+        <div class="row mt-2" style="max-width: 500px;">
+            <div class="col-12">
+                <div class="form-text">Код состоит из 6 заглавных букв или цифр (например: X7B9F2)</div>
             </div>
         </div>
     </section>
@@ -69,8 +73,7 @@
                 <button type="submit" class="btn btn-primary w-100" id="create-game">Создать игру</button>
             </div>
             <div class="col-12">
-                <p class="text-muted small">После создания игры вы получите уникальную ссылку, которую можно отправить
-                    друзьям.</p>
+                <p class="text-muted small">После создания игры вы получите уникальную ссылку</p>
             </div>
         </form>
     </section>
