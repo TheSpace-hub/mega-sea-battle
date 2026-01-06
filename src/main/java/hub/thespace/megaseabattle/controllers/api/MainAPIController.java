@@ -1,19 +1,42 @@
 package hub.thespace.megaseabattle.controllers.api;
 
-import hub.thespace.megaseabattle.game.GameConfig;
+import hub.thespace.megaseabattle.game.Game;
+import hub.thespace.megaseabattle.game.GameController;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
+/**
+ * Main API controller.
+ */
 @RestController
 @RequestMapping("/api")
 @Slf4j
 public class MainAPIController {
 
+    /**
+     * Get list of games.
+     *
+     * @return Json response.
+     */
     @GetMapping("/list-of-games")
-    public List<GameConfig> getListOfGames() {
-        return GameConfig.games;
+    public List<Game> getListOfGames() {
+        return Game.games;
+    }
+
+    /**
+     * Create the game.
+     *
+     * @param playersCount Player count.
+     * @return Json response.
+     */
+    @GetMapping("/create-game/{playersCount}")
+    public Map<String, String> createGame(@PathVariable int playersCount) {
+        log.info("Creating game with {} players", playersCount);
+        Game game = GameController.createGame(playersCount);
+        return Map.of("id", game.getId());
     }
 
 }

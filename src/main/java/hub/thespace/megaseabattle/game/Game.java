@@ -12,18 +12,16 @@ import java.util.Map;
  * An object of this class belongs to an instance of the game.
  */
 @Getter
-public class GameConfig {
+public class Game {
 
-    public static List<GameConfig> games = new ArrayList<>();
+    public static List<Game> games = new ArrayList<>();
 
     private final String id;
-    private final String name;
     private final int maxPlayers;
     private final Map<String, Field> fields;
 
-    public GameConfig(String id, String name, int maxPlayers) {
+    public Game(String id, int maxPlayers) {
         this.id = id;
-        this.name = name;
         this.maxPlayers = maxPlayers;
         this.fields = new HashMap<>();
     }
