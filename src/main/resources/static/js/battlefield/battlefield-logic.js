@@ -15,7 +15,7 @@ let currentMode = 'all'
 let currentPlayer = 1
 
 document.addEventListener('DOMContentLoaded', function () {
-    playerActionLog('Кракен', ' наконец проиграл')
+    basicLog('Ты подключился к игре')
     initBattlefield()
     setupEventListeners()
     updateDisplay()
