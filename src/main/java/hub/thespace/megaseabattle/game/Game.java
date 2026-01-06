@@ -14,8 +14,6 @@ import java.util.Map;
 @Getter
 public class Game {
 
-    public static List<Game> games = new ArrayList<>();
-
     private final String id;
     private final int maxPlayers;
     private final Map<String, Field> fields;
@@ -28,8 +26,9 @@ public class Game {
 
     /**
      * Add new player's field.
+     *
      * @param username Player's username.
-     * @param field Player's field with ships.
+     * @param field    Player's field with ships.
      */
     public void addField(String username, Field field) {
         this.fields.put(username, field);
