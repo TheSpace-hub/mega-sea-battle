@@ -18,7 +18,7 @@
         <div class="input-group mb-3" style="max-width: 400px;">
             <span class="input-group-text" id="basic-addon1">👤</span>
             <input type="text" class="form-control" placeholder="Например, Морской Волк" aria-label="Имя игрока"
-                   aria-describedby="basic-addon1">
+                   aria-describedby="basic-addon1" id="username">
         </div>
         <p class="text-muted small">Это имя будет отображаться другим игрокам.</p>
     </section>
@@ -26,23 +26,7 @@
     <section class="mb-5">
         <h2>Доступные игры</h2>
         <p class="lead">Выберите игру, чтобы присоединиться:</p>
-        <ul class="list-group">
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-                <a href="/game/123" class="text-decoration-none">Игра "Быстрая бухта"</a>
-                <span class="badge bg-primary rounded-pill">2 / 4</span>
-            </li>
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-                <a href="/game/124" class="text-decoration-none">Игра "Эскадра друзей"</a>
-                <span class="badge bg-primary rounded-pill">3 / 3</span>
-            </li>
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-                <a href="/game/125" class="text-decoration-none">Турнир "Адмиралы"</a>
-                <span class="badge bg-primary rounded-pill">1 / 5</span>
-            </li>
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-                <a href="/game/126" class="text-decoration-none">Игра "Тихий океан"</a>
-                <span class="badge bg-primary rounded-pill">4 / 4</span>
-            </li>
+        <ul class="list-group" id="list-of-games">
         </ul>
         <p class="text-muted small mt-2">Цифры показывают текущее количество игроков в игре.</p>
     </section>
@@ -63,7 +47,7 @@
                 </select>
             </div>
             <div class="col-md-6">
-                <button type="submit" class="btn btn-primary w-100">Создать игровую комнату</button>
+                <button type="submit" class="btn btn-primary w-100" id="create-game">Создать игру</button>
             </div>
             <div class="col-12">
                 <p class="text-muted small">После создания игры вы получите уникальную ссылку, которую можно отправить
