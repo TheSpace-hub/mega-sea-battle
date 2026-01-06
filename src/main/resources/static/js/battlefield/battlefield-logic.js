@@ -1,5 +1,5 @@
 import {addPlayerIntoList} from "./list-of-players.js";
-import {basicLog} from "./logging.js";
+import {basicLog, playerActionLog} from "./logging.js";
 
 const letters = ['А', 'Б', 'В', 'Г', 'Д', 'Е', 'Ж', 'З', 'И', 'К']
 
@@ -15,6 +15,7 @@ let currentMode = 'all'
 let currentPlayer = 1
 
 document.addEventListener('DOMContentLoaded', function () {
+    playerActionLog('Кракен', ' наконец проиграл')
     initBattlefield()
     setupEventListeners()
     updateDisplay()
