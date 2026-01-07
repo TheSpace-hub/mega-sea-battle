@@ -1,15 +1,11 @@
 package hub.thespace.megaseabattle.game;
 
 
-import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import java.util.List;
 
 @NoArgsConstructor
-@Getter
-@Setter
 public class Field {
 
     private List<List<CellState>> filed;
@@ -30,6 +26,16 @@ public class Field {
      */
     public void setCellState(Position position, CellState cellState) {
         filed.get(position.x()).set(position.y(), cellState);
+    }
+
+    /**
+     * Get cell state.
+     *
+     * @param position Cell position.
+     * @return Cell state.
+     */
+    public CellState getCellState(Position position) {
+        return filed.get(position.x()).get(position.y());
     }
 
     public record Position(int x, int y) {
