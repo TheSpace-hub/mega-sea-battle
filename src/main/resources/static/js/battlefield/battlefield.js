@@ -1,18 +1,19 @@
 import {addPlayerIntoList} from "./list-of-players.js";
-import {basicLog, playerActionLog} from "./logging.js";
+import {basicLog, playerActionLog, showMessage} from "./logging.js";
 import {initBattlefield, setMode, updateDisplay, addPlayerIntoBattlefields} from "./battlefield-utils.js";
 import {connect} from "./connector.js";
+import {changeGameStatus, gameStatusTypes} from "./status.js";
 
 export const players = []
 
 document.addEventListener('DOMContentLoaded', function () {
     addMainPlayer()
-    basicLog('Ты подключился к игре')
     initBattlefield()
     setupEventListeners()
     updateDisplay()
 
     connect(players[0].name)
+    changeGameStatus(gameStatusTypes['WAITING_SELF_START'])
 })
 
 /**
@@ -35,41 +36,15 @@ function setupEventListeners() {
         setMode('all')
     })
 
-    document.getElementById('btn-end-turn').addEventListener('click', function () {
-        showMessage('Ход завершен. Ожидание других игроков...', 'warning')
+    document.getElementById('start-game-button').addEventListener('click', function () {
         this.disabled = true
         this.textContent = 'Ожидание хода...'
 
         setTimeout(() => {
-            showMessage('Сейчас ходит игрок "Пират"', 'info')
-            document.getElementById('btn-end-turn').textContent = 'Завершить ход (не ваш ход)'
+            document.getElementById('start-game-button').textContent = 'Завершить ход (не ваш ход)'
         }, 3000)
     })
 }
 
 
-/**
- * Show message on top of the screen.
- * @param text Message content.
- * @param type Message type. Using "info", "success" or something else.
- */
-function showMessage(text, type) {
-    const alertDiv = document.createElement('div')
-    alertDiv.className = `alert alert-${type} alert-dismissible fade show position-fixed`
-    alertDiv.style.top = '20px'
-    alertDiv.style.right = '20px'
-    alertDiv.style.zIndex = '9999'
-    alertDiv.style.minWidth = '300px'
-    alertDiv.innerHTML = `
-            ${text}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Закрыть"></button>
-        `
 
-    document.body.appendChild(alertDiv)
-
-    setTimeout(() => {
-        if (alertDiv.parentNode) {
-            alertDiv.remove()
-        }
-    }, 3000)
-}

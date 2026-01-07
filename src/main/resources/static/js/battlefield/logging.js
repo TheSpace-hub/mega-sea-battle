@@ -53,3 +53,29 @@ function createPlayerActionLogItem(username, content) {
 </div>
 `
 }
+
+/**
+ * Show message on top of the screen.
+ * @param text Message content.
+ * @param type Message type. Using "info", "success" or something else.
+ */
+export function showMessage(text, type) {
+    const alertDiv = document.createElement('div')
+    alertDiv.className = `alert alert-${type} alert-dismissible fade show position-fixed`
+    alertDiv.style.top = '20px'
+    alertDiv.style.right = '20px'
+    alertDiv.style.zIndex = '9999'
+    alertDiv.style.minWidth = '300px'
+    alertDiv.innerHTML = `
+            ${text}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Закрыть"></button>
+        `
+
+    document.body.appendChild(alertDiv)
+
+    setTimeout(() => {
+        if (alertDiv.parentNode) {
+            alertDiv.remove()
+        }
+    }, 3000)
+}
