@@ -54,8 +54,12 @@ function createItem(id, players, maxPlayers) {
  */
 function joinInToGame(id) {
     const username = document.querySelector('#username').value
-    if (id === '' || username === '')
+    if (id === '')
         return
+    if (username === '') {
+        document.querySelector('#write-username-error').classList.remove('d-none')
+        return;
+    }
     window.location.href = `/game/${id}?username=${username}`
 }
 
