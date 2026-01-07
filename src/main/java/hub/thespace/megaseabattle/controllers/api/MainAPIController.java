@@ -36,7 +36,7 @@ public class MainAPIController {
     public Map<String, String> createGame(@PathVariable int playersCount) {
         log.info("Creating game with {} players", playersCount);
         Game game = GameLogicController.createGame(playersCount);
-        return Map.of("id", game.getId());
+        return Map.of("id", game.id());
     }
 
 }

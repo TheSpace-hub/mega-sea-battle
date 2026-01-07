@@ -1,37 +1,25 @@
 package hub.thespace.megaseabattle.game;
 
 
-import lombok.Getter;
-
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * An object of this class belongs to an instance of the game.
  */
-@Getter
-public class Game {
-
-    private final String id;
-    private final int maxPlayers;
-    private final Map<String, Field> fields;
+public record Game(String id, int maxPlayers, List<Player> players) {
 
     public Game(String id, int maxPlayers) {
-        this.id = id;
-        this.maxPlayers = maxPlayers;
-        this.fields = new HashMap<>();
+        this(id, maxPlayers, List.of());
     }
 
     /**
-     * Add new player's field.
+     * Add new player.
      *
      * @param username Player's username.
      * @param field    Player's field with ships.
      */
-    public void addField(String username, Field field) {
-        this.fields.put(username, field);
+    public void addPlayer(String username, Field field) {
+        this.players.add(new Player(username, field));
     }
 
 }
