@@ -1,167 +1,73 @@
-import {players} from "./battlefield-logic.js";
+import {addPlayerIntoList} from "./list-of-players.js";
+import {basicLog, playerActionLog} from "./logging.js";
+import {initBattlefield, setMode, updateDisplay, addPlayerIntoBattlefields} from "./battlefield-utils.js";
 
-const letters = ['А', 'Б', 'В', 'Г', 'Д', 'Е', 'Ж', 'З', 'И', 'К']
+export const players = []
 
-let currentMode = 'all'
-let currentPlayer = 1
-
-/**
- * Creating a battlefield.
- */
-export function initBattlefield() {
-    const battlefield = document.getElementById('battlefield')
-
-    battlefield.innerHTML = ''
-
-    const topLeftCell = document.createElement('div')
-    topLeftCell.className = 'cell coordinate'
-    battlefield.appendChild(topLeftCell)
-
-
-    for (let i = 0; i < 10; i++) {
-        const letterCell = document.createElement('div')
-        letterCell.className = 'cell coordinate'
-        letterCell.textContent = letters[i]
-        battlefield.appendChild(letterCell)
-    }
-
-    for (let row = 1; row <= 10; row++) {
-        const numberCell = document.createElement('div')
-        numberCell.className = 'cell coordinate'
-        numberCell.textContent = row
-        battlefield.appendChild(numberCell)
-
-        for (let col = 1; col <= 10; col++) {
-            const cell = document.createElement('div')
-            cell.className = 'cell'
-            cell.dataset.row = row
-            cell.dataset.col = col
-
-            cell.addEventListener('click', function () {
-                if (currentMode === 'all' || (cell.dataset.player && parseInt(cell.dataset.player) === currentPlayer)) {
-                    handleCellClick(this)
-                }
-            })
-
-            battlefield.appendChild(cell)
-        }
-    }
-}
-
-/**
- * Setting the display mode. Selecting a player to view.
- * @param mode
- */
-export function setMode(mode) {
-    currentMode = mode
-
-    document.querySelectorAll('.btn-group .btn').forEach(btn => {
-        btn.classList.remove('active', 'mode-active')
-    })
-
-    const activeButton = document.getElementById(`mode-${mode}`)
-    activeButton.classList.add('active', 'mode-active')
-
+document.addEventListener('DOMContentLoaded', function () {
+    console.log("players loaded")
+    addMainPlayer()
+    basicLog('Ты подключился к игре')
+    initBattlefield()
+    setupEventListeners()
     updateDisplay()
+})
+
+/**
+ * Initialization function for the user who owns the page.
+ */
+function addMainPlayer() {
+    players.push({
+        id: players.length,
+        name: document.body.dataset.username
+    })
+
+    addPlayerIntoBattlefields(players[0].name)
 }
 
 /**
- * Update battlefield view.
+ * Configure Event handlers.
  */
-export function updateDisplay() {
-    const battlefield = document.getElementById('battlefield')
-    const cells = battlefield.querySelectorAll('.cell:not(.coordinate)')
-    const modeTitle = document.getElementById('current-mode')
-    const modeDescription = document.getElementById('mode-description')
+function setupEventListeners() {
+    document.getElementById('mode-all').addEventListener('click', function () {
+        setMode('all')
+    })
 
-    cells.forEach(cell => {
-        cell.style.opacity = '1'
-        cell.style.pointerEvents = 'auto'
+    document.getElementById('btn-end-turn').addEventListener('click', function () {
+        showMessage('Ход завершен. Ожидание других игроков...', 'warning')
+        this.disabled = true
+        this.textContent = 'Ожидание хода...'
 
-        if (cell.classList.contains('ship')) {
-            cell.classList.remove('ship-hidden')
+        setTimeout(() => {
+            showMessage('Сейчас ходит игрок "Пират"', 'info')
+            document.getElementById('btn-end-turn').textContent = 'Завершить ход (не ваш ход)'
+        }, 3000)
+    })
+}
+
+
+/**
+ * Show message on top of the screen.
+ * @param text Message content.
+ * @param type Message type. Using "info", "success" or something else.
+ */
+function showMessage(text, type) {
+    const alertDiv = document.createElement('div')
+    alertDiv.className = `alert alert-${type} alert-dismissible fade show position-fixed`
+    alertDiv.style.top = '20px'
+    alertDiv.style.right = '20px'
+    alertDiv.style.zIndex = '9999'
+    alertDiv.style.minWidth = '300px'
+    alertDiv.innerHTML = `
+            ${text}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Закрыть"></button>
+        `
+
+    document.body.appendChild(alertDiv)
+
+    setTimeout(() => {
+        if (alertDiv.parentNode) {
+            alertDiv.remove()
         }
-    })
-
-    if (currentMode === 'all') {
-        modeTitle.textContent = 'Режим: Все игроки на одном поле'
-        modeDescription.textContent = 'На этом поле отображены корабли всех игроков. Цвет корабля соответствует цвету игрока в списке.'
-
-        cells.forEach(cell => {
-            if (cell.dataset.ship === 'true') {
-                const playerId = parseInt(cell.dataset.player)
-                cell.style.backgroundColor = getComputedStyle(document.documentElement)
-                    .getPropertyValue(`--player${playerId}-color`)
-                cell.style.color = 'white'
-            }
-        })
-    } else {
-        const playerId = parseInt(currentMode.replace('player', ''))
-        const player = players.find(p => p.id === playerId)
-
-        modeTitle.textContent = `Режим: Игрок "${player.name}"`
-        modeDescription.textContent = `Ты видишь поле игрока "${player.name}". Только его корабли отображены на поле.`
-
-        cells.forEach(cell => {
-            if (cell.dataset.ship === 'true') {
-                const cellPlayerId = parseInt(cell.dataset.player)
-
-                if (cellPlayerId === playerId) {
-                    cell.style.backgroundColor = getComputedStyle(document.documentElement)
-                        .getPropertyValue(`--player${playerId}-color`)
-                    cell.style.color = 'white'
-                } else {
-                    cell.style.opacity = '0.3'
-                    cell.style.pointerEvents = 'none'
-
-                    if (!cell.classList.contains('chit')) {
-                        cell.classList.add('ship-hidden')
-                        cell.classList.remove('ship')
-                        cell.textContent = ''
-                    }
-                }
-            } else {
-                if (!cell.classList.contains('hit') && !cell.classList.contains('miss')) {
-                    cell.style.opacity = '0.7'
-                }
-            }
-        })
-    }
-}
-
-/**
- * Cell click executor.
- * @param cell Cell as div object.
- */
-function handleCellClick(cell) {
-    if (cell.classList.contains('hit') || cell.classList.contains('miss')) {
-    }
-}
-
-/**
- * Add new player into list of battlefields.
- * @param username Player's name.
- */
-export function addPlayerIntoBattlefields(username) {
-    let i = 0;
-    while (document.querySelector(`#mode-player-${i}`))
-        i++
-
-    document.querySelector('#list-of-modes').insertAdjacentHTML('beforeend', createPlayerBattlefieldItem(username, i))
-    document.getElementById(`mode-player-${i}`).addEventListener('click', function () {
-        setMode(`player-${i}`)
-    })
-}
-
-/**
- * Create HTML item for player's battlefield.
- * @param username Player's name.
- * @param index Player's index.
- * @returns {string} HTML item.
- */
-function createPlayerBattlefieldItem(username, index) {
-    return `
-<button type="button" class="btn btn-outline-primary" id="mode-player-${index}">Поле "<span>${username}</span>"
-</button>
-`
+    }, 3000)
 }
