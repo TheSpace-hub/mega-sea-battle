@@ -10,6 +10,8 @@ public class GameAction {
 
     public GameAction(Action action, String username, String content) {
         this.action = action;
+        this.username = username;
+        this.content = content;
     }
 
     public enum Action {

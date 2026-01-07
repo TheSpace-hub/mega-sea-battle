@@ -1,4 +1,5 @@
 import {basicLog} from "./logging.js";
+import {addPlayer} from "./battlefield.js";
 
 let client = null;
 
@@ -16,8 +17,10 @@ export function connect(username) {
         onConnect: function (socket) {
             client.subscribe(`/topic/game-${id}`, function (topic) {
                 const message = JSON.parse(topic.body)
-                console.log(`Body: ${topic.body}`)
-                console.log(`Message: ${message['username']}`)
+                if (message['action'] === 'PLAYER_JOIN') {
+                    console.log(topic.body)
+                    addPlayer(message['username'])
+                }
             })
         }
     })

@@ -17,6 +17,20 @@ document.addEventListener('DOMContentLoaded', function () {
 })
 
 /**
+ * Add other player.
+ * @param username Player's name.
+ */
+export function addPlayer(username) {
+    players.push({
+        id: players.length,
+        name: document.body.dataset.username
+    })
+
+    addPlayerIntoBattlefields(players[0].name)
+    addPlayerIntoList(username)
+}
+
+/**
  * Initialization function for the user who owns the page.
  */
 function addMainPlayer() {

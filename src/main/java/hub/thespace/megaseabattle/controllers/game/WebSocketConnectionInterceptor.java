@@ -47,6 +47,7 @@ public class WebSocketConnectionInterceptor implements ChannelInterceptor {
         log.info("Client {} connected into game {}", username, id.toUpperCase());
 
         GameAction gameAction = new GameAction(GameAction.Action.PLAYER_JOIN, username, null);
+        log.info("Game {}", gameAction);
 
         messagingTemplate.convertAndSend("/topic/game-" + id, gameAction);
     }
