@@ -14,4 +14,5 @@ export function connect(username) {
     })
 
     client.activate()
+    basicLog('Ты подключился к игре')
 }
