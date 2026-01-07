@@ -1,7 +1,7 @@
 package hub.thespace.megaseabattle.controllers.api;
 
 import hub.thespace.megaseabattle.game.Game;
-import hub.thespace.megaseabattle.game.GameController;
+import hub.thespace.megaseabattle.game.GameLogicController;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,7 +23,7 @@ public class MainAPIController {
      */
     @GetMapping("/list-of-games")
     public List<Game> getListOfGames() {
-        return GameController.games;
+        return GameLogicController.games;
     }
 
     /**
@@ -35,7 +35,7 @@ public class MainAPIController {
     @GetMapping("/create-game/{playersCount}")
     public Map<String, String> createGame(@PathVariable int playersCount) {
         log.info("Creating game with {} players", playersCount);
-        Game game = GameController.createGame(playersCount);
+        Game game = GameLogicController.createGame(playersCount);
         return Map.of("id", game.getId());
     }
 

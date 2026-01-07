@@ -1,7 +1,7 @@
 package hub.thespace.megaseabattle;
 
 import hub.thespace.megaseabattle.game.Game;
-import hub.thespace.megaseabattle.game.GameController;
+import hub.thespace.megaseabattle.game.GameLogicController;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,7 +20,7 @@ public class SenderOfPages {
 
     @GetMapping("/game/{id}")
     public String game(@PathVariable String id, Model model, @RequestParam String username) {
-        Game game = GameController.getGameById(id);
+        Game game = GameLogicController.getGameById(id);
         if (game == null)
             return "redirect:/";
 

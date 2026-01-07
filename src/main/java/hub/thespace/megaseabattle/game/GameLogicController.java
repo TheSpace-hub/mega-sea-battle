@@ -7,7 +7,7 @@ import java.util.Random;
 /**
  * This class controlling game utils.
  */
-public class GameController {
+public class GameLogicController {
 
     public static List<Game> games = new ArrayList<>();
     private static final Random random = new Random();
