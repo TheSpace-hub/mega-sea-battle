@@ -143,24 +143,25 @@ function handleCellClick(cell) {
  * @param username Player's name.
  */
 export function addPlayerIntoBattlefields(username) {
+    let i = 0;
+    while (document.querySelector(`#mode-player-${i}`))
+        i++
+
+    document.querySelector('#list-of-modes').insertAdjacentHTML('beforeend', createPlayerBattlefieldItem(username, i))
     document.getElementById(`mode-player-${i}`).addEventListener('click', function () {
         setMode(`player-${i}`)
     })
-    document.querySelector('#list-of-modes').insertAdjacentHTML('beforeend', createPlayerBattlefieldItem(username))
 }
 
 /**
  * Create HTML item for player's battlefield.
  * @param username Player's name.
+ * @param index Player's index.
  * @returns {string} HTML item.
  */
-function createPlayerBattlefieldItem(username) {
-    let i = 1;
-    while (document.querySelector(`#mode-player-${i}`)) {
-        i++
-    }
+function createPlayerBattlefieldItem(username, index) {
     return `
-<button type="button" class="btn btn-outline-primary" id="mode-player-${i}">Поле "<span>${username}</span>"
+<button type="button" class="btn btn-outline-primary" id="mode-player-${index}">Поле "<span>${username}</span>"
 </button>
 `
 }

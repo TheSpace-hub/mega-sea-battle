@@ -2,17 +2,28 @@ import {addPlayerIntoList} from "./list-of-players.js";
 import {basicLog, playerActionLog} from "./logging.js";
 import {initBattlefield, setMode, updateDisplay, addPlayerIntoBattlefields} from "./battlefield.js";
 
-export const players = [
-    {id: 0, name: 'Морской Волк', color: 'player-1-color'},
-]
+export const players = []
 
 document.addEventListener('DOMContentLoaded', function () {
+    console.log("players loaded")
+    addMainPlayer()
     basicLog('Ты подключился к игре')
     initBattlefield()
     setupEventListeners()
     updateDisplay()
 })
 
+/**
+ * Initialization function for the user who owns the page.
+ */
+function addMainPlayer() {
+    players.push({
+        id: players.length,
+        name: document.body.dataset.username
+    })
+
+    addPlayerIntoBattlefields(players[0].name)
+}
 
 /**
  * Configure Event handlers.
@@ -21,11 +32,6 @@ function setupEventListeners() {
     document.getElementById('mode-all').addEventListener('click', function () {
         setMode('all')
     })
-
-    document.getElementById(`mode-player-0`).addEventListener('click', function () {
-        setMode(`player-0`)
-    })
-
 
     document.getElementById('btn-end-turn').addEventListener('click', function () {
         showMessage('Ход завершен. Ожидание других игроков...', 'warning')
