@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @Slf4j
@@ -18,14 +19,14 @@ public class SenderOfPages {
     }
 
     @GetMapping("/game/{id}")
-    public String game(@PathVariable String id, Model model) {
+    public String game(@PathVariable String id, Model model, @RequestParam String username) {
         Game game = GameController.getGameById(id);
         if (game == null)
             return "redirect:/";
 
         model.addAttribute("id", game.getId().toUpperCase());
         model.addAttribute("maxPlayers", game.getMaxPlayers());
-        model.addAttribute("username", "Юзер");
+        model.addAttribute("username", username);
         return "battlefield";
     }
 

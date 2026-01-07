@@ -1,5 +1,6 @@
 document.addEventListener("DOMContentLoaded", generateListOfGames)
-document.querySelector('#join').addEventListener('click', joinInToGame)
+document.querySelector('#join').addEventListener('click', joinInToGameByJoinButton)
+document.addEventListener('click', joinInToGameByList)
 
 /**
  * Fill in the list with the latest games.
@@ -28,34 +29,54 @@ async function generateListOfGames() {
  * @param maxPlayers Max players of the game.
  */
 function addGameToListOfGames(id, players, maxPlayers) {
-    const a = document.createElement('a')
-    a.href = '/game/' + id
-    a.classList.add('text-decoration-none')
-    a.innerHTML = 'Бой "' + id.toUpperCase() + '"'
+    document.querySelector('#list-of-games').insertAdjacentHTML('beforeend', createItem(id, players, maxPlayers))
+}
 
-    const span = document.createElement('span')
-    span.classList.add('badge')
-    span.classList.add('bg-primary')
-    span.classList.add('rounded-pill')
-    span.innerHTML = players + ' / ' + maxPlayers
+/**
+ * Create game item.
+ * @param id Game id.
+ * @param players Players count.
+ * @param maxPlayers Max players count in the game.
+ * @returns {string}
+ */
+function createItem(id, players, maxPlayers) {
+    return `
+<li class="list-group-item align-items-center justify-content-between d-flex">
+    <a href="#" id="game-${id}" class="text-decoration-none">Бой "${id}"</a>
+    <span class="badge bg-primary rounded-pill">${players} / ${maxPlayers}</span>
+</li>
+`
+}
 
-    const li = document.createElement('li')
-    li.appendChild(a)
-    li.appendChild(span)
-    li.classList.add('list-group-item')
-    li.classList.add('align-items-center')
-    li.classList.add('justify-content-between')
-    li.classList.add('d-flex')
-
-    document.querySelector('#list-of-games').appendChild(li)
+/**
+ * Join in to the game by id.
+ * @param id Game's id.
+ */
+function joinInToGame(id) {
+    const username = document.querySelector('#username').value
+    if (id === '' || username === '')
+        return
+    window.location.href = `/game/${id}?username=${username}`
 }
 
 /**
  * Open game button executor.
  */
-function joinInToGame() {
+function joinInToGameByJoinButton() {
     const id = document.querySelector('#game-id').value
-    if (id === '')
+    joinInToGame(id)
+}
+
+/**
+ * Join in to the game by link in the list.
+ * @param event
+ */
+function joinInToGameByList(event) {
+    if (!event.target.matches('a'))
         return
-    window.location.href = '/game/' + id
+    if (!event.target.href.endsWith('#'))
+        return
+
+    const id = event.target.id.split('-').at(1)
+    joinInToGame(id)
 }
