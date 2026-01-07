@@ -1,4 +1,5 @@
 import {players} from "./battlefield.js";
+import {gameStatusTypes} from "./status.js";
 
 const letters = ['А', 'Б', 'В', 'Г', 'Д', 'Е', 'Ж', 'З', 'И', 'К']
 
@@ -161,7 +162,7 @@ export function addPlayerIntoBattlefields(username) {
  */
 function createPlayerBattlefieldItem(username, index) {
     return `
-<button type="button" class="btn btn-outline-primary" id="mode-player-${index}">Поле "<span>${username}</span>"
+<button type="button" class="btn btn-outline-primary disabled" id="mode-player-${index}">Поле "<span>${username}</span>"
 </button>
 `
 }
