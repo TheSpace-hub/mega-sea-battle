@@ -1,16 +1,18 @@
 import {addPlayerIntoList} from "./list-of-players.js";
 import {basicLog, playerActionLog} from "./logging.js";
 import {initBattlefield, setMode, updateDisplay, addPlayerIntoBattlefields} from "./battlefield-utils.js";
+import {connect} from "./connector.js";
 
 export const players = []
 
 document.addEventListener('DOMContentLoaded', function () {
-    console.log("players loaded")
     addMainPlayer()
     basicLog('Ты подключился к игре')
     initBattlefield()
     setupEventListeners()
     updateDisplay()
+
+    connect(players[0].name)
 })
 
 /**
