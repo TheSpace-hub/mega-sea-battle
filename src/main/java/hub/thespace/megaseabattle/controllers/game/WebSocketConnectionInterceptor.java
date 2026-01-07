@@ -1,6 +1,8 @@
 package hub.thespace.megaseabattle.controllers.game;
 
+import hub.thespace.megaseabattle.game.GameLogicController;
 import lombok.extern.slf4j.Slf4j;
+import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
@@ -11,9 +13,6 @@ import org.springframework.messaging.simp.stomp.StompCommand;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.messaging.support.ChannelInterceptor;
 import org.springframework.stereotype.Component;
-
-import java.util.HashMap;
-import java.util.Map;
 
 @Component
 @Slf4j
@@ -27,7 +26,7 @@ public class WebSocketConnectionInterceptor implements ChannelInterceptor {
     }
 
     @Override
-    public @Nullable Message<?> preSend(Message<?> message, MessageChannel channel) {
+    public @Nullable Message<?> preSend(@NonNull Message<?> message, @NonNull MessageChannel channel) {
         StompHeaderAccessor accessor = StompHeaderAccessor.wrap(message);
         StompCommand command = accessor.getCommand();
         if (command == StompCommand.CONNECT) {
@@ -46,7 +45,11 @@ public class WebSocketConnectionInterceptor implements ChannelInterceptor {
         String id = accessor.getNativeHeader("id").get(0);
         log.info("Client {} connected into game {}", username, id.toUpperCase());
 
-        GameAction gameAction = new GameAction(GameAction.Action.PLAYER_JOIN, username, null);
+        GameAction gameAction = new GameAction(
+                GameAction.Action.PLAYER_JOIN,
+                username, null,
+                GameLogicController.getGameById(id).generatePublicInfo()
+        );
         log.info("Game {}", gameAction);
 
         messagingTemplate.convertAndSend("/topic/game-" + id, gameAction);
