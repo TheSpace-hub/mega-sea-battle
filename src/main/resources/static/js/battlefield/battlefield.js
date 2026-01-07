@@ -26,7 +26,7 @@ export function addPlayer(username) {
         name: document.body.dataset.username
     })
 
-    addPlayerIntoBattlefields(players[0].name)
+    addPlayerIntoBattlefields(username)
     addPlayerIntoList(username)
 }
 
