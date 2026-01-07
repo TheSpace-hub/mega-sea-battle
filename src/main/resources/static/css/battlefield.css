@@ -1,9 +1,9 @@
 :root {
-    --player1-color: #0d6efd; /* синий */
-    --player2-color: #dc3545; /* красный */
-    --player3-color: #198754; /* зеленый */
-    --player4-color: #ffc107; /* желтый */
-    --player5-color: #6f42c1; /* фиолетовый */
+    --player0-color: #0d6efd;
+    --player1-color: #dc3545;
+    --player2-color: #198754;
+    --player3-color: #ffc107;
+    --player4-color: #6f42c1;
 }
 
 .player-color-dot {
@@ -92,23 +92,23 @@
 }
 
 .player-1-color {
-    background-color: var(--player1-color);
+    background-color: var(--player0-color);
 }
 
 .player-2-color {
-    background-color: var(--player2-color);
+    background-color: var(--player1-color);
 }
 
 .player-3-color {
-    background-color: var(--player3-color);
+    background-color: var(--player2-color);
 }
 
 .player-4-color {
-    background-color: var(--player4-color);
+    background-color: var(--player3-color);
 }
 
 .player-5-color {
-    background-color: var(--player5-color);
+    background-color: var(--player4-color);
 }
 
 .mode-active {
@@ -129,7 +129,6 @@
     margin-right: 15px;
 }
 
-/* Исправления для кнопок режимов отображения */
 .mode-buttons {
     overflow-x: auto;
     white-space: nowrap;
