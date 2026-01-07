@@ -1,5 +1,5 @@
 import {players} from "./battlefield.js";
-import {gameStatusTypes} from "./status.js";
+import {gameStatusTypes, getStatus} from "./status.js";
 
 const letters = ['А', 'Б', 'В', 'Г', 'Д', 'Е', 'Ж', 'З', 'И', 'К']
 
@@ -135,6 +135,12 @@ export function updateDisplay() {
  * @param cell Cell as div object.
  */
 function handleCellClick(cell) {
+    if (getStatus() === gameStatusTypes.WAITING_SELF_START) {
+        if (cell.classList.contains('ship'))
+            cell.classList.remove('ship')
+        else if (!cell.classList.contains('ship'))
+            cell.classList.add('ship')
+    }
     if (cell.classList.contains('hit') || cell.classList.contains('miss')) {
     }
 }

@@ -6,6 +6,8 @@ export const gameStatusTypes = Object.freeze({
     GAME_END: 'game-end',
 })
 
+let status = gameStatusTypes.WAITING_SELF_START
+
 /**
  * Change game status.
  * @param type Game status.
@@ -14,6 +16,7 @@ export const gameStatusTypes = Object.freeze({
 export function changeGameStatus(type, username = null) {
     const statusInfo = document.querySelector('#status-info')
     const statusUsername = document.querySelector('#status-username')
+    status = type
 
     if (type === 'waiting-self-start') {
         statusInfo.textContent = 'Расставь свои корабли на поле, а затем начни игру.'
@@ -31,4 +34,12 @@ export function changeGameStatus(type, username = null) {
         statusInfo.textContent = 'Весь флот на дне! В игре победил '
         statusUsername.textContent = username
     }
+}
+
+/**
+ * Get status.
+ * @returns {string} Status.
+ */
+export function getStatus() {
+    return status
 }
