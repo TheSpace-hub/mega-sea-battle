@@ -27,7 +27,12 @@ public class WebSocketConnectionInterceptor implements ChannelInterceptor {
     }
 
     private void handleClientConnected(StompHeaderAccessor accessor) {
-        log.info("Message: {}", accessor.getMessage());
+        if (accessor.getNativeHeader("username") == null)
+            return;
+        if (accessor.getNativeHeader("username").size() != 1)
+            return;
+        String username = accessor.getNativeHeader("username").get(0);
+        log.info("Client connected: {}", username);
     }
 
 
