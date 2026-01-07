@@ -1,4 +1,6 @@
-package hub.thespace.megaseabattle.game;
+package hub.thespace.megaseabattle.controllers.game;
+
+import hub.thespace.megaseabattle.game.Game;
 
 import java.util.ArrayList;
 import java.util.List;
