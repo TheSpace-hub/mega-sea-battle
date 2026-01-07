@@ -46,10 +46,9 @@ public class WebSocketConnectionInterceptor implements ChannelInterceptor {
         String id = accessor.getNativeHeader("id").get(0);
         log.info("Client {} connected into game {}", username, id.toUpperCase());
 
-        Map<String, String> message = new HashMap<>();
-        message.put("username", username);
+        GameAction gameAction = new GameAction(GameAction.Action.PLAYER_JOIN, username, null);
 
-        messagingTemplate.convertAndSend("/topic/game-" + id, message);
+        messagingTemplate.convertAndSend("/topic/game-" + id, gameAction);
     }
 
 }
