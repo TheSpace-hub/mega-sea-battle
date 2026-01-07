@@ -100,7 +100,7 @@ export function updateDisplay() {
         const player = players.find(p => p.id === playerId)
 
         modeTitle.textContent = `Режим: Игрок "${player.name}"`
-        modeDescription.textContent = `Вы видите поле игрока "${player.name}". Только его корабли отображены на поле.`
+        modeDescription.textContent = `Ты видишь поле игрока "${player.name}". Только его корабли отображены на поле.`
 
         cells.forEach(cell => {
             if (cell.dataset.ship === 'true') {
