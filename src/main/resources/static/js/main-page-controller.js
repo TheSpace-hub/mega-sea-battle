@@ -42,7 +42,7 @@ function addGameToListOfGames(id, players, maxPlayers) {
 function createItem(id, players, maxPlayers) {
     return `
 <li class="list-group-item align-items-center justify-content-between d-flex">
-    <a href="#" id="game-${id}" class="text-decoration-none">Бой "${id}"</a>
+    <a href="#" id="game-${id}" class="text-decoration-none">Бой #${id.toUpperCase()}</a>
     <span class="badge bg-primary rounded-pill">${players} / ${maxPlayers}</span>
 </li>
 `
