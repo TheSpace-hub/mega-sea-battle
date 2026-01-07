@@ -2,16 +2,29 @@ package hub.thespace.megaseabattle.controllers.game;
 
 import lombok.extern.slf4j.Slf4j;
 import org.jspecify.annotations.Nullable;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageChannel;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.messaging.simp.stomp.StompCommand;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.messaging.support.ChannelInterceptor;
 import org.springframework.stereotype.Component;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @Component
 @Slf4j
 public class WebSocketConnectionInterceptor implements ChannelInterceptor {
+
+    private final SimpMessagingTemplate messagingTemplate;
+
+    @Autowired
+    public WebSocketConnectionInterceptor(@Lazy SimpMessagingTemplate messagingTemplate) {
+        this.messagingTemplate = messagingTemplate;
+    }
 
     @Override
     public @Nullable Message<?> preSend(Message<?> message, MessageChannel channel) {
@@ -32,7 +45,11 @@ public class WebSocketConnectionInterceptor implements ChannelInterceptor {
         String username = accessor.getNativeHeader("username").get(0);
         String id = accessor.getNativeHeader("id").get(0);
         log.info("Client {} connected into game {}", username, id.toUpperCase());
-    }
 
+        Map<String, String> message = new HashMap<>();
+        message.put("username", username);
+
+        messagingTemplate.convertAndSend("/topic/game-" + id, message);
+    }
 
 }

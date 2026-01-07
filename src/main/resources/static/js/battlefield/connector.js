@@ -12,6 +12,13 @@ export function connect(username) {
         },
         debug: function (str) {
             console.log(str)
+        },
+        onConnect: function (socket) {
+            client.subscribe(`/topic/game-${id}`, function (topic) {
+                const message = JSON.parse(topic.body)
+                console.log(`Body: ${topic.body}`)
+                console.log(`Message: ${message['username']}`)
+            })
         }
     })
 
