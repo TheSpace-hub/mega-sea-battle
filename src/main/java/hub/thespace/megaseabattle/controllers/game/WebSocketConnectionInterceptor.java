@@ -32,7 +32,8 @@ public class WebSocketConnectionInterceptor implements ChannelInterceptor {
         if (accessor.getNativeHeader("username").size() != 1)
             return;
         String username = accessor.getNativeHeader("username").get(0);
-        log.info("Client connected: {}", username);
+        String id = accessor.getNativeHeader("id").get(0);
+        log.info("Client {} connected into game {}", username, id.toUpperCase());
     }
 
 
