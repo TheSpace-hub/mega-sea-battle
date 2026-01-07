@@ -1,3 +1,5 @@
+import {players} from "./battlefield-logic.js";
+
 const letters = ['А', 'Б', 'В', 'Г', 'Д', 'Е', 'Ж', 'З', 'И', 'К']
 
 let currentMode = 'all'
@@ -134,4 +136,31 @@ export function updateDisplay() {
 function handleCellClick(cell) {
     if (cell.classList.contains('hit') || cell.classList.contains('miss')) {
     }
+}
+
+/**
+ * Add new player into list of battlefields.
+ * @param username Player's name.
+ */
+export function addPlayerIntoBattlefields(username) {
+    document.getElementById(`mode-player-${i}`).addEventListener('click', function () {
+        setMode(`player-${i}`)
+    })
+    document.querySelector('#list-of-modes').insertAdjacentHTML('beforeend', createPlayerBattlefieldItem(username))
+}
+
+/**
+ * Create HTML item for player's battlefield.
+ * @param username Player's name.
+ * @returns {string} HTML item.
+ */
+function createPlayerBattlefieldItem(username) {
+    let i = 1;
+    while (document.querySelector(`#mode-player-${i}`)) {
+        i++
+    }
+    return `
+<button type="button" class="btn btn-outline-primary" id="mode-player-${i}">Поле "<span>${username}</span>"
+</button>
+`
 }

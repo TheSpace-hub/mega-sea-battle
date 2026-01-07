@@ -1,13 +1,9 @@
 import {addPlayerIntoList} from "./list-of-players.js";
 import {basicLog, playerActionLog} from "./logging.js";
-import {initBattlefield, setMode, updateDisplay} from "./battlefield.js";
+import {initBattlefield, setMode, updateDisplay, addPlayerIntoBattlefields} from "./battlefield.js";
 
-const players = [
-    {id: 1, name: 'Морской Волк', color: 'player-1-color'},
-    {id: 2, name: 'Пират', color: 'player-2-color'},
-    {id: 3, name: 'Капитан', color: 'player-3-color'},
-    {id: 4, name: 'Адмирал', color: 'player-4-color'},
-    {id: 5, name: 'Штурман', color: 'player-5-color'}
+export const players = [
+    {id: 0, name: 'Морской Волк', color: 'player-1-color'},
 ]
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -26,11 +22,9 @@ function setupEventListeners() {
         setMode('all')
     })
 
-    for (let i = 1; i <= 5; i++) {
-        document.getElementById(`mode-player${i}`).addEventListener('click', function () {
-            setMode(`player${i}`)
-        })
-    }
+    document.getElementById(`mode-player-0`).addEventListener('click', function () {
+        setMode(`player-0`)
+    })
 
 
     document.getElementById('btn-end-turn').addEventListener('click', function () {
