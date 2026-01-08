@@ -42,8 +42,8 @@ export async function updateGameData() {
         return
     }
 
-    const data = await response.json()
-    console.log(`Data: ${data.toString()}`)
+    const data = JSON.stringify(await response.json())
+    console.log(`Data: ${data}`)
 }
 
 /**
