@@ -60,6 +60,8 @@ public class WebSocketConnectionInterceptor implements ChannelInterceptor {
         sendJoinAction(username, id);
 
         Game game = GameLogicController.getGameById(id.toLowerCase());
+        assert game != null;
+        game.addPlayer(username);
     }
 
     /**
