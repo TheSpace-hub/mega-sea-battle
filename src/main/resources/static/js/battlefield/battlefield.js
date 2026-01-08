@@ -15,8 +15,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
     connect(players[0].name)
     changeGameStatus(gameStatusTypes['WAITING_SELF_START'])
-
-    updateGameData().then()
 })
 
 /**

@@ -24,6 +24,7 @@ export function connect(username) {
                 }
                 updateGameData().then()
             })
+            updateGameData().then()
         }
     })
 
