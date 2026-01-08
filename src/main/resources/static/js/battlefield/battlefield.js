@@ -3,6 +3,7 @@ import {basicLog, playerActionLog, showMessage} from "./logging.js";
 import {initBattlefield, setMode, updateDisplay, addPlayerIntoBattlefields} from "./battlefield-utils.js";
 import {connect} from "./connector.js";
 import {changeGameStatus, gameStatusTypes} from "./status.js";
+import {updateGameData} from "./connector.js";
 
 export const players = []
 
@@ -14,6 +15,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
     connect(players[0].name)
     changeGameStatus(gameStatusTypes['WAITING_SELF_START'])
+
+    updateGameData().then()
 })
 
 /**
