@@ -1,5 +1,6 @@
 document.addEventListener("DOMContentLoaded", generateListOfGames)
 document.querySelector('#join').addEventListener('click', joinInToGameByJoinButton)
+document.querySelector('#create-game').addEventListener('click', createGame)
 document.addEventListener('click', joinInToGameByList)
 
 /**
@@ -83,4 +84,20 @@ function joinInToGameByList(event) {
 
     const id = event.target.id.split('-').at(1)
     joinInToGame(id)
+}
+
+/**
+ * Create game by list of player's count.
+ * @param event
+ */
+async function createGame(event) {
+    const playersCount = document.querySelector('#players-count').value
+
+    const response = await fetch(`/api/create-game/${playersCount}`)
+    if (!response.ok) {
+        console.error(response.statusText)
+    }
+
+    const data = await response.json()
+    joinInToGame(data['id'])
 }
