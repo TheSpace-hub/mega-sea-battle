@@ -52,6 +52,7 @@ public class Game {
         for (Player player : players) {
             if (player.getUsername().equals(username)) {
                 player.setField(field);
+                return;
             }
         }
         log.error("Can't add field for player {} in game with ID {}", username, id);
@@ -63,7 +64,7 @@ public class Game {
      * @return Public data.
      */
     public Game generatePublicInfo() {
-        Game game = new Game(id, maxPlayers, List.of(), openCells);
+        Game game = new Game(id, maxPlayers, new ArrayList<>(), openCells);
         for (Player player : players) {
             Field field = new Field();
             for (Field.Position position : openCells) {
@@ -72,6 +73,7 @@ public class Game {
             game.addPlayer(player.getUsername());
             game.addField(player.getUsername(), field);
         }
+        log.info("Public game info {} has been generated: {}", id, game);
         return game;
     }
 
