@@ -24,6 +24,7 @@ public record Game(String id, int maxPlayers, List<Player> players, List<Field.P
 
     /**
      * Generate info for public. This method remove secret player's info.
+     *
      * @return Public data.
      */
     public Game generatePublicInfo() {
