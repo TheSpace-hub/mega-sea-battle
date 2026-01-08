@@ -57,7 +57,7 @@
                                 <span th:text="${username}"></span>
                                 <span class="badge bg-primary ms-2">Ты</span>
                             </div>
-                            <div class="ship-count">Готовит флот</div>
+                            <div class="ship-count" th:id="'status-' + ${username}">Готовит флот</div>
                         </li>
                     </ul>
                 </div>

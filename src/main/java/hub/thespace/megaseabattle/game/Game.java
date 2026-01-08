@@ -39,7 +39,7 @@ public class Game {
      * @param username Player's username.
      */
     public void addPlayer(String username) {
-        players.add(new Player(username, new Field()));
+        players.add(new Player(username, "Готовит флот", new Field()));
     }
 
     /**

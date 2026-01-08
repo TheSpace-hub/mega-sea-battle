@@ -9,5 +9,6 @@ import lombok.Setter;
 @Setter
 public class Player {
     private String username;
+    private String status;
     private Field field;
 }

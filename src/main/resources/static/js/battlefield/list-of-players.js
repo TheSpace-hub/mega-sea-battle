@@ -10,6 +10,15 @@ export function addPlayerIntoList(username) {
 }
 
 /**
+ * Set player's status in list.
+ * @param username Player's name.
+ * @param status Player's status.
+ */
+export function setPlayerStatusInList(username, status) {
+    document.querySelector(`#status-${username}`).innerHTML = status;
+}
+
+/**
  * Update players counter before players list.
  */
 function updatePlayersCounter() {
@@ -28,7 +37,7 @@ function createItem(username) {
         <span class="player-color-dot player-2-color"></span>
         <span>${username}</span>
     </div>
-    <div class="ship-count">Подключение...</div>
+    <div class="ship-count" id="status-${username}">Подключение...</div>
 </li>
 `
 }

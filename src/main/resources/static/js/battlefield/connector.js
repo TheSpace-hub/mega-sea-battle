@@ -1,5 +1,6 @@
 import {basicLog, playerActionLog} from "./logging.js";
 import {addPlayer, players} from "./battlefield.js";
+import {setPlayerStatusInList} from "./list-of-players.js";
 
 let client = null;
 const secret = generateSecretKey();
@@ -48,6 +49,7 @@ export async function updateGameData() {
     for (let i = 0; i < data['players'].length; i++) {
         console.log(`Add player: ${JSON.stringify(data['players'][i]['username'])}`)
         addPlayer(data['players'][i]['username'])
+        setPlayerStatusInList(data['players'][i]['username'], data['players'][i]['status'])
     }
 
 }
