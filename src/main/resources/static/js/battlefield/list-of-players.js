@@ -1,9 +1,16 @@
+import {players} from "./battlefield.js";
+
 /**
  * Add new player into list.
  * @param username Player's name.
  */
 export function addPlayerIntoList(username) {
     document.querySelector('#list-of-players').insertAdjacentHTML('beforeend', createItem(username))
+    updatePlayersCounter()
+}
+
+function updatePlayersCounter() {
+    document.querySelector('#player-count').innerHTML = players.length.toString()
 }
 
 /**
