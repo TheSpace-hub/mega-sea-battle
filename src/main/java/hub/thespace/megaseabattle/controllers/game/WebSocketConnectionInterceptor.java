@@ -35,6 +35,11 @@ public class WebSocketConnectionInterceptor implements ChannelInterceptor {
         return message;
     }
 
+    /**
+     * This func. called after the player join.
+     *
+     * @param accessor Stomp header accessor.
+     */
     private void handleClientConnected(StompHeaderAccessor accessor) {
         if (accessor.getNativeHeader("username") == null)
             return;
