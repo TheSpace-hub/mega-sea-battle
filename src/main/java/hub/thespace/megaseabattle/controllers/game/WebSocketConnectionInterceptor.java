@@ -24,6 +24,13 @@ public class WebSocketConnectionInterceptor implements ChannelInterceptor {
         this.messagingTemplate = messagingTemplate;
     }
 
+    /**
+     * This func. called after message.
+     *
+     * @param message Message.
+     * @param channel Channel.
+     * @return Message.
+     */
     @Override
     public @Nullable Message<?> preSend(@NonNull Message<?> message, @NonNull MessageChannel channel) {
         StompHeaderAccessor accessor = StompHeaderAccessor.wrap(message);
