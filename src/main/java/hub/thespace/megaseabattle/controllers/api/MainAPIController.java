@@ -39,4 +39,18 @@ public class MainAPIController {
         return Map.of("id", game.id());
     }
 
+    /**
+     * Send data about game field.
+     *
+     * @param id Game id.
+     * @return Public game data.
+     */
+    @GetMapping("/game-data/{id}")
+    public Game getGameData(@PathVariable String id) {
+        Game privateGameData = GameLogicController.getGameById(id);
+        if (privateGameData == null)
+            return null;
+        return privateGameData.generatePublicInfo();
+    }
+
 }
