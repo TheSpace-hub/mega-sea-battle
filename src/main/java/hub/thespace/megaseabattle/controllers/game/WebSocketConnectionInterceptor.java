@@ -61,7 +61,7 @@ public class WebSocketConnectionInterceptor implements ChannelInterceptor {
 
         Game game = GameLogicController.getGameById(id.toLowerCase());
         if (game == null) {
-            log.error("Game {} not found", id);
+            log.warn("Game {} not found", id);
             return;
         }
         game.addPlayer(username);
