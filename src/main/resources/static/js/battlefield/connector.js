@@ -1,5 +1,5 @@
 import {basicLog, playerActionLog} from "./logging.js";
-import {addPlayer} from "./battlefield.js";
+import {addPlayer, players} from "./battlefield.js";
 
 let client = null;
 const secret = generateSecretKey();
@@ -42,8 +42,14 @@ export async function updateGameData() {
         return
     }
 
-    const data = JSON.stringify(await response.json())
-    console.log(`Data: ${data}`)
+    const data = await response.json()
+    console.log(`Data: ${JSON.stringify(data['players'][0])}`)
+
+    for (let i = 0; i < data['players'].length; i++) {
+        console.log(`Add player: ${JSON.stringify(data['players'][i]['username'])}`)
+        addPlayer(data['players'][i]['username'])
+    }
+
 }
 
 /**

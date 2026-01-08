@@ -22,9 +22,15 @@ document.addEventListener('DOMContentLoaded', function () {
  * @param username Player's name.
  */
 export function addPlayer(username) {
+    for (const player in players) {
+        if (player['name'] === username) {
+            return
+        }
+    }
+
     players.push({
         id: players.length,
-        name: document.body.dataset.username
+        name: username
     })
 
     addPlayerIntoBattlefields(username)
