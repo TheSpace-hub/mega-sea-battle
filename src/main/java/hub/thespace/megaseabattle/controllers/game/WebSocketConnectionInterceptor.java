@@ -64,6 +64,7 @@ public class WebSocketConnectionInterceptor implements ChannelInterceptor {
             log.error("Game {} not found", id);
             return;
         }
+        game.addPlayer(username);
     }
 
     /**
