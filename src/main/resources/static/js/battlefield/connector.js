@@ -10,7 +10,6 @@ export function connect(username) {
         webSocketFactory: () => new SockJS('http://localhost:8080/ws'),
         connectHeaders: {
             'username': username,
-            'secret': secret,
             'id': id
         },
         debug: function (str) {
