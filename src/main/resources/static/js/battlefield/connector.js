@@ -44,10 +44,7 @@ export async function updateGameData() {
     }
 
     const data = await response.json()
-    console.log(`Data: ${JSON.stringify(data['players'][0])}`)
-
     for (let i = 0; i < data['players'].length; i++) {
-        console.log(`Add player: ${JSON.stringify(data['players'][i]['username'])}`)
         addPlayer(data['players'][i]['username'])
         setPlayerStatusInList(data['players'][i]['username'], data['players'][i]['status'])
     }
