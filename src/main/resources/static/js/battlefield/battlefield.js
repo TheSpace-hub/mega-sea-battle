@@ -22,8 +22,8 @@ document.addEventListener('DOMContentLoaded', function () {
  * @param username Player's name.
  */
 export function addPlayer(username) {
-    for (const player in players) {
-        if (player['name'] === username) {
+    for (let i = 0; i < players.length; i++) {
+        if (players[i]['name'] === username) {
             return
         }
     }
