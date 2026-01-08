@@ -56,12 +56,9 @@ function createItem(id, players, maxPlayers) {
 function joinInToGame(id) {
     const username = document.querySelector('#username').value
     if (id === '')
-        return
-    if (username === '') {
-        document.querySelector('#write-username-error').classList.remove('d-none')
-        return;
-    }
-    window.location.href = `/game/${id}?username=${username}`
+        return false
+    if (canJoin())
+        window.location.href = `/game/${id}?username=${username}`
 }
 
 /**
@@ -87,10 +84,26 @@ function joinInToGameByList(event) {
 }
 
 /**
+ * Check is user can join.
+ * @returns {boolean} Can user join.
+ */
+function canJoin() {
+    const username = document.querySelector('#username').value
+    if (username === '') {
+        document.querySelector('#write-username-error').classList.remove('d-none')
+        return false
+    }
+
+    return true
+}
+
+/**
  * Create game by list of player's count.
  * @param event
  */
 async function createGame(event) {
+    if (!canJoin())
+        return
     const playersCount = document.querySelector('#players-count').value
 
     const response = await fetch(`/api/create-game/${playersCount}`)
