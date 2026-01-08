@@ -43,7 +43,16 @@ public class WebSocketConnectionInterceptor implements ChannelInterceptor {
         String username = accessor.getNativeHeader("username").get(0);
         String id = accessor.getNativeHeader("id").get(0);
         log.info("Client {} connected into game {}", username, id.toUpperCase());
+        sendJoinAction(username, id);
+    }
 
+    /**
+     * Send join action.
+     *
+     * @param username Player's name.
+     * @param id       Game's id.
+     */
+    private void sendJoinAction(String username, String id) {
         GameAction gameAction = new GameAction(GameAction.Action.PLAYER_JOIN, username, null);
         log.info("The game with ID {} has done the {} action", id, gameAction);
 
