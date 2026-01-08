@@ -60,8 +60,10 @@ public class WebSocketConnectionInterceptor implements ChannelInterceptor {
         sendJoinAction(username, id);
 
         Game game = GameLogicController.getGameById(id.toLowerCase());
-        assert game != null;
-        game.addPlayer(username);
+        if (game == null) {
+            log.error("Game {} not found", id);
+            return;
+        }
     }
 
     /**
@@ -73,7 +75,6 @@ public class WebSocketConnectionInterceptor implements ChannelInterceptor {
     private void sendJoinAction(String username, String id) {
         GameAction gameAction = new GameAction(GameAction.Action.PLAYER_JOIN, username, null);
         log.info("The game with ID {} has done the {} action", id, gameAction);
-
         messagingTemplate.convertAndSend("/topic/game-" + id, gameAction);
     }
 

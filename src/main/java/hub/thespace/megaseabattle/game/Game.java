@@ -1,18 +1,36 @@
 package hub.thespace.megaseabattle.game;
 
 
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * An object of this class belongs to an instance of the game.
  */
 @Slf4j
-public record Game(String id, int maxPlayers, List<Player> players, List<Field.Position> openCells) {
+@Getter
+public class Game {
+
+    private final String id;
+    private final int maxPlayers;
+    private final List<Player> players;
+    private final List<Field.Position> openCells;
 
     public Game(String id, int maxPlayers) {
-        this(id, maxPlayers, List.of(), List.of());
+        this.id = id;
+        this.maxPlayers = maxPlayers;
+        players = new ArrayList<>();
+        openCells = new ArrayList<>();
+    }
+
+    public Game(String id, int maxPlayers, List<Player> players, List<Field.Position> openCells) {
+        this.id = id;
+        this.maxPlayers = maxPlayers;
+        this.players = players;
+        this.openCells = openCells;
     }
 
     /**
@@ -21,7 +39,7 @@ public record Game(String id, int maxPlayers, List<Player> players, List<Field.P
      * @param username Player's username.
      */
     public void addPlayer(String username) {
-        players.add(new Player(username, null));
+        players.add(new Player(username, new Field()));
     }
 
     /**

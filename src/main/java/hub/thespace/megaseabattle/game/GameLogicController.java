@@ -20,7 +20,7 @@ public class GameLogicController {
      */
     public static Game getGameById(String id) {
         for (Game game : games) {
-            if (game.id().equals(id))
+            if (game.getId().equals(id))
                 return game;
         }
         return null;

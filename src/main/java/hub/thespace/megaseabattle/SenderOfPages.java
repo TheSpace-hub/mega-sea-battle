@@ -24,8 +24,8 @@ public class SenderOfPages {
         if (game == null)
             return "redirect:/";
 
-        model.addAttribute("id", game.id().toUpperCase());
-        model.addAttribute("maxPlayers", game.maxPlayers());
+        model.addAttribute("id", game.getId().toUpperCase());
+        model.addAttribute("maxPlayers", game.getMaxPlayers());
         model.addAttribute("username", username);
         return "battlefield";
     }
