@@ -1,15 +1,30 @@
 package hub.thespace.megaseabattle.game;
 
 
-import lombok.NoArgsConstructor;
+import lombok.Getter;
 
+import java.util.ArrayList;
 import java.util.List;
 
-@NoArgsConstructor
+@Getter
 public class Field {
 
-    private List<List<CellState>> filed;
-    private boolean inGame;
+    private final int sizeX;
+    private final int sizeY;
+    private final List<List<CellState>> filed;
+
+    public Field(int sizeX, int sizeY) {
+        this.sizeX = sizeX;
+        this.sizeY = sizeY;
+        filed = new ArrayList<>();
+        for (int i = 0; i < this.sizeX; i++) {
+            List<CellState> row = new ArrayList<>();
+            for (int j = 0; j < this.sizeY; j++) {
+                row.add(CellState.UNKNOWN);
+            }
+            filed.add(row);
+        }
+    }
 
     public enum CellState {
         UNKNOWN,

@@ -39,7 +39,7 @@ public class Game {
      * @param username Player's username.
      */
     public void addPlayer(String username) {
-        players.add(new Player(username, "Готовит флот", new Field()));
+        players.add(new Player(username, "Готовит флот", new Field(10, 10)));
     }
 
     /**
@@ -66,7 +66,7 @@ public class Game {
     public Game generatePublicInfo() {
         Game game = new Game(id, maxPlayers, new ArrayList<>(), openCells);
         for (Player player : players) {
-            Field field = new Field();
+            Field field = new Field(10, 10);
             for (Field.Position position : openCells) {
                 field.setCellState(position, player.getField().getCellState(position));
             }
