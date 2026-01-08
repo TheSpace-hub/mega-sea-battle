@@ -9,6 +9,9 @@ export function addPlayerIntoList(username) {
     updatePlayersCounter()
 }
 
+/**
+ * Update players counter before players list.
+ */
 function updatePlayersCounter() {
     document.querySelector('#player-count').innerHTML = players.length.toString()
 }
