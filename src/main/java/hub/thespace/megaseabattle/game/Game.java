@@ -1,11 +1,14 @@
 package hub.thespace.megaseabattle.game;
 
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.util.List;
 
 /**
  * An object of this class belongs to an instance of the game.
  */
+@Slf4j
 public record Game(String id, int maxPlayers, List<Player> players, List<Field.Position> openCells) {
 
     public Game(String id, int maxPlayers) {
@@ -16,10 +19,24 @@ public record Game(String id, int maxPlayers, List<Player> players, List<Field.P
      * Add new player.
      *
      * @param username Player's username.
-     * @param field    Player's field with ships.
      */
-    public void addPlayer(String username, Field field) {
-        this.players.add(new Player(username, field));
+    public void addPlayer(String username) {
+        players.add(new Player(username, null));
+    }
+
+    /**
+     * Add field for player.
+     *
+     * @param username Player's name.
+     * @param field    Game field.
+     */
+    public void addField(String username, Field field) {
+        for (Player player : players) {
+            if (player.getUsername().equals(username)) {
+                player.setField(field);
+            }
+        }
+        log.error("Can't add field for player {} in game with ID {}", username, id);
     }
 
     /**
@@ -34,7 +51,8 @@ public record Game(String id, int maxPlayers, List<Player> players, List<Field.P
             for (Field.Position position : openCells) {
                 field.setCellState(position, player.getField().getCellState(position));
             }
-            game.addPlayer(player.getUsername(), field);
+            game.addPlayer(player.getUsername());
+            game.addField(player.getUsername(), field);
         }
         return game;
     }
