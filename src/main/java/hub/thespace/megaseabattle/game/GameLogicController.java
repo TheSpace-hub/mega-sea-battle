@@ -51,4 +51,14 @@ public class GameLogicController {
         return new String(code);
     }
 
+    /**
+     * Checks the field for correct ship placement.
+     * TODO - create logic.
+     *
+     * @return Is the field correct.
+     */
+    public boolean checkIsStartedFieldCorrect() {
+        return true;
+    }
+
 }
