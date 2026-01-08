@@ -57,7 +57,7 @@ public class GameLogicController {
      *
      * @return Is the field correct.
      */
-    public boolean checkIsStartedFieldCorrect() {
+    public static boolean checkIsStartedFieldCorrect() {
         return true;
     }
 
