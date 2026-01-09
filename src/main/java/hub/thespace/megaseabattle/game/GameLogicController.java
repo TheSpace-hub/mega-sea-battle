@@ -2,7 +2,6 @@ package hub.thespace.megaseabattle.game;
 
 import hub.thespace.megaseabattle.game.utils.Field;
 import hub.thespace.megaseabattle.game.utils.Game;
-import hub.thespace.megaseabattle.game.utils.Player;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
