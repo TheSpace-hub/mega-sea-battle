@@ -14,18 +14,7 @@ public class Player {
 
     public enum Status {
         PREPARING,
-        READY;
-
-        public String getAsMessage(Status status, Locale locale) {
-            if (locale == Locale.RUSSIAN) {
-                return switch (status) {
-                    case PREPARING -> "Готовится";
-                    case READY -> "Готов";
-                };
-            }
-            return status.toString();
-        }
-
+        READY
     }
 
     public enum Locale {
