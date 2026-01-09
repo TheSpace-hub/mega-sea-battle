@@ -2,34 +2,52 @@ import {basicLog, playerActionLog} from "./logging.js";
 import {addPlayer, players} from "./battlefield.js";
 import {setPlayerStatusInList} from "./list-of-players.js";
 
-let client = null;
 const id = window.location.pathname.split('/').pop();
+let connector = null;
 
-export function connect(username) {
-    client = new StompJs.Client({
-        webSocketFactory: () => new SockJS('http://localhost:8080/ws'),
-        connectHeaders: {
-            'username': username,
-            'id': id
-        },
-        debug: function (str) {
-            console.log(str)
-        },
-        onConnect: function (socket) {
-            client.subscribe(`/topic/game-${id}`, function (topic) {
-                const response = JSON.parse(topic.body)
-                console.log(topic.body)
-                if (response['action'] === 'PLAYER_JOIN') {
-                    onPlayerJoin(response['username'])
+class Connector {
+    constructor() {
+        this.client = null;
+    }
+
+    connect(username) {
+        return new Promise((resolve, reject) => {
+            this.client = new StompJs.Client({
+                webSocketFactory: () => new SockJS('http://localhost:8080/ws'),
+                connectHeaders: {
+                    'username': username,
+                    'id': id
+                },
+                debug: (str) => {
+                    console.log(str)
+                },
+                onConnect: (socket) => {
+                    this.client.subscribe(`/topic/game-${id}`, function (topic) {
+                        const response = JSON.parse(topic.body)
+                        console.log(topic.body)
+                        if (response['action'] === 'PLAYER_JOIN') {
+                            onPlayerJoin(response['username'])
+                        }
+                        updateGameData().then()
+                    })
+                    updateGameData().then()
                 }
-                updateGameData().then()
             })
-            updateGameData().then()
-        }
-    })
 
-    client.activate()
-    basicLog('Ты подключился к игре')
+            this.client.activate()
+        })
+    }
+
+    publish() {
+        console.log("Connector published 2")
+        this.client.publish(`/app/game.test`, JSON.stringify({}))
+    }
+
+}
+
+export async function connect(username) {
+    connector = new Connector(username);
+    await connector.connect(username);
 }
 
 /**
