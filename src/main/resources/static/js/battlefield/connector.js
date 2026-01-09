@@ -39,11 +39,17 @@ class Connector {
         })
     }
 
-    publish() {
-        console.log("Connector published 2")
-        this.client.publish(`/app/game.test`, JSON.stringify({}))
+    /**
+     * Publish message.
+     * @param destination Path to endpoint.
+     * @param body Dict content.
+     */
+    publish(destination, body) {
+        this.client.publish({
+            destination: destination,
+            body: JSON.stringify(body)
+        })
     }
-
 }
 
 export async function connect(username) {
