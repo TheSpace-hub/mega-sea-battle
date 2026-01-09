@@ -12,11 +12,13 @@ export function connect(username) {
             console.log(str)
         },
         onConnect: function (socket) {
-            console.log('Now send it');
-            client.publish('/app/game.register', {}, JSON.stringify({
-                'username': username,
-                'id': id
-            }));
+            client.publish({
+                destination: '/app/game.register',
+                body: JSON.stringify({
+                    'username': username,
+                    'id': id
+                })
+            });
             client.subscribe(`/topic/game-${id}`, function (topic) {
                 const response = JSON.parse(topic.body)
                 console.log(topic.body)
