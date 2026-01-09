@@ -1,6 +1,6 @@
 import {addPlayerIntoList} from "./list-of-players.js";
 import {basicLog, playerActionLog, showMessage} from "./logging.js";
-import {initBattlefield, setMode, updateDisplay, addPlayerIntoBattlefields} from "./battlefield-utils.js";
+import {initBattlefield, setMode, updateDisplay, addPlayerIntoBattlefields, verifyField} from "./battlefield-utils.js";
 import {connect} from "./connector.js";
 import {changeGameStatus, gameStatusTypes} from "./status.js";
 import {updateGameData} from "./connector.js";
@@ -58,12 +58,7 @@ function setupEventListeners() {
     })
 
     document.getElementById('start-game-button').addEventListener('click', function () {
-        this.disabled = true
-        this.textContent = 'Ожидание хода...'
-
-        setTimeout(() => {
-            document.getElementById('start-game-button').textContent = 'Завершить ход (не ваш ход)'
-        }, 3000)
+        verifyField()
     })
 }
 
