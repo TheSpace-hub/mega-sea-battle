@@ -32,6 +32,8 @@ class Connector {
                             onPlayerJoin(response['username'])
                         } else if (response['action'] === 'PLAYER_READY') {
                             onPlayerReady(response['username'])
+                        } else if (response['action'] === 'GAME_STARTED') {
+                            onGameStarted()
                         }
                         updateGameData().then()
                     })
@@ -105,5 +107,15 @@ function onPlayerReady(username) {
     playerActionLog(username, 'расставил свой флот')
     if (username === players[0]['name']) {
         document.querySelector('#start-game-button').disabled = true
+    }
+}
+
+/**
+ * Allow "mode-all" and allow mode with another players.
+ */
+function onGameStarted() {
+    document.querySelector(`#mode-all`).classList.remove('disabled')
+    for (let i = 0; i < players.length; i++) {
+        document.querySelector(`#mode-player-${i}`).classList.remove('disabled')
     }
 }
