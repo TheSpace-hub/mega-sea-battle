@@ -13,16 +13,20 @@ import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerCo
 @EnableWebSocketMessageBroker
 public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
-    private final WebSocketConnectionInterceptor webSocketConnectionInterceptor;
+    private final WebSocketConnectionInterceptor connectionInterceptor;
+    private final WebSocketAuthInterceptor authInterceptor;
 
     @Autowired
-    public WebSocketConfig(WebSocketConnectionInterceptor webSocketConnectionInterceptor) {
-        this.webSocketConnectionInterceptor = webSocketConnectionInterceptor;
+    public WebSocketConfig(WebSocketConnectionInterceptor connectionInterceptor, WebSocketAuthInterceptor authInterceptor) {
+        this.authInterceptor = authInterceptor;
+        this.connectionInterceptor = connectionInterceptor;
     }
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
-        registry.addEndpoint("/ws").withSockJS();
+        registry.addEndpoint("/ws")
+                .addInterceptors(authInterceptor)
+                .withSockJS();
     }
 
     @Override
@@ -35,6 +39,6 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
     @Override
     public void configureClientInboundChannel(ChannelRegistration registration) {
-        registration.interceptors(webSocketConnectionInterceptor);
+        registration.interceptors(connectionInterceptor);
     }
 }
