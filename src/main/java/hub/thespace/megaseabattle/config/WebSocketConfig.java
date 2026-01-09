@@ -14,18 +14,15 @@ import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerCo
 public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
     private final WebSocketConnectionInterceptor connectionInterceptor;
-    private final WebSocketAuthInterceptor authInterceptor;
 
     @Autowired
-    public WebSocketConfig(WebSocketConnectionInterceptor connectionInterceptor, WebSocketAuthInterceptor authInterceptor) {
-        this.authInterceptor = authInterceptor;
+    public WebSocketConfig(WebSocketConnectionInterceptor connectionInterceptor) {
         this.connectionInterceptor = connectionInterceptor;
     }
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
         registry.addEndpoint("/ws")
-                .addInterceptors(authInterceptor)
                 .withSockJS();
     }
 
