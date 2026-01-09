@@ -31,10 +31,11 @@ function updatePlayersCounter() {
  * @returns {string}
  */
 function createItem(username) {
+    const index = players.findIndex(player => player.name === username) + 1
     return `
 <li class="list-group-item d-flex justify-content-between align-items-center">
     <div>
-        <span class="player-color-dot player-2-color"></span>
+        <span class="player-color-dot player-${index}-color"></span>
         <span>${username}</span>
     </div>
     <div class="ship-count" id="status-${username}">Подключение...</div>
