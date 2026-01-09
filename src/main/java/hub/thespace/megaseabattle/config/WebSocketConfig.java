@@ -1,6 +1,5 @@
 package hub.thespace.megaseabattle.config;
 
-import hub.thespace.megaseabattle.controllers.game.WebSocketConnectionInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.ChannelRegistration;
@@ -30,6 +29,8 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     public void configureMessageBroker(MessageBrokerRegistry registry) {
         registry.setApplicationDestinationPrefixes("/app");
         registry.enableSimpleBroker("/topic");
+
+        registry.setUserDestinationPrefix("/user");
     }
 
     @Override
