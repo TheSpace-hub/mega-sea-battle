@@ -29,6 +29,10 @@ public class GameActionController {
     public void gameTest(@Payload Field field, SimpMessageHeaderAccessor accessor) {
         String username = connectionInterceptor.getUsernameFromSession(accessor.getSessionId());
         log.info("User {} want load field {}", username, field);
+        messagingTemplate.convertAndSendToUser(
+                accessor.getSessionId(),
+                "/queue/errors",
+                "Some data");
     }
 
 }
