@@ -9,6 +9,26 @@ import lombok.Setter;
 @Setter
 public class Player {
     private String username;
-    private String status;
+    private Status status;
     private Field field;
+
+    public enum Status {
+        PREPARING,
+        READY;
+
+        public String getAsMessage(Status status, Locale locale) {
+            if (locale == Locale.RUSSIAN) {
+                return switch (status) {
+                    case PREPARING -> "Готовится";
+                    case READY -> "Готов";
+                };
+            }
+            return status.toString();
+        }
+
+    }
+
+    public enum Locale {
+        RUSSIAN
+    }
 }

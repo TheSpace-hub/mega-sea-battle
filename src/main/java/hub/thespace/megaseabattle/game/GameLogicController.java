@@ -2,6 +2,8 @@ package hub.thespace.megaseabattle.game;
 
 import hub.thespace.megaseabattle.game.utils.Field;
 import hub.thespace.megaseabattle.game.utils.Game;
+import hub.thespace.megaseabattle.game.utils.Player;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,6 +12,7 @@ import java.util.Random;
 /**
  * This class controlling game utils.
  */
+@Slf4j
 public class GameLogicController {
 
     public static List<Game> games = new ArrayList<>();
@@ -61,6 +64,26 @@ public class GameLogicController {
      * @return Is the field correct.
      */
     public static boolean checkIsStartedFieldCorrect(Field field) {
+        return true;
+    }
+
+    /**
+     * Check is the game ready.
+     *
+     * @param id Game id.
+     * @return Is the game ready.
+     */
+    public boolean checkIsGameReady(String id) {
+        Game game = getGameById(id);
+        if (game != null) {
+            log.warn("Checking the readiness of a non-existent game {}", id);
+            return false;
+        }
+
+        for (Player player : game.getPlayers()) {
+            if (player.getStatus() != Player.Status.READY)
+                return false;
+        }
         return true;
     }
 

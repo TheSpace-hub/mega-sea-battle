@@ -38,7 +38,7 @@ public class Game {
      *
      * @param username Player's username.
      */
-    public void addPlayer(String username, String status) {
+    public void addPlayer(String username, Player.Status status) {
         players.add(new Player(username, status, new Field(10, 10)));
     }
 

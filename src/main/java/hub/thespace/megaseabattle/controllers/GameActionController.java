@@ -38,7 +38,7 @@ public class GameActionController {
 
         if (GameLogicController.checkIsStartedFieldCorrect(field)) {
             GameAction action = new GameAction(GameAction.Action.PLAYER_READY, playerSession.username(), "");
-            player.setStatus("Готов");
+            player.setStatus(Player.Status.READY);
             messagingTemplate.convertAndSend("/topic/game-" + playerSession.gameId(), action);
         }
     }
