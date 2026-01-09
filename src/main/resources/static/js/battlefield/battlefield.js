@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', function () {
     setupEventListeners()
     updateDisplay()
 
-    connect(players[0].name)
+    connect(players[0].name).then()
     changeGameStatus(gameStatusTypes['WAITING_SELF_START'])
 })
 
