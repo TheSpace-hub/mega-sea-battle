@@ -91,4 +91,19 @@ public class Game {
         return game;
     }
 
+    /**
+     * Check is the game ready.
+     *
+     * @return Is the game ready.
+     */
+    public boolean isGameReady() {
+        if (getMaxPlayers() != getPlayers().size())
+            return false;
+        for (Player player : getPlayers()) {
+            if (player.getStatus() != Player.Status.READY)
+                return false;
+        }
+        return true;
+    }
+
 }

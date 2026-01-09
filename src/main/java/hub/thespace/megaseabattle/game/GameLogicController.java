@@ -67,26 +67,7 @@ public class GameLogicController {
         return true;
     }
 
-    /**
-     * Check is the game ready.
-     *
-     * @param id Game id.
-     * @return Is the game ready.
-     */
-    public boolean checkIsGameReady(String id) {
-        Game game = getGameById(id);
-        if (game == null) {
-            log.warn("Checking the readiness of a non-existent game {}", id);
-            return false;
-        }
 
-        if (game.getMaxPlayers() != game.getPlayers().size())
-            return false;
-        for (Player player : game.getPlayers()) {
-            if (player.getStatus() != Player.Status.READY)
-                return false;
-        }
-        return true;
-    }
+
 
 }
