@@ -25,7 +25,7 @@ public class WebSocketConnectionInterceptor implements ChannelInterceptor {
 
     private final SimpMessagingTemplate messagingTemplate;
 
-    private final Map<String, String> sessions;
+    private final Map<String, PlayerSession> sessions;
 
     @Autowired
     public WebSocketConnectionInterceptor(@Lazy SimpMessagingTemplate messagingTemplate) {
@@ -72,7 +72,7 @@ public class WebSocketConnectionInterceptor implements ChannelInterceptor {
             return;
         }
         game.addPlayer(username);
-        addUserToSession(username, accessor.getSessionId());
+        addUserToSession(username, id, accessor.getSessionId());
     }
 
     /**
@@ -91,21 +91,25 @@ public class WebSocketConnectionInterceptor implements ChannelInterceptor {
      * Add user into session list.
      *
      * @param username  Player's name.
+     * @param gameId    Game id.
      * @param sessionId Session id.
      */
-    private void addUserToSession(String username, String sessionId) {
+    private void addUserToSession(String username, String gameId, String sessionId) {
         log.info("Adding user {} to session {}", username, sessionId);
-        sessions.put(sessionId, username);
+        sessions.put(sessionId, new PlayerSession(username, gameId));
     }
 
     /**
-     * Get username by session id.
+     * Get PlayerSession object by session id.
      *
      * @param sessionId Session id.
      * @return Username
      */
-    public String getUsernameFromSession(String sessionId) {
+    public PlayerSession getPlayerSessionSession(String sessionId) {
         return sessions.get(sessionId);
+    }
+
+    public record PlayerSession(String username, String gameId) {
     }
 
 }

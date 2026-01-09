@@ -30,10 +30,6 @@ class Connector {
                         }
                         updateGameData().then()
                     })
-                    this.client.subscribe('/user/queue/errors', function (data) {
-                        const response = JSON.parse(data.body)
-                        console.log("Error response:", response)
-                    })
                     updateGameData().then()
                 }
             })
