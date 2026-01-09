@@ -35,6 +35,7 @@ class Connector {
             })
 
             this.client.activate()
+            basicLog("Ты подключился к игре")
         })
     }
 
