@@ -103,4 +103,7 @@ function onPlayerJoin(username) {
  */
 function onPlayerReady(username) {
     playerActionLog(username, 'расставил свой флот')
+    if (username === players[0]['name']) {
+        document.querySelector('#start-game-button').disabled = true
+    }
 }
