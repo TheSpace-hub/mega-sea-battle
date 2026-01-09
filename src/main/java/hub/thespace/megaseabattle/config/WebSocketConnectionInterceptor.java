@@ -104,7 +104,7 @@ public class WebSocketConnectionInterceptor implements ChannelInterceptor {
      * @param sessionId Session id.
      * @return Username
      */
-    private String getUsernameFromSession(String sessionId) {
+    public String getUsernameFromSession(String sessionId) {
         return sessions.get(sessionId);
     }
 
