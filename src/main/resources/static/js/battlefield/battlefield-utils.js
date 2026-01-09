@@ -11,7 +11,12 @@ let currentPlayer = 1
  * Ask the server about the correctness of the field. If the field is correct, it will be registered.
  */
 export function verifyField() {
-    submitFieldForVerification(readField())
+    submitFieldForVerification(
+        {
+            sizeX: 10,
+            sizeY: 10,
+            field: readField()
+        })
 }
 
 /**
