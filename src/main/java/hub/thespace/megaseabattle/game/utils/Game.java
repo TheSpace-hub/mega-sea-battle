@@ -18,6 +18,7 @@ public class Game {
     private final int maxPlayers;
     private final List<Player> players;
     private final List<Field.Position> openCells;
+    private Player currentPlayer;
 
     public Game(String id, int maxPlayers) {
         this.id = id;
@@ -103,6 +104,7 @@ public class Game {
             if (player.getStatus() != Player.Status.READY)
                 return false;
         }
+        currentPlayer = getPlayers().get(0);
         return true;
     }
 
