@@ -43,8 +43,6 @@ function addMainPlayer() {
         id: players.length,
         name: document.body.dataset.username
     })
-
-    addPlayerIntoBattlefields(players[0].name)
 }
 
 /**

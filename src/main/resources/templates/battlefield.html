@@ -84,8 +84,12 @@
                     <div class="d-flex justify-content-between align-items-center flex-wrap">
                         <div class="mode-buttons">
                             <div class="btn-group" role="group" aria-label="Режимы отображения" id="list-of-modes">
-                                <button type="button" class="btn btn-outline-primary active mode-active" id="mode-all">
+                                <button type="button" class="btn btn-outline-primary disabled" id="mode-all">
                                     Все на одном поле
+                                </button>
+                                <button type="button" class="btn btn-outline-primary active mode-active"
+                                        id="mode-player-0">Поле "<span
+                                        th:text="${username}"></span>"
                                 </button>
                             </div>
                         </div>
