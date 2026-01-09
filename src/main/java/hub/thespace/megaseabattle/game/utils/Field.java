@@ -39,7 +39,7 @@ public class Field {
         UNKNOWN("UNKNOWN"),
         EMPTY("EMPTY"),
         SHIP("SHIP"),
-        UNBROKEN_SHIP("UNBROKEN_SHIP"),
+        BROKEN_SHIP("BROKEN_SHIP"),
         WRECKED_SHIP("WRECKED_SHIP");
 
         private final String value;
