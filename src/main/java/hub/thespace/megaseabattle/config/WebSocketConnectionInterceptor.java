@@ -16,15 +16,21 @@ import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.messaging.support.ChannelInterceptor;
 import org.springframework.stereotype.Component;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @Component
 @Slf4j
 public class WebSocketConnectionInterceptor implements ChannelInterceptor {
 
     private final SimpMessagingTemplate messagingTemplate;
 
+    private final Map<String, String> sessions;
+
     @Autowired
     public WebSocketConnectionInterceptor(@Lazy SimpMessagingTemplate messagingTemplate) {
         this.messagingTemplate = messagingTemplate;
+        sessions = new HashMap<>();
     }
 
     /**
@@ -66,6 +72,7 @@ public class WebSocketConnectionInterceptor implements ChannelInterceptor {
             return;
         }
         game.addPlayer(username);
+        addUserToSession(username, accessor.getSessionId());
     }
 
     /**
@@ -78,6 +85,27 @@ public class WebSocketConnectionInterceptor implements ChannelInterceptor {
         GameAction gameAction = new GameAction(GameAction.Action.PLAYER_JOIN, username, null);
         log.info("The game with ID {} has done the {} action", id, gameAction);
         messagingTemplate.convertAndSend("/topic/game-" + id, gameAction);
+    }
+
+    /**
+     * Add user into session list.
+     *
+     * @param username  Player's name.
+     * @param sessionId Session id.
+     */
+    private void addUserToSession(String username, String sessionId) {
+        log.info("Adding user {} to session {}", username, sessionId);
+        sessions.put(sessionId, username);
+    }
+
+    /**
+     * Get username by session id.
+     *
+     * @param sessionId Session id.
+     * @return Username
+     */
+    private String getUsernameFromSession(String sessionId) {
+        return sessions.get(sessionId);
     }
 
 }
