@@ -1,10 +1,33 @@
 import {players} from "./battlefield.js";
 import {gameStatusTypes, getStatus} from "./status.js";
+import {submitFieldForVerification} from "./connector.js";
 
 const letters = ['А', 'Б', 'В', 'Г', 'Д', 'Е', 'Ж', 'З', 'И', 'К']
 
 let currentMode = 'all'
 let currentPlayer = 1
+
+/**
+ * Ask the server about the correctness of the field. If the field is correct, it will be registered.
+ */
+export function verifyField() {
+    submitFieldForVerification(readField())
+}
+
+/**
+ * Read the field and get the ships placed by the user.
+ * @return List of lists with field.
+ */
+function readField() {
+    let field = Array.from({length: 10}, () => Array(10).fill(null))
+    const cells = document.querySelectorAll('#battlefield div.cell');
+    cells.forEach(cell => {
+        const x = cell.dataset.row
+        const y = cell.dataset.col
+        console.log('Coord:', x, y)
+    })
+    return field
+}
 
 /**
  * Creating a battlefield.
