@@ -1,5 +1,5 @@
 import {basicLog, playerActionLog} from "./logging.js";
-import {addPlayer, players} from "./battlefield.js";
+import {addPlayer, players} from "./main.js";
 import {setPlayerStatusInList} from "./list-of-players.js";
 
 const id = window.location.pathname.split('/').pop();

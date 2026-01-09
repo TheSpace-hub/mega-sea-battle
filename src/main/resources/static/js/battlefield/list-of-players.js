@@ -1,4 +1,4 @@
-import {players} from "./battlefield.js";
+import {players} from "./main.js";
 
 /**
  * Add new player into list.

@@ -1,4 +1,4 @@
-import {players} from "./battlefield.js";
+import {players} from "./main.js";
 import {gameStatusTypes, getStatus} from "./status.js";
 import {submitFieldForVerification} from "./connector.js";
 
