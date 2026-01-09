@@ -20,14 +20,16 @@ export function verifyField() {
  */
 function readField() {
     let field = Array.from({length: 10}, () => Array(10).fill(null))
+
     const cells = document.querySelectorAll('#battlefield div.cell');
     cells.forEach(cell => {
-        const x = cell.dataset.row
-        const y = cell.dataset.col
-        if (x === undefined || y === undefined)
+        const x = parseInt(cell.dataset.row)
+        const y = parseInt(cell.dataset.col)
+        if (isNaN(x) || isNaN(y))
             return
-        field[y][x] = cell.dataset.console.log('Coord:', x, y)
+        field[y][x] = cell.dataset.state
     })
+
     return field
 }
 
@@ -51,13 +53,13 @@ export function initBattlefield() {
         battlefield.appendChild(letterCell)
     }
 
-    for (let row = 1; row <= 10; row++) {
+    for (let row = 0; row < 10; row++) {
         const numberCell = document.createElement('div')
         numberCell.className = 'cell coordinate'
         numberCell.textContent = row
         battlefield.appendChild(numberCell)
 
-        for (let col = 1; col <= 10; col++) {
+        for (let col = 0; col < 10; col++) {
             const cell = document.createElement('div')
             cell.className = 'cell'
             cell.dataset.row = row
