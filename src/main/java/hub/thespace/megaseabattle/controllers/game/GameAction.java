@@ -21,6 +21,8 @@ public class GameAction {
         PLAYER_MOVE,
         PLAYER_LOOSE,
         PLAYER_WON,
+        GAME_STARTED,
+        GAME_FINISHED,
     }
 
 }
