@@ -1,5 +1,6 @@
 package hub.thespace.megaseabattle.controllers;
 
+import hub.thespace.megaseabattle.game.utils.Game;
 import hub.thespace.megaseabattle.game.utils.GameAction;
 import hub.thespace.megaseabattle.game.utils.Field;
 import hub.thespace.megaseabattle.game.GameLogicController;
@@ -29,18 +30,40 @@ public class GameActionController {
 
     @MessageMapping("/game.verify-field")
     public void verifyField(@Payload Field field, SimpMessageHeaderAccessor accessor) {
-        WebSocketConnectionInterceptor.PlayerSession playerSession =
-                connectionInterceptor.getPlayerSessionSession(accessor.getSessionId());
-        Player player = GameLogicController
-                .getGameById(playerSession.gameId()).getPlayerByUsername(playerSession.username());
+        Player player = getPlayer(accessor);
+        Game game = getGame(accessor);
 
-        log.info("User {} want load field {}", playerSession, field);
+        log.info("User {} want load field {}", player.getUsername(), field);
 
         if (GameLogicController.checkIsStartedFieldCorrect(field)) {
-            GameAction action = new GameAction(GameAction.Action.PLAYER_READY, playerSession.username(), "");
+            GameAction action = new GameAction(GameAction.Action.PLAYER_READY, player.getUsername(), "");
             player.setStatus(Player.Status.READY);
-            messagingTemplate.convertAndSend("/topic/game-" + playerSession.gameId(), action);
+            messagingTemplate.convertAndSend("/topic/game-" + game.getId(), action);
         }
+    }
+
+    /**
+     * Get player by accessor.
+     *
+     * @param accessor Accessor.
+     * @return Player instance.
+     */
+    private Player getPlayer(SimpMessageHeaderAccessor accessor) {
+        WebSocketConnectionInterceptor.PlayerSession playerSession =
+                connectionInterceptor.getPlayerSessionSession(accessor.getSessionId());
+        return GameLogicController.getGameById(playerSession.gameId()).getPlayerByUsername(playerSession.username());
+    }
+
+    /**
+     * Get game by accessor.
+     *
+     * @param accessor Accessor.
+     * @return Game instance.
+     */
+    private Game getGame(SimpMessageHeaderAccessor accessor) {
+        WebSocketConnectionInterceptor.PlayerSession playerSession =
+                connectionInterceptor.getPlayerSessionSession(accessor.getSessionId());
+        return GameLogicController.getGameById(playerSession.gameId());
     }
 
 }
