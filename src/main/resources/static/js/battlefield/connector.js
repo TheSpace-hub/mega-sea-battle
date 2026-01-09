@@ -27,7 +27,7 @@ class Connector {
                 onConnect: (socket) => {
                     this.client.subscribe(`/topic/game-${id}`, function (topic) {
                         const response = JSON.parse(topic.body)
-                        console.log(topic.body)
+                        console.log('/topic/game Data:', topic.body)
                         if (response['action'] === 'PLAYER_JOIN') {
                             onPlayerJoin(response['username'])
                         } else if (response['action'] === 'PLAYER_READY') {
