@@ -5,6 +5,9 @@ import {setPlayerStatusInList} from "./list-of-players.js";
 const id = window.location.pathname.split('/').pop();
 let connector = null;
 
+/**
+ * Class connects to server and implements publish func.
+ */
 class Connector {
     constructor() {
         this.client = null;
@@ -27,6 +30,8 @@ class Connector {
                         console.log(topic.body)
                         if (response['action'] === 'PLAYER_JOIN') {
                             onPlayerJoin(response['username'])
+                        } else if (response['action'] === 'PLAYER_READY') {
+                            onPlayerReady(response['username'])
                         }
                         updateGameData().then()
                     })
@@ -90,4 +95,12 @@ export async function updateGameData() {
 function onPlayerJoin(username) {
     playerActionLog(username, 'подключился к серверу')
     addPlayer(username)
+}
+
+/**
+ * On player ready.
+ * @param username Player's name.
+ */
+function onPlayerReady(username) {
+    playerActionLog(username, 'расставил свой флот')
 }
