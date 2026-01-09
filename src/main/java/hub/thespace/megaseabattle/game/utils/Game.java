@@ -108,4 +108,24 @@ public class Game {
         return true;
     }
 
+    /**
+     * Attack the field.
+     *
+     * @param position Field position.
+     */
+    public void attack(Field.Position position) {
+        if (openCells.contains(position)) {
+            log.error("Player attacked the attacked cell for position {}", position);
+            return;
+        }
+        openCells.add(position);
+        for (Player player : players) {
+            Field field = player.getField();
+            if (field.getCellState(position) == Field.CellState.SHIP) {
+                // TODO - implement logic for using BROKEN_SHIP and WRECKED_SHIP
+                field.setCellState(position, Field.CellState.WRECKED_SHIP);
+            }
+        }
+    }
+
 }
