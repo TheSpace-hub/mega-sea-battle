@@ -58,6 +58,14 @@ export async function connect(username) {
 }
 
 /**
+ * Submit the field for verification.
+ * @param field List of lists with field.
+ */
+export function submitFieldForVerification(field) {
+    connector.publish('/app/game.verify-field', field)
+}
+
+/**
  * Update filed before any action.
  */
 export async function updateGameData() {
