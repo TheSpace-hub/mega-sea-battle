@@ -29,6 +29,7 @@ public class Field {
     public enum CellState {
         UNKNOWN,
         EMPTY,
+        SHIP,
         UNBROKEN_SHIP,
         WRECKED_SHIP,
     }
