@@ -24,7 +24,9 @@ function readField() {
     cells.forEach(cell => {
         const x = cell.dataset.row
         const y = cell.dataset.col
-        console.log('Coord:', x, y)
+        if (x === undefined || y === undefined)
+            return
+        field[y][x] = cell.dataset.console.log('Coord:', x, y)
     })
     return field
 }
@@ -60,6 +62,7 @@ export function initBattlefield() {
             cell.className = 'cell'
             cell.dataset.row = row
             cell.dataset.col = col
+            cell.dataset.state = 'EMPTY'
 
             cell.addEventListener('click', function () {
                 if (currentMode === 'all' || (cell.dataset.player && parseInt(cell.dataset.player) === currentPlayer)) {
@@ -159,10 +162,13 @@ export function updateDisplay() {
  */
 function handleCellClick(cell) {
     if (getStatus() === gameStatusTypes.WAITING_SELF_START) {
-        if (cell.classList.contains('ship'))
+        if (cell.classList.contains('ship')) {
             cell.classList.remove('ship')
-        else if (!cell.classList.contains('ship'))
+            cell.dataset.state = 'EMPTY'
+        } else {
             cell.classList.add('ship')
+            cell.dataset.state = 'SHIP'
+        }
     }
     if (cell.classList.contains('hit') || cell.classList.contains('miss')) {
     }
