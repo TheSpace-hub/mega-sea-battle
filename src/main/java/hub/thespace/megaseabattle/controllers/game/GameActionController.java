@@ -28,7 +28,7 @@ public class GameActionController {
     @MessageMapping("/game.verify-field")
     public void gameTest(@Payload Field field, SimpMessageHeaderAccessor accessor) {
         String username = connectionInterceptor.getUsernameFromSession(accessor.getSessionId());
-        log.info("User {} want load field", username);
+        log.info("User {} want load field {}", username, field);
     }
 
 }
