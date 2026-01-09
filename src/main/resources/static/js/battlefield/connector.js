@@ -9,14 +9,15 @@ const id = window.location.pathname.split('/').pop();
 export function connect(username) {
     client = new StompJs.Client({
         webSocketFactory: () => new SockJS('http://localhost:8080/ws'),
-        connectHeaders: {
-            'username': username,
-            'id': id
-        },
         debug: function (str) {
             console.log(str)
         },
         onConnect: function (socket) {
+            console.log('Now send it');
+            client.send('/game.register', {}, JSON.stringify({
+                'username': username,
+                'id': id
+            }));
             client.subscribe(`/topic/game-${id}`, function (topic) {
                 const response = JSON.parse(topic.body)
                 console.log(topic.body)
@@ -58,19 +59,4 @@ export async function updateGameData() {
 function onPlayerJoin(username) {
     playerActionLog(username, 'подключился к серверу')
     addPlayer(username)
-}
-
-/**
- * Generate secret key for user.
- * @returns {string} Secret key.
- */
-function generateSecretKey() {
-    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    let result = '';
-
-    for (let i = 0; i < 32; i++) {
-        result += chars.charAt(Math.floor(Math.random() * chars.length));
-    }
-
-    return result;
 }
