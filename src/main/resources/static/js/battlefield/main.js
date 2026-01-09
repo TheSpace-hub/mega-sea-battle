@@ -1,9 +1,7 @@
 import {addPlayerIntoList} from "./list-of-players.js";
-import {basicLog, playerActionLog, showMessage} from "./logging.js";
 import {initBattlefield, setMode, updateDisplay, addPlayerIntoBattlefields, verifyField} from "./battlefield-utils.js";
 import {connect} from "./connector.js";
 import {changeGameStatus, gameStatusTypes} from "./status.js";
-import {updateGameData} from "./connector.js";
 
 export const players = []
 
