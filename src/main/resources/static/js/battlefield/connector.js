@@ -8,17 +8,14 @@ const id = window.location.pathname.split('/').pop();
 export function connect(username) {
     client = new StompJs.Client({
         webSocketFactory: () => new SockJS('http://localhost:8080/ws'),
+        connectHeaders: {
+            'username': username,
+            'id': id
+        },
         debug: function (str) {
             console.log(str)
         },
         onConnect: function (socket) {
-            client.publish({
-                destination: '/app/game.register',
-                body: JSON.stringify({
-                    'username': username,
-                    'id': id
-                })
-            });
             client.subscribe(`/topic/game-${id}`, function (topic) {
                 const response = JSON.parse(topic.body)
                 console.log(topic.body)
