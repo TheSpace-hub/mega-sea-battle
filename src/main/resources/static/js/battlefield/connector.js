@@ -3,7 +3,6 @@ import {addPlayer, players} from "./battlefield.js";
 import {setPlayerStatusInList} from "./list-of-players.js";
 
 let client = null;
-const secret = generateSecretKey();
 const id = window.location.pathname.split('/').pop();
 
 export function connect(username) {
@@ -14,7 +13,7 @@ export function connect(username) {
         },
         onConnect: function (socket) {
             console.log('Now send it');
-            client.send('/game.register', {}, JSON.stringify({
+            client.publish('/app/game.register', {}, JSON.stringify({
                 'username': username,
                 'id': id
             }));
