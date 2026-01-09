@@ -3,7 +3,7 @@ package hub.thespace.megaseabattle.controllers;
 import hub.thespace.megaseabattle.game.utils.Game;
 import hub.thespace.megaseabattle.game.utils.GameAction;
 import hub.thespace.megaseabattle.game.utils.Field;
-import hub.thespace.megaseabattle.game.GameLogicController;
+import hub.thespace.megaseabattle.game.GamesController;
 import hub.thespace.megaseabattle.game.utils.Player;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +35,7 @@ public class GameActionController {
 
         log.info("User {} want load field {}", player.getUsername(), field);
 
-        if (GameLogicController.checkIsStartedFieldCorrect(field)) {
+        if (GamesController.checkIsStartedFieldCorrect(field)) {
             GameAction action = new GameAction(GameAction.Action.PLAYER_READY, player.getUsername(), null);
             player.setStatus(Player.Status.READY);
             messagingTemplate.convertAndSend("/topic/game-" + game.getId(), action);
@@ -52,7 +52,7 @@ public class GameActionController {
     private Player getPlayer(SimpMessageHeaderAccessor accessor) {
         WebSocketConnectionInterceptor.PlayerSession playerSession =
                 connectionInterceptor.getPlayerSessionSession(accessor.getSessionId());
-        return GameLogicController.getGameById(playerSession.gameId()).getPlayerByUsername(playerSession.username());
+        return GamesController.getGameById(playerSession.gameId()).getPlayerByUsername(playerSession.username());
     }
 
     /**
@@ -64,7 +64,7 @@ public class GameActionController {
     private Game getGame(SimpMessageHeaderAccessor accessor) {
         WebSocketConnectionInterceptor.PlayerSession playerSession =
                 connectionInterceptor.getPlayerSessionSession(accessor.getSessionId());
-        return GameLogicController.getGameById(playerSession.gameId());
+        return GamesController.getGameById(playerSession.gameId());
     }
 
     /**

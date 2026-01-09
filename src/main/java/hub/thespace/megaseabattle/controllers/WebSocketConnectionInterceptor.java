@@ -2,7 +2,7 @@ package hub.thespace.megaseabattle.controllers;
 
 import hub.thespace.megaseabattle.game.utils.GameAction;
 import hub.thespace.megaseabattle.game.utils.Game;
-import hub.thespace.megaseabattle.game.GameLogicController;
+import hub.thespace.megaseabattle.game.GamesController;
 import hub.thespace.megaseabattle.game.utils.Player;
 import lombok.extern.slf4j.Slf4j;
 import org.jspecify.annotations.NonNull;
@@ -67,7 +67,7 @@ public class WebSocketConnectionInterceptor implements ChannelInterceptor {
         log.info("Client {} connected into game {}", username, id.toUpperCase());
         sendJoinAction(username, id);
 
-        Game game = GameLogicController.getGameById(id.toLowerCase());
+        Game game = GamesController.getGameById(id.toLowerCase());
         if (game == null) {
             log.warn("Game {} not found", id);
             return;

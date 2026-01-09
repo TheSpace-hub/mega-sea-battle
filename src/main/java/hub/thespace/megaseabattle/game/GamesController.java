@@ -12,7 +12,7 @@ import java.util.Random;
  * This class controlling game utils.
  */
 @Slf4j
-public class GameLogicController {
+public class GamesController {
 
     public static List<Game> games = new ArrayList<>();
     private static final Random random = new Random();
