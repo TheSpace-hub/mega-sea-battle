@@ -1,4 +1,4 @@
-package hub.thespace.megaseabattle.game;
+package hub.thespace.megaseabattle.game.utils;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

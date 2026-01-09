@@ -1,7 +1,7 @@
-package hub.thespace.megaseabattle.config;
+package hub.thespace.megaseabattle.controllers;
 
-import hub.thespace.megaseabattle.controllers.game.GameAction;
-import hub.thespace.megaseabattle.game.Game;
+import hub.thespace.megaseabattle.game.utils.GameAction;
+import hub.thespace.megaseabattle.game.utils.Game;
 import hub.thespace.megaseabattle.game.GameLogicController;
 import lombok.extern.slf4j.Slf4j;
 import org.jspecify.annotations.NonNull;

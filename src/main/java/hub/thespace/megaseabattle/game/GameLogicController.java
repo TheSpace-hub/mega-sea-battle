@@ -1,5 +1,8 @@
 package hub.thespace.megaseabattle.game;
 
+import hub.thespace.megaseabattle.game.utils.Field;
+import hub.thespace.megaseabattle.game.utils.Game;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;

@@ -1,6 +1,6 @@
-package hub.thespace.megaseabattle;
+package hub.thespace.megaseabattle.api;
 
-import hub.thespace.megaseabattle.game.Game;
+import hub.thespace.megaseabattle.game.utils.Game;
 import hub.thespace.megaseabattle.game.GameLogicController;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;

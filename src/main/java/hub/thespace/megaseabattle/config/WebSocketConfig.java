@@ -1,5 +1,6 @@
 package hub.thespace.megaseabattle.config;
 
+import hub.thespace.megaseabattle.controllers.WebSocketConnectionInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.ChannelRegistration;

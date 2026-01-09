@@ -1,9 +1,9 @@
-package hub.thespace.megaseabattle.controllers.game;
+package hub.thespace.megaseabattle.controllers;
 
-import hub.thespace.megaseabattle.config.WebSocketConnectionInterceptor;
-import hub.thespace.megaseabattle.game.Field;
+import hub.thespace.megaseabattle.game.utils.GameAction;
+import hub.thespace.megaseabattle.game.utils.Field;
 import hub.thespace.megaseabattle.game.GameLogicController;
-import hub.thespace.megaseabattle.game.Player;
+import hub.thespace.megaseabattle.game.utils.Player;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;

@@ -1,4 +1,4 @@
-package hub.thespace.megaseabattle.controllers.game;
+package hub.thespace.megaseabattle.game.utils;
 
 import lombok.Data;
 
