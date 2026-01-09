@@ -3,6 +3,7 @@ package hub.thespace.megaseabattle.controllers.game;
 import hub.thespace.megaseabattle.config.WebSocketConnectionInterceptor;
 import hub.thespace.megaseabattle.game.Field;
 import hub.thespace.megaseabattle.game.GameLogicController;
+import hub.thespace.megaseabattle.game.Player;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
@@ -28,11 +29,16 @@ public class GameActionController {
 
     @MessageMapping("/game.verify-field")
     public void verifyField(@Payload Field field, SimpMessageHeaderAccessor accessor) {
-        WebSocketConnectionInterceptor.PlayerSession playerSession = connectionInterceptor.getPlayerSessionSession(accessor.getSessionId());
+        WebSocketConnectionInterceptor.PlayerSession playerSession =
+                connectionInterceptor.getPlayerSessionSession(accessor.getSessionId());
+        Player player = GameLogicController
+                .getGameById(playerSession.gameId()).getPlayerByUsername(playerSession.username());
+
         log.info("User {} want load field {}", playerSession, field);
 
         if (GameLogicController.checkIsStartedFieldCorrect(field)) {
             GameAction action = new GameAction(GameAction.Action.PLAYER_READY, playerSession.username(), "");
+            player.setStatus("Готов");
             messagingTemplate.convertAndSend("/topic/game-" + playerSession.gameId(), action);
         }
     }

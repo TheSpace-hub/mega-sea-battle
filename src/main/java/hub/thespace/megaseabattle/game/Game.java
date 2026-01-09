@@ -38,8 +38,22 @@ public class Game {
      *
      * @param username Player's username.
      */
-    public void addPlayer(String username) {
-        players.add(new Player(username, "Готовит флот", new Field(10, 10)));
+    public void addPlayer(String username, String status) {
+        players.add(new Player(username, status, new Field(10, 10)));
+    }
+
+    /**
+     * Get player by username.
+     *
+     * @param username Player's name.
+     * @return Player instance.
+     */
+    public Player getPlayerByUsername(String username) {
+        for (Player player : players) {
+            if (player.getUsername().equals(username))
+                return player;
+        }
+        return null;
     }
 
     /**
@@ -70,7 +84,7 @@ public class Game {
             for (Field.Position position : openCells) {
                 field.setCellState(position, player.getField().getCellState(position));
             }
-            game.addPlayer(player.getUsername());
+            game.addPlayer(player.getUsername(), player.getStatus());
             game.addField(player.getUsername(), field);
         }
         log.info("Public game info {} has been generated: {}", id, game);
