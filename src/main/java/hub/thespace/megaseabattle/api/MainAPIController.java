@@ -1,4 +1,4 @@
-package hub.thespace.megaseabattle.controllers.api;
+package hub.thespace.megaseabattle.api;
 
 import hub.thespace.megaseabattle.game.Game;
 import hub.thespace.megaseabattle.game.GameLogicController;
