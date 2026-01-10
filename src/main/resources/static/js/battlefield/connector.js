@@ -41,7 +41,9 @@ class Connector {
                         } else if (response['action'] === 'PLAYER_ATTACK') {
                             onPlayerAttack(response['username'], response['position']['x'], response['position']['y'])
                         } else if (response['action'] === 'PLAYER_LOOSE') {
-                            onPlayerLoose(response['username'])
+                            playerActionLog(response['username'], 'остался без кораблей')
+                        } else if (response['action'] === 'PLAYER_WON') {
+                            playerActionLog(response['username'], 'всех победил')
                         }
                         updateGameData().then()
                     })
@@ -182,8 +184,4 @@ function onPlayerAttack(username, x, y) {
     if (players[0].field.field[y][x] === 'SHIP')
         players[0].field.field[y][x] = 'WRECKED_SHIP'
     playerActionLog(username, `атаковал ${letters[x]} ${y}`)
-}
-
-function onPlayerLoose(username) {
-    playerActionLog(username, 'остался без кораблей')
 }
