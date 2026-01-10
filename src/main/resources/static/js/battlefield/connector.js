@@ -38,6 +38,8 @@ class Connector {
                             onGameStarted()
                         } else if (response['action'] === 'PLAYER_STEP') {
                             onOtherPlayerStep(response['username'])
+                        } else if (response['action'] === 'PLAYER_ATTACK') {
+                            onPlayerAttack(response['username'], response['position']['x'], response['position']['y'])
                         }
                         updateGameData().then()
                     })
@@ -173,4 +175,8 @@ function onOtherPlayerStep(username) {
         playerActionLog(username, 'готовит артиллерию')
         changeGameStatus(gameStatusTypes.WAITING_OTHER_MOVE, username)
     }
+}
+
+function onPlayerAttack(username, x, y) {
+    console.log('Attack', username, x, y)
 }

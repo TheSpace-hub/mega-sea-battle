@@ -6,12 +6,12 @@ import lombok.Data;
 public class GameAction {
     private Action action;
     private String username;
-    private String content;
+    private Field.Position position;
 
-    public GameAction(Action action, String username, String content) {
+    public GameAction(Action action, String username, Field.Position position) {
         this.action = action;
         this.username = username;
-        this.content = content;
+        this.position = position;
     }
 
     public enum Action {
@@ -19,7 +19,7 @@ public class GameAction {
         PLAYER_LEAVE,
         PLAYER_READY,
         PLAYER_STEP,
-        PLAYER_MOVE,
+        PLAYER_ATTACK,
         PLAYER_LOOSE,
         PLAYER_WON,
         GAME_STARTED,

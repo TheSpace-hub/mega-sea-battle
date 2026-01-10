@@ -40,7 +40,10 @@ public class GameActionController {
         log.info("Player {} attack the cell ({}; {})", player.getUsername(), position.x(), position.y());
         game.attack(position);
 
-        GameAction action = new GameAction(GameAction.Action.PLAYER_STEP, game.nextPlayer().getUsername(), null);
+        GameAction action = new GameAction(GameAction.Action.PLAYER_ATTACK, player.getUsername(), position);
+        messagingTemplate.convertAndSend("/topic/game-" + game.getId(), action);
+
+        action = new GameAction(GameAction.Action.PLAYER_STEP, game.nextPlayer().getUsername(), null);
         messagingTemplate.convertAndSend("/topic/game-" + game.getId(), action);
     }
 
@@ -96,7 +99,7 @@ public class GameActionController {
         GameAction action = new GameAction(GameAction.Action.GAME_STARTED, null, null);
         messagingTemplate.convertAndSend("/topic/game-" + game.getId(), action);
 
-        action = new GameAction(GameAction.Action.PLAYER_STEP, game.nextPlayer().getUsername(), null);
+        action = new GameAction(GameAction.Action.PLAYER_STEP, game.getCurrentPlayer().getUsername(), null);
         messagingTemplate.convertAndSend("/topic/game-" + game.getId(), action);
     }
 

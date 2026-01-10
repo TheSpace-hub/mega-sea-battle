@@ -11,11 +11,13 @@ import java.util.List;
  * An object of this class belongs to an instance of the game.
  */
 @Slf4j
-@Getter
 public class Game {
 
+    @Getter
     private final String id;
+    @Getter
     private final int maxPlayers;
+    @Getter
     private final List<Player> players;
     private final List<Field.Position> openCells;
     private Player currentPlayer;
@@ -71,6 +73,14 @@ public class Game {
             }
         }
         log.error("Can't add field for player {} in game with ID {}", username, id);
+    }
+
+    public Player getCurrentPlayer() {
+        if (currentPlayer == null) {
+            currentPlayer = players.get(0);
+        }
+
+        return currentPlayer;
     }
 
     /**
@@ -148,5 +158,6 @@ public class Game {
 
         return currentPlayer;
     }
+
 
 }
