@@ -39,6 +39,24 @@ function readField() {
 }
 
 /**
+ * In order to display the field correctly, you need to write data on
+ * the value of each player in the dataset section of each cell.
+ * @param players Players list.
+ */
+export function initFieldData(players) {
+    for (let i = 0; i < players.length; i++) {
+        const cells = document.querySelectorAll('#battlefield div.cell');
+        cells.forEach(cell => {
+            const x = parseInt(cell.dataset.row)
+            const y = parseInt(cell.dataset.col)
+            if (isNaN(x) || isNaN(y))
+                return
+            cell.dataset.state = players[i]['field'].toString()
+        })
+    }
+}
+
+/**
  * Creating a battlefield.
  */
 export function initBattlefield() {
