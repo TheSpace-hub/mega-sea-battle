@@ -122,8 +122,6 @@ export function updateDisplay() {
                     cell.classList.add('ship')
                 } else if (field[y][x] === 'WRECKED_SHIP') {
                     cell.classList.add('hit')
-                } else if (field[y][x] === 'EMPTY') {
-                    cell.classList.add('miss')
                 }
             }
         })
