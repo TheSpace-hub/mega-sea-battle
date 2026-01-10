@@ -4,6 +4,7 @@ import hub.thespace.megaseabattle.game.utils.GameAction;
 import hub.thespace.megaseabattle.game.utils.Game;
 import hub.thespace.megaseabattle.game.GamesController;
 import hub.thespace.megaseabattle.game.utils.Player;
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
@@ -25,7 +26,7 @@ import java.util.Map;
 public class WebSocketConnectionInterceptor implements ChannelInterceptor {
 
     private final SimpMessagingTemplate messagingTemplate;
-
+    @Getter
     private final Map<String, PlayerSession> sessions;
 
     @Autowired
@@ -106,7 +107,7 @@ public class WebSocketConnectionInterceptor implements ChannelInterceptor {
      * @param sessionId Session id.
      * @return Username
      */
-    public PlayerSession getPlayerSessionSession(String sessionId) {
+    public PlayerSession getPlayerSession(String sessionId) {
         return sessions.get(sessionId);
     }
 

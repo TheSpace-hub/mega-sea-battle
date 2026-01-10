@@ -12,7 +12,11 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.messaging.simp.user.SimpSession;
+import org.springframework.messaging.simp.user.SimpUser;
+import org.springframework.messaging.simp.user.SimpUserRegistry;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.socket.WebSocketSession;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,12 +27,17 @@ import java.util.List;
 public class GameActionController {
 
     private final SimpMessagingTemplate messagingTemplate;
+    private final SimpUserRegistry userRegistry;
     private final WebSocketConnectionInterceptor connectionInterceptor;
 
     @Autowired
-    public GameActionController(@Lazy SimpMessagingTemplate messagingTemplate, @Lazy WebSocketConnectionInterceptor connectionInterceptor) {
+    public GameActionController(
+            @Lazy SimpMessagingTemplate messagingTemplate,
+            @Lazy WebSocketConnectionInterceptor connectionInterceptor,
+            @Lazy SimpUserRegistry userRegistry) {
         this.messagingTemplate = messagingTemplate;
         this.connectionInterceptor = connectionInterceptor;
+        this.userRegistry = userRegistry;
     }
 
     @MessageMapping("/game.attack")
@@ -47,6 +56,20 @@ public class GameActionController {
         messagingTemplate.convertAndSend("/topic/game-" + game.getId(), action);
 
         checkDead(game);
+
+        if (game.getLivePlayers().size() <= 1) {
+            if (game.getLivePlayers().size() == 1) {
+                game.getPlayers().get(0).setStatus(Player.Status.WON);
+                action = new GameAction(GameAction.Action.PLAYER_WON, game.getPlayers().get(0).getUsername(), null);
+                messagingTemplate.convertAndSend("/topic/game-" + game.getId(), action);
+            }
+
+            action = new GameAction(GameAction.Action.GAME_FINISHED, null, null);
+            messagingTemplate.convertAndSend("/topic/game-" + game.getId(), action);
+
+            closeGame(game);
+            return;
+        }
 
         action = new GameAction(GameAction.Action.PLAYER_STEP, game.nextPlayer(position).getUsername(), null);
         messagingTemplate.convertAndSend("/topic/game-" + game.getId(), action);
@@ -76,7 +99,7 @@ public class GameActionController {
      */
     private Player getPlayer(SimpMessageHeaderAccessor accessor) {
         WebSocketConnectionInterceptor.PlayerSession playerSession =
-                connectionInterceptor.getPlayerSessionSession(accessor.getSessionId());
+                connectionInterceptor.getPlayerSession(accessor.getSessionId());
         return GamesController.getGameById(playerSession.gameId()).getPlayerByUsername(playerSession.username());
     }
 
@@ -88,7 +111,7 @@ public class GameActionController {
      */
     private Game getGame(SimpMessageHeaderAccessor accessor) {
         WebSocketConnectionInterceptor.PlayerSession playerSession =
-                connectionInterceptor.getPlayerSessionSession(accessor.getSessionId());
+                connectionInterceptor.getPlayerSession(accessor.getSessionId());
         return GamesController.getGameById(playerSession.gameId());
     }
 
@@ -122,17 +145,9 @@ public class GameActionController {
         for (String player : queueToDead) {
             game.killPlayer(player);
         }
+    }
 
-        if (game.getLivePlayers().size() <= 1) {
-            if (game.getLivePlayers().size() == 1) {
-                game.getPlayers().get(0).setStatus(Player.Status.WON);
-                GameAction action = new GameAction(GameAction.Action.PLAYER_WON, game.getPlayers().get(0).getUsername(), null);
-                messagingTemplate.convertAndSend("/topic/game-" + game.getId(), action);
-            }
-
-            GameAction action = new GameAction(GameAction.Action.GAME_FINISHED, null, null);
-            messagingTemplate.convertAndSend("/topic/game-" + game.getId(), action);
-        }
+    private void closeGame(Game game) {
 
     }
 
