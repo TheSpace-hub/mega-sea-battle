@@ -114,6 +114,7 @@ function onPlayerReady(username) {
  * Allow "mode-all" and allow mode with another players.
  */
 function onGameStarted() {
+    basicLog('Бой начинается')
     document.querySelector(`#mode-all`).classList.remove('disabled')
     for (let i = 0; i < players.length; i++) {
         document.querySelector(`#mode-player-${i}`).classList.remove('disabled')
