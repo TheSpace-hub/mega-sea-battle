@@ -5,7 +5,7 @@ import {submitFieldForVerification} from "./connector.js";
 const letters = ['А', 'Б', 'В', 'Г', 'Д', 'Е', 'Ж', 'З', 'И', 'К']
 
 let currentMode = 'all'
-let currentPlayer = 1
+let currentPlayer = 0
 
 /**
  * Ask the server about the correctness of the field. If the field is correct, it will be registered.
@@ -98,22 +98,29 @@ export function initBattlefield() {
     }
 
     document.getElementById(`mode-player-0`).addEventListener('click', function () {
-        setMode(`player-0`)
+        setMode(`player`, 0)
     })
 }
 
 /**
  * Setting the display mode. Selecting a player to view.
- * @param mode
+ * @param mode Display mode.
+ * @param player Player's id
  */
-export function setMode(mode) {
+export function setMode(mode, player) {
     currentMode = mode
+    currentPlayer = player
 
     document.querySelectorAll('.btn-group .btn').forEach(btn => {
         btn.classList.remove('active', 'mode-active')
     })
 
-    const activeButton = document.getElementById(`mode-${mode}`)
+    let activeButton;
+    console.log(currentMode, currentPlayer)
+    if (currentMode === 'all' || currentMode === 'prepare')
+        activeButton = document.getElementById(`mode-${mode}`)
+    else if (currentMode === 'player')
+        activeButton = document.getElementById(`mode-player-${currentPlayer}`)
     activeButton.classList.add('active', 'mode-active')
 
     updateDisplay()
@@ -137,9 +144,14 @@ export function updateDisplay() {
         }
     })
 
-    if (currentMode === 'all') {
-        modeTitle.textContent = 'Режим: Все игроки на одном поле'
-        modeDescription.textContent = 'На этом поле отображены корабли всех игроков. Цвет корабля соответствует цвету игрока в списке.'
+    if (currentMode === 'all' || currentMode === 'prepare') {
+        if (currentMode === 'prepare') {
+            modeTitle.textContent = 'Расставь свой флот'
+            modeDescription.textContent = 'Необходимо 4 - одноклеточных, 3 - двухклеточных, 2 - трехклеточных, 1 - четырёхклеточный'
+        } else {
+            modeTitle.textContent = 'Режим: Все игроки на одном поле'
+            modeDescription.textContent = 'На этом поле отображены корабли всех игроков. Цвет корабля соответствует цвету игрока в списке.'
+        }
 
         cells.forEach(cell => {
             if (cell.dataset.ship === 'true') {
@@ -149,37 +161,36 @@ export function updateDisplay() {
                 cell.style.color = 'white'
             }
         })
-    } else {
-        const playerId = parseInt(currentMode.replace('player', ''))
-        const player = players.find(p => p.id === playerId)
+    } else if (currentMode === 'player') {
+        const player = players[currentPlayer]
 
-        modeTitle.textContent = `Режим: Игрок "${player.name}"`
-        modeDescription.textContent = `Ты видишь поле игрока "${player.name}". Только его корабли отображены на поле.`
+        modeTitle.textContent = `Режим: Игрок "${player['name']}"`
+        modeDescription.textContent = `Ты видишь поле игрока "${player['name']}". Только его корабли отображены на поле.`
 
-        cells.forEach(cell => {
-            if (cell.dataset.ship === 'true') {
-                const cellPlayerId = parseInt(cell.dataset.player)
-
-                if (cellPlayerId === playerId) {
-                    cell.style.backgroundColor = getComputedStyle(document.documentElement)
-                        .getPropertyValue(`--player${playerId}-color`)
-                    cell.style.color = 'white'
-                } else {
-                    cell.style.opacity = '0.3'
-                    cell.style.pointerEvents = 'none'
-
-                    if (!cell.classList.contains('chit')) {
-                        cell.classList.add('ship-hidden')
-                        cell.classList.remove('ship')
-                        cell.textContent = ''
-                    }
-                }
-            } else {
-                if (!cell.classList.contains('hit') && !cell.classList.contains('miss')) {
-                    cell.style.opacity = '0.7'
-                }
-            }
-        })
+        // cells.forEach(cell => {
+        //     if (cell.dataset.ship === 'true') {
+        //         const cellPlayerId = parseInt(cell.dataset.player)
+        //
+        //         if (cellPlayerId === currentPlayer) {
+        //             cell.style.backgroundColor = getComputedStyle(document.documentElement)
+        //                 .getPropertyValue(`--player${playerId}-color`)
+        //             cell.style.color = 'white'
+        //         } else {
+        //             cell.style.opacity = '0.3'
+        //             cell.style.pointerEvents = 'none'
+        //
+        //             if (!cell.classList.contains('chit')) {
+        //                 cell.classList.add('ship-hidden')
+        //                 cell.classList.remove('ship')
+        //                 cell.textContent = ''
+        //             }
+        //         }
+        //     } else {
+        //         if (!cell.classList.contains('hit') && !cell.classList.contains('miss')) {
+        //             cell.style.opacity = '0.7'
+        //         }
+        //     }
+        // })
     }
 }
 
@@ -212,7 +223,7 @@ export function addPlayerIntoBattlefields(username) {
 
     document.querySelector('#list-of-modes').insertAdjacentHTML('beforeend', createPlayerBattlefieldItem(username, i))
     document.getElementById(`mode-player-${i}`).addEventListener('click', function () {
-        setMode(`player-${i}`)
+        setMode(`player`, i)
     })
 }
 

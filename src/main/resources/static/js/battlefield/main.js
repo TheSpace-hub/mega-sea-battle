@@ -51,7 +51,7 @@ function addMainPlayer() {
  */
 function setupEventListeners() {
     document.getElementById('mode-all').addEventListener('click', function () {
-        setMode('all')
+        setMode('all', 0)
     })
 
     document.getElementById('start-game-button').addEventListener('click', function () {
