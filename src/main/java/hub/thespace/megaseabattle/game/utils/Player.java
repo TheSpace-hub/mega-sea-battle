@@ -39,11 +39,13 @@ public class Player {
 
     public void kill() {
         isDead = true;
+        status = Status.LOOSE;
     }
 
     public enum Status {
         PREPARING,
-        READY
+        READY,
+        LOOSE
     }
 
     public enum Locale {
