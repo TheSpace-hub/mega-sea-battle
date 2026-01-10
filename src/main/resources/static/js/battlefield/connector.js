@@ -164,8 +164,6 @@ function onGameStarted() {
 /**
  * On player step.
  * @param username Player's name.
- * @param x Pos. x.
- * @param y Pos. y.
  */
 function onOtherPlayerStep(username) {
     if (username === players[0].username) {
