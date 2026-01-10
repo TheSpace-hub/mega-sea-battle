@@ -36,6 +36,8 @@ class Connector {
                             onPlayerReady(response['username'])
                         } else if (response['action'] === 'GAME_STARTED') {
                             onGameStarted()
+                        } else if (response['action'] === 'PLAYER_STEP') {
+                            onOtherPlayerStep(response['username'])
                         }
                         updateGameData().then()
                     })
@@ -137,4 +139,15 @@ function onGameStarted() {
     for (let i = 0; i < players.length; i++) {
         document.querySelector(`#mode-player-${i}`).classList.remove('disabled')
     }
+}
+
+/**
+ * On player step.
+ * @param username Player's name.
+ * @param x Pos. x.
+ * @param y Pos. y.
+ */
+function onOtherPlayerStep(username, x, y) {
+    playerActionLog(username, 'готовит артиллерию')
+    changeGameStatus(gameStatusTypes.WAITING_OTHER_MOVE, username)
 }

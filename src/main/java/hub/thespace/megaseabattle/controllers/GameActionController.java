@@ -80,7 +80,7 @@ public class GameActionController {
         GameAction action = new GameAction(GameAction.Action.GAME_STARTED, null, null);
         messagingTemplate.convertAndSend("/topic/game-" + game.getId(), action);
 
-        action = new GameAction(GameAction.Action.PLAYER_MOVE, game.nextPlayer().getUsername(), null);
+        action = new GameAction(GameAction.Action.PLAYER_STEP, game.nextPlayer().getUsername(), null);
         messagingTemplate.convertAndSend("/topic/game-" + game.getId(), action);
     }
 

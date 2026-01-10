@@ -18,6 +18,7 @@ public class GameAction {
         PLAYER_JOIN,
         PLAYER_LEAVE,
         PLAYER_READY,
+        PLAYER_STEP,
         PLAYER_MOVE,
         PLAYER_LOOSE,
         PLAYER_WON,
