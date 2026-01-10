@@ -14,23 +14,6 @@ export function verifyField() {
     submitFieldForVerification(players[0].field)
 }
 
-/**
- * In order to display the field correctly, you need to write data on
- * the value of each player in the dataset section of each cell.
- * @param players Players list.
- */
-export function updateFieldData() {
-    for (let i = 0; i < players.length; i++) {
-        const cells = document.querySelectorAll('#battlefield div.cell');
-        cells.forEach(cell => {
-            const y = parseInt(cell.dataset.row)
-            const x = parseInt(cell.dataset.col)
-            if (isNaN(x) || isNaN(y))
-                return
-            cell.dataset[`state_player_${currentPlayer}`] = players[i].field.field[y][x].toString()
-        })
-    }
-}
 
 /**
  * Creating a battlefield.
@@ -55,7 +38,7 @@ export function initBattlefield() {
     for (let row = 0; row < 10; row++) {
         const numberCell = document.createElement('div')
         numberCell.className = 'cell coordinate'
-        numberCell.textContent = row
+        numberCell.textContent = row + 1
         battlefield.appendChild(numberCell)
 
         for (let col = 0; col < 10; col++) {
