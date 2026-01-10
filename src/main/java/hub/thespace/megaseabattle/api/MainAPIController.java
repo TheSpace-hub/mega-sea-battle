@@ -34,9 +34,13 @@ public class MainAPIController {
      */
     @GetMapping("/create-game/{playersCount}")
     public Map<String, String> createGame(@PathVariable int playersCount) {
-        log.info("Creating game with {} players", playersCount);
-        Game game = GamesController.createGame(playersCount);
-        return Map.of("id", game.getId());
+        if (2 <= playersCount && playersCount <= 5) {
+            Game game = GamesController.createGame(playersCount);
+            log.info("Creating game {} with {} players", game.getId(), playersCount);
+            return Map.of("id", game.getId());
+        }
+        log.warn("Trying to create a game with {} players", playersCount);
+        return Map.of("id", "-1");
     }
 
     /**
