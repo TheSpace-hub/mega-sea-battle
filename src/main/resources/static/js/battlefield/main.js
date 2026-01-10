@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', function () {
     initBattlefield()
     setupEventListeners()
     updateDisplay()
-    console.log(JSON.stringify(players[0].field))
+
     connect(players[0].username).then()
     changeGameStatus(gameStatusTypes['WAITING_SELF_START'])
 })
