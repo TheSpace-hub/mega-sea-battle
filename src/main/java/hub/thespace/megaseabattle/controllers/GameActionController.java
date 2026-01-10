@@ -38,6 +38,7 @@ public class GameActionController {
         if (GamesController.checkIsStartedFieldCorrect(field)) {
             GameAction action = new GameAction(GameAction.Action.PLAYER_READY, player.getUsername(), null);
             player.setStatus(Player.Status.READY);
+            player.setField(field);
             messagingTemplate.convertAndSend("/topic/game-" + game.getId(), action);
             checkIsGameReady(accessor);
         }
