@@ -11,7 +11,8 @@ import java.util.Map;
 public class FieldUtils {
 
     public boolean isFieldCorrect(Field field) {
-        return isCorrectNumberOfShipCells(field) && isCorrectNumberOfShips(field);
+        isCorrectNumberOfShips(field);
+        return false;
     }
 
     private boolean isCorrectNumberOfShipCells(Field field) {
@@ -40,12 +41,35 @@ public class FieldUtils {
             }
         }
 
-        log.info("target is {} {}", targetX, targetY);
         Direction direction = getShipDirection(field, targetX, targetY);
         log.info("Direction {} ", direction);
         if (direction == null) return false;
 
+        log.info("countLengthOfRightShipCells {}", countLengthOfRightShipCells(field, targetX, targetY));
         return false;
+    }
+
+    private int countLengthOfRightShipCells(Field field, int x, int y) {
+        int shipCells = 1;
+        log.info("Is it {} {} {}", x, y, isCellEmptyOrOffTheMap(field, x, y));
+        while (!isCellEmptyOrOffTheMap(field, x, y)) {
+            x += 1;
+            log.info("Is it {} {} {}", x, y, isCellEmptyOrOffTheMap(field, x, y));
+            if (isCellShip(field, x, y)) {
+                if (isCellEmptyOrOffTheMap(field, x - 1, y - 1) &&
+                        isCellEmptyOrOffTheMap(field, x, y - 1) &&
+                        isCellEmptyOrOffTheMap(field, x + 1, y - 1) &&
+                        isCellEmptyOrOffTheMap(field, x - 1, y + 1) &&
+                        isCellEmptyOrOffTheMap(field, x, y + 1) &&
+                        isCellEmptyOrOffTheMap(field, x + 1, y + 1)) {
+                    shipCells++;
+                } else {
+                    return -1;
+                }
+            }
+        }
+
+        return shipCells;
     }
 
     private Direction getShipDirection(Field field, int targetX, int targetY) {
@@ -74,6 +98,12 @@ public class FieldUtils {
         if (targetX < 0 || targetY < 0 || targetX >= field.sizeX() || targetY >= field.sizeY()) {
             return true;
         } else return field.getCellState(targetX, targetY) == Field.CellState.EMPTY;
+    }
+
+    private boolean isCellShip(Field field, int targetX, int targetY) {
+        if (targetX < 0 || targetY < 0 || targetX >= field.sizeX() || targetY >= field.sizeY()) {
+            return false;
+        } else return field.getCellState(targetX, targetY) == Field.CellState.SHIP;
     }
 
     enum Direction {
