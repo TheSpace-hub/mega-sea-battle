@@ -128,11 +128,13 @@ export function updateDisplay() {
         }
 
         cells.forEach(cell => {
-            if (cell.dataset.ship === 'true') {
-                const playerId = parseInt(cell.dataset.player)
-                cell.style.backgroundColor = getComputedStyle(document.documentElement)
-                    .getPropertyValue(`--player${playerId}-color`)
-                cell.style.color = 'white'
+            const x = parseInt(cell.dataset.col)
+            const y = parseInt(cell.dataset.row)
+            cell.classList.remove('ship')
+            for (let i = 0; i < players.length; i++) {
+                const field = players[i].field.field
+                if (field[y][x] === 'SHIP')
+                    cell.classList.add('ship')
             }
         })
     } else if (currentMode === 'player') {
