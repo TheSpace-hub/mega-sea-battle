@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', function () {
     initBattlefield()
     setupEventListeners()
     updateDisplay()
-
+    console.log(JSON.stringify(players[0].field))
     connect(players[0].username).then()
     changeGameStatus(gameStatusTypes['WAITING_SELF_START'])
 })
@@ -53,6 +53,7 @@ export function addPlayer(username) {
  */
 function addMainPlayer() {
     players.push(new Player(players.length, document.body.dataset.username))
+    players[0].field = new Field(10, 10, Array.from({length: 10}, () => Array(10).fill('EMPTY')))
 }
 
 /**

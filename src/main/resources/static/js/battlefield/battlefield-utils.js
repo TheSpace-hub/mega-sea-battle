@@ -132,6 +132,7 @@ export function updateDisplay() {
             const y = parseInt(cell.dataset.row)
             cell.classList.remove('ship')
             cell.classList.remove('hit')
+            cell.classList.remove('miss')
             for (let i = 0; i < players.length; i++) {
                 const field = players[i].field.field
                 if (field[y][x] === 'SHIP') {
@@ -153,6 +154,8 @@ export function updateDisplay() {
             const x = parseInt(cell.dataset.col)
             const y = parseInt(cell.dataset.row)
             cell.classList.remove('ship')
+            cell.classList.remove('hit')
+            cell.classList.remove('miss')
             if (field[y][x] === 'SHIP') {
                 cell.classList.add('ship')
             } else if (field[y][x] === 'WRECKED_SHIP') {
