@@ -178,5 +178,6 @@ function onOtherPlayerStep(username) {
 }
 
 function onPlayerAttack(username, x, y) {
-    console.log('Attack', username, x, y)
+    const letters = ['А', 'Б', 'В', 'Г', 'Д', 'Е', 'Ж', 'З', 'И', 'К']
+    playerActionLog(username, `атаковал ${letters[x]} ${y}`)
 }
