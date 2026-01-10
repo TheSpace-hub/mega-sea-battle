@@ -121,7 +121,7 @@ export async function updateGameData() {
 function updatePlayer(player) {
     addPlayer(player['username'])
     setPlayerStatusInList(player['username'], player['status'])
-    for (let i = 0; i < players.length; i++) {
+    for (let i = 1; i < players.length; i++) {
         if (players[i].username === player['username']) {
             players[i].field = player['field']
             break
