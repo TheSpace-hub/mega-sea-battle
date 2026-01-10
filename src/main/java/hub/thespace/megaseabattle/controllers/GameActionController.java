@@ -79,6 +79,9 @@ public class GameActionController {
             return;
         GameAction action = new GameAction(GameAction.Action.GAME_STARTED, null, null);
         messagingTemplate.convertAndSend("/topic/game-" + game.getId(), action);
+
+        action = new GameAction(GameAction.Action.PLAYER_MOVE, game.getPlayers().get(0).getUsername(), null);
+        messagingTemplate.convertAndSend("/topic/game-" + game.getId(), action);
     }
 
 }
