@@ -23,8 +23,8 @@ export function updateFieldData() {
     for (let i = 0; i < players.length; i++) {
         const cells = document.querySelectorAll('#battlefield div.cell');
         cells.forEach(cell => {
-            const x = parseInt(cell.dataset.row)
-            const y = parseInt(cell.dataset.col)
+            const y = parseInt(cell.dataset.row)
+            const x = parseInt(cell.dataset.col)
             if (isNaN(x) || isNaN(y))
                 return
             cell.dataset[`state_player_${currentPlayer}`] = players[i].field.field[y][x].toString()
@@ -91,7 +91,6 @@ export function setMode(mode, player) {
     })
 
     let activeButton;
-    console.log(currentMode, currentPlayer)
     if (currentMode === 'all' || currentMode === 'prepare')
         activeButton = document.getElementById(`mode-${mode}`)
     else if (currentMode === 'player')
@@ -138,34 +137,21 @@ export function updateDisplay() {
         })
     } else if (currentMode === 'player') {
         const player = players[currentPlayer]
+        const field = player.field.field
 
         modeTitle.textContent = `Режим: Игрок "${player['name']}"`
         modeDescription.textContent = `Ты видишь поле игрока "${player['name']}". Только его корабли отображены на поле.`
-
-        // cells.forEach(cell => {
-        //     if (cell.dataset.ship === 'true') {
-        //         const cellPlayerId = parseInt(cell.dataset.player)
-        //
-        //         if (cellPlayerId === currentPlayer) {
-        //             cell.style.backgroundColor = getComputedStyle(document.documentElement)
-        //                 .getPropertyValue(`--player${playerId}-color`)
-        //             cell.style.color = 'white'
-        //         } else {
-        //             cell.style.opacity = '0.3'
-        //             cell.style.pointerEvents = 'none'
-        //
-        //             if (!cell.classList.contains('chit')) {
-        //                 cell.classList.add('ship-hidden')
-        //                 cell.classList.remove('ship')
-        //                 cell.textContent = ''
-        //             }
-        //         }
-        //     } else {
-        //         if (!cell.classList.contains('hit') && !cell.classList.contains('miss')) {
-        //             cell.style.opacity = '0.7'
-        //         }
-        //     }
-        // })
+        console.log(JSON.stringify(players))
+        cells.forEach(cell => {
+            const x = parseInt(cell.dataset.col)
+            const y = parseInt(cell.dataset.row)
+            cell.classList.remove('ship')
+            if (field[y][x] === 'SHIP') {
+                cell.classList.add('ship')
+            } else if (field[y][x] === 'UNKNOWN') {
+                cell.classList.remove('ship')
+            }
+        })
     }
 }
 
@@ -175,14 +161,14 @@ export function updateDisplay() {
  */
 function handleCellClick(cell) {
     if (getStatus() === gameStatusTypes.WAITING_SELF_START) {
-        const x = parseInt(cell.dataset.row)
-        const y = parseInt(cell.dataset.col)
+        const x = parseInt(cell.dataset.col)
+        const y = parseInt(cell.dataset.row)
         if (cell.classList.contains('ship')) {
             cell.classList.remove('ship')
-            players[0].field.field[x][y] = 'EMPTY'
+            players[0].field.field[y][x] = 'EMPTY'
         } else {
             cell.classList.add('ship')
-            players[0].field.field[x][y] = 'SHIP'
+            players[0].field.field[y][x] = 'SHIP'
         }
     }
     if (cell.classList.contains('hit') || cell.classList.contains('miss')) {
