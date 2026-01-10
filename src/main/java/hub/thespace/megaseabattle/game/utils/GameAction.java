@@ -14,6 +14,11 @@ public class GameAction {
         this.position = position;
     }
 
+    public GameAction(Action action, String username) {
+        this.action = action;
+        this.username = username;
+    }
+
     public enum Action {
         PLAYER_JOIN,
         PLAYER_LEAVE,
