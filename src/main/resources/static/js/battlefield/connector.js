@@ -148,6 +148,11 @@ function onGameStarted() {
  * @param y Pos. y.
  */
 function onOtherPlayerStep(username) {
-    playerActionLog(username, 'готовит артиллерию')
-    changeGameStatus(gameStatusTypes.WAITING_OTHER_MOVE, username)
+    if (username === players[0].username) {
+        playerActionLog(username, ', твой ход')
+        changeGameStatus(gameStatusTypes.WAITING_SELF_MOVE)
+    } else {
+        playerActionLog(username, 'готовит артиллерию')
+        changeGameStatus(gameStatusTypes.WAITING_OTHER_MOVE, username)
+    }
 }

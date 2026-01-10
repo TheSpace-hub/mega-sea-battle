@@ -26,7 +26,7 @@ export function changeGameStatus(type, username = null) {
         statusUsername.textContent = ''
     } else if (type === 'waiting-self-move') {
         statusInfo.textContent = 'Сделай выстрел, выбрав клетку на поле.'
-        statusUsername.textContent = username
+        statusUsername.textContent = ''
     } else if (type === 'waiting-other-move') {
         statusInfo.textContent = 'Подожди, сейчас ход игрока '
         statusUsername.textContent = username
