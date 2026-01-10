@@ -45,24 +45,26 @@ public class FieldUtils {
         log.info("Direction {} ", direction);
         if (direction == null) return false;
 
-        log.info("countLengthOfRightShipCells {}", countLengthOfRightShipCells(field, targetX, targetY));
+        log.info("countLengthOfShipCells {}", countLengthOfShipCells(field, targetX, targetY, direction));
         return false;
     }
 
-    private int countLengthOfRightShipCells(Field field, int x, int y) {
+    private int countLengthOfShipCells(Field field, int x, int y, Direction direction) {
         int shipCells = 1;
-        log.info("Is it {} {} {}", x, y, isCellEmptyOrOffTheMap(field, x, y));
+        x += direction == Direction.RIGHT ? 1 : 0;
+        y += direction == Direction.DOWN ? 1 : 0;
         while (!isCellEmptyOrOffTheMap(field, x, y)) {
-            x += 1;
-            log.info("Is it {} {} {}", x, y, isCellEmptyOrOffTheMap(field, x, y));
             if (isCellShip(field, x, y)) {
-                if (isCellEmptyOrOffTheMap(field, x - 1, y - 1) &&
-                        isCellEmptyOrOffTheMap(field, x, y - 1) &&
+                if (direction == Direction.RIGHT &&
                         isCellEmptyOrOffTheMap(field, x + 1, y - 1) &&
-                        isCellEmptyOrOffTheMap(field, x - 1, y + 1) &&
-                        isCellEmptyOrOffTheMap(field, x, y + 1) &&
                         isCellEmptyOrOffTheMap(field, x + 1, y + 1)) {
                     shipCells++;
+                    x += 1;
+                } else if (direction == Direction.DOWN &&
+                        isCellEmptyOrOffTheMap(field, x - 1, y + 1) &&
+                        isCellEmptyOrOffTheMap(field, x + 1, y + 1)) {
+                    shipCells++;
+                    y += 1;
                 } else {
                     return -1;
                 }
