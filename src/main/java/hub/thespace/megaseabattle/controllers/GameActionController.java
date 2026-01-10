@@ -43,7 +43,7 @@ public class GameActionController {
         GameAction action = new GameAction(GameAction.Action.PLAYER_ATTACK, player.getUsername(), position);
         messagingTemplate.convertAndSend("/topic/game-" + game.getId(), action);
 
-        action = new GameAction(GameAction.Action.PLAYER_STEP, game.nextPlayer().getUsername(), null);
+        action = new GameAction(GameAction.Action.PLAYER_STEP, game.nextPlayer(position).getUsername(), null);
         messagingTemplate.convertAndSend("/topic/game-" + game.getId(), action);
     }
 

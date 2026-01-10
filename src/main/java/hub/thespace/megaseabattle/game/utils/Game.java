@@ -138,13 +138,20 @@ public class Game {
     /**
      * Get next player for move. This function move current player in queue.
      *
+     * @param position If there is a ship in position, then the move will not be transferred to the next one.
      * @return Target player.
      */
-    public Player nextPlayer() {
+    public Player nextPlayer(Field.Position position) {
         if (currentPlayer == null) {
             currentPlayer = getPlayers().get(0);
             return currentPlayer;
         }
+        for (Player player : players) {
+            if (player.getField().getCellState(position) == Field.CellState.SHIP) {
+                return currentPlayer;
+            }
+        }
+
         if (players.indexOf(currentPlayer) == players.size() - 1) {
             currentPlayer = players.get(0);
         } else {
