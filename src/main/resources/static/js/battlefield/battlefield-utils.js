@@ -1,6 +1,6 @@
 import {players} from "./main.js";
 import {gameStatusTypes, getStatus} from "./status.js";
-import {submitFieldForVerification} from "./connector.js";
+import {attack, submitFieldForVerification} from "./connector.js";
 
 const letters = ['А', 'Б', 'В', 'Г', 'Д', 'Е', 'Ж', 'З', 'И', 'К']
 
@@ -171,8 +171,10 @@ function handleCellClick(cell) {
             cell.classList.add('ship')
             players[0].field.field[y][x] = 'SHIP'
         }
-    }
-    if (cell.classList.contains('hit') || cell.classList.contains('miss')) {
+    } else if (getStatus() === gameStatusTypes.WAITING_SELF_MOVE) {
+        const x = parseInt(cell.dataset.col)
+        const y = parseInt(cell.dataset.row)
+        attack(x, y);
     }
 }
 

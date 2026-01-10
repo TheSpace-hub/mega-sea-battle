@@ -28,6 +28,22 @@ public class GameActionController {
         this.connectionInterceptor = connectionInterceptor;
     }
 
+    @MessageMapping("/game.attack")
+    public void attack(@Payload Field.Position position, SimpMessageHeaderAccessor accessor) {
+        Player player = getPlayer(accessor);
+        Game game = getGame(accessor);
+        if (game.getCurrentPlayer() != player) {
+            log.error("The field was attacked by a player {} who cannot attack it", player.getUsername());
+            return;
+        }
+
+        log.info("Player {} attack the cell ({}; {})", player.getUsername(), position.x(), position.y());
+        game.attack(position);
+
+        GameAction action = new GameAction(GameAction.Action.PLAYER_STEP, game.nextPlayer().getUsername(), null);
+        messagingTemplate.convertAndSend("/topic/game-" + game.getId(), action);
+    }
+
     @MessageMapping("/game.verify-field")
     public void verifyField(@Payload Field field, SimpMessageHeaderAccessor accessor) {
         Player player = getPlayer(accessor);

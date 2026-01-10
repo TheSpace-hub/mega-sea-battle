@@ -136,18 +136,17 @@ public class Game {
      * @return Target player.
      */
     public Player nextPlayer() {
-        if (currentPlayer == null)
+        if (currentPlayer == null) {
             currentPlayer = getPlayers().get(0);
-
-        Player targetPlayer = currentPlayer;
-
+            return currentPlayer;
+        }
         if (players.indexOf(currentPlayer) == players.size() - 1) {
             currentPlayer = players.get(0);
         } else {
             currentPlayer = players.get(players.indexOf(currentPlayer) + 1);
         }
 
-        return targetPlayer;
+        return currentPlayer;
     }
 
 }

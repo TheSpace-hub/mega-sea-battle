@@ -51,6 +51,15 @@ class Connector {
     }
 
     /**
+     * Attack the cell.
+     * @param x Pos. x.
+     * @param y Pos. y.
+     */
+    attack(x, y) {
+        this.publish('/app/game.attack', {'x': x, 'y': y})
+    }
+
+    /**
      * Publish message.
      * @param destination Path to endpoint.
      * @param body Dict content.
@@ -74,6 +83,15 @@ export async function connect(username) {
  */
 export function submitFieldForVerification(field) {
     connector.publish('/app/game.verify-field', field)
+}
+
+/**
+ * Attack the cell.
+ * @param x Pos. x.
+ * @param y Pos. y.
+ */
+export function attack(x, y) {
+    connector.attack(x, y)
 }
 
 /**
