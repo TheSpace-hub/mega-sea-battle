@@ -114,7 +114,7 @@ export function updateDisplay() {
             clearCell(cell)
             for (let i = 0; i < players.length; i++) {
                 const field = players[i].field.field
-                fillCell(cell, field, players[0].username)
+                fillCell(cell, field, players[0].username === players[i].username)
             }
         })
     } else if (currentMode === 'player') {
@@ -183,10 +183,10 @@ function createPlayerBattlefieldItem(username, index) {
 /**
  * Fill the cell.
  * @param cell HTML object.
- * @param ignore The name of the user whose EMPTY cells will be ignored.
+ * @param ignoreEmpty Ignore empty cells.
  * @param field Field.
  */
-function fillCell(cell, field, ignore = null) {
+function fillCell(cell, field, ignoreEmpty = false) {
     const x = parseInt(cell.dataset.col)
     const y = parseInt(cell.dataset.row)
 
@@ -194,7 +194,7 @@ function fillCell(cell, field, ignore = null) {
         cell.classList.add('ship')
     } else if (field[y][x] === 'WRECKED_SHIP') {
         cell.classList.add('hit')
-    } else if (field[y][x] === 'EMPTY' && ignore !== players[0].username) {
+    } else if (field[y][x] === 'EMPTY' && !ignoreEmpty) {
         cell.classList.add('miss')
     }
 }
