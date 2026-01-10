@@ -1,6 +1,7 @@
 import {basicLog, playerActionLog} from "./logging.js";
 import {addPlayer, players} from "./main.js";
 import {setPlayerStatusInList} from "./list-of-players.js";
+import {updateFieldData} from "./battlefield-utils.js";
 
 const id = window.location.pathname.split('/').pop();
 let connector = null;
@@ -84,10 +85,25 @@ export async function updateGameData() {
 
     const data = await response.json()
     for (let i = 0; i < data['players'].length; i++) {
-        addPlayer(data['players'][i]['username'])
-        setPlayerStatusInList(data['players'][i]['username'], data['players'][i]['status'])
+        updatePlayer(data['players'][i])
     }
 
+}
+
+/**
+ * Update player by response data.
+ * @param player
+ */
+function updatePlayer(player) {
+    addPlayer(player['username'])
+    setPlayerStatusInList(player['username'], player['status'])
+    for (let i = 0; i < players.length; i++) {
+        if (players[i]['username'] === player['username']) {
+            players[i]['field'] = player['field']
+            break
+        }
+    }
+    updateFieldData()
 }
 
 /**

@@ -32,7 +32,7 @@ function readField() {
         const y = parseInt(cell.dataset.col)
         if (isNaN(x) || isNaN(y))
             return
-        field[y][x] = cell.dataset.state
+        field[y][x] = cell.dataset['state_player_0']
     })
 
     return field
@@ -43,7 +43,7 @@ function readField() {
  * the value of each player in the dataset section of each cell.
  * @param players Players list.
  */
-export function initFieldData(players) {
+export function updateFieldData() {
     for (let i = 0; i < players.length; i++) {
         const cells = document.querySelectorAll('#battlefield div.cell');
         cells.forEach(cell => {
@@ -51,7 +51,7 @@ export function initFieldData(players) {
             const y = parseInt(cell.dataset.col)
             if (isNaN(x) || isNaN(y))
                 return
-            cell.dataset.state = players[i]['field'].toString()
+            cell.dataset[`state_player_${currentPlayer}`] = players[i]['field'][y][x].toString()
         })
     }
 }
@@ -87,7 +87,8 @@ export function initBattlefield() {
             cell.className = 'cell'
             cell.dataset.row = row
             cell.dataset.col = col
-            cell.dataset.state = 'EMPTY'
+            cell.dataset['state'] = 'EMPTY'
+            cell.dataset['state_player_0'] = 'EMPTY'
 
             cell.addEventListener('click', function () {
                 handleCellClick(this)
@@ -202,10 +203,10 @@ function handleCellClick(cell) {
     if (getStatus() === gameStatusTypes.WAITING_SELF_START) {
         if (cell.classList.contains('ship')) {
             cell.classList.remove('ship')
-            cell.dataset.state = 'EMPTY'
+            cell.dataset['state_player_0'] = 'EMPTY'
         } else {
             cell.classList.add('ship')
-            cell.dataset.state = 'SHIP'
+            cell.dataset['state_player_0'] = 'SHIP'
         }
     }
     if (cell.classList.contains('hit') || cell.classList.contains('miss')) {

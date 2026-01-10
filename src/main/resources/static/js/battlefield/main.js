@@ -42,7 +42,8 @@ export function addPlayer(username) {
 function addMainPlayer() {
     players.push({
         id: players.length,
-        name: document.body.dataset.username
+        name: document.body.dataset.username,
+        field: Array.from({length: 10}, () => Array(10).fill('UNKNOWN'))
     })
 }
 
