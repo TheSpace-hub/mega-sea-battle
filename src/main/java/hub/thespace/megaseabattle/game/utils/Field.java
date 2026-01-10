@@ -71,7 +71,7 @@ public class Field {
      * @param cellState Cell state.
      */
     public void setCellState(Position position, CellState cellState) {
-        field.get(position.x()).set(position.y(), cellState);
+        field.get(position.y()).set(position.x(), cellState);
     }
 
     /**
@@ -81,7 +81,7 @@ public class Field {
      * @return Cell state.
      */
     public CellState getCellState(Position position) {
-        return field.get(position.x()).get(position.y());
+        return field.get(position.y()).get(position.x());
     }
 
     /**
