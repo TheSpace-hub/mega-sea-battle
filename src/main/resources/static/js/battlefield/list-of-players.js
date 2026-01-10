@@ -31,7 +31,7 @@ function updatePlayersCounter() {
  * @returns {string}
  */
 function createItem(username) {
-    const index = players.findIndex(player => player.name === username) + 1
+    const index = players.findIndex(player => player.username === username) + 1
     return `
 <li class="list-group-item d-flex justify-content-between align-items-center">
     <div>

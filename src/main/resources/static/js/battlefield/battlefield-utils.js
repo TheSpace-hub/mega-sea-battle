@@ -11,31 +11,7 @@ let currentPlayer = 0
  * Ask the server about the correctness of the field. If the field is correct, it will be registered.
  */
 export function verifyField() {
-    submitFieldForVerification(
-        {
-            sizeX: 10,
-            sizeY: 10,
-            field: readField()
-        })
-}
-
-/**
- * Read the field and get the ships placed by the user.
- * @return List of lists with field.
- */
-function readField() {
-    let field = Array.from({length: 10}, () => Array(10).fill(null))
-
-    const cells = document.querySelectorAll('#battlefield div.cell');
-    cells.forEach(cell => {
-        const x = parseInt(cell.dataset.row)
-        const y = parseInt(cell.dataset.col)
-        if (isNaN(x) || isNaN(y))
-            return
-        field[y][x] = cell.dataset['state_player_0']
-    })
-
-    return field
+    submitFieldForVerification(players[0].field)
 }
 
 /**
@@ -51,7 +27,7 @@ export function updateFieldData() {
             const y = parseInt(cell.dataset.col)
             if (isNaN(x) || isNaN(y))
                 return
-            cell.dataset[`state_player_${currentPlayer}`] = players[i]['field'][y][x].toString()
+            cell.dataset[`state_player_${currentPlayer}`] = players[i].field.field[y][x].toString()
         })
     }
 }
@@ -87,8 +63,6 @@ export function initBattlefield() {
             cell.className = 'cell'
             cell.dataset.row = row
             cell.dataset.col = col
-            cell.dataset['state'] = 'EMPTY'
-            cell.dataset['state_player_0'] = 'EMPTY'
 
             cell.addEventListener('click', function () {
                 handleCellClick(this)
@@ -201,12 +175,14 @@ export function updateDisplay() {
  */
 function handleCellClick(cell) {
     if (getStatus() === gameStatusTypes.WAITING_SELF_START) {
+        const x = parseInt(cell.dataset.row)
+        const y = parseInt(cell.dataset.col)
         if (cell.classList.contains('ship')) {
             cell.classList.remove('ship')
-            cell.dataset['state_player_0'] = 'EMPTY'
+            players[0].field.field[x][y] = 'EMPTY'
         } else {
             cell.classList.add('ship')
-            cell.dataset['state_player_0'] = 'SHIP'
+            players[0].field.field[x][y] = 'SHIP'
         }
     }
     if (cell.classList.contains('hit') || cell.classList.contains('miss')) {

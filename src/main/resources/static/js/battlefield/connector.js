@@ -70,6 +70,7 @@ export async function connect(username) {
  * @param field List of lists with field.
  */
 export function submitFieldForVerification(field) {
+    console.log(JSON.stringify(field))
     connector.publish('/app/game.verify-field', field)
 }
 
@@ -98,8 +99,8 @@ function updatePlayer(player) {
     addPlayer(player['username'])
     setPlayerStatusInList(player['username'], player['status'])
     for (let i = 0; i < players.length; i++) {
-        if (players[i]['username'] === player['username']) {
-            players[i]['field'] = player['field']
+        if (players[i].username === player['username']) {
+            players[i].field = player['field']
             break
         }
     }
@@ -121,7 +122,7 @@ function onPlayerJoin(username) {
  */
 function onPlayerReady(username) {
     playerActionLog(username, 'расставил свой флот')
-    if (username === players[0]['name']) {
+    if (username === players[0].username) {
         document.querySelector('#start-game-button').disabled = true
     }
 }

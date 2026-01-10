@@ -3,6 +3,22 @@ import {initBattlefield, setMode, updateDisplay, addPlayerIntoBattlefields, veri
 import {connect} from "./connector.js";
 import {changeGameStatus, gameStatusTypes} from "./status.js";
 
+class Player {
+    constructor(id, username) {
+        this.id = id;
+        this.username = username;
+        this.field = new Field(10, 10, Array.from({length: 10}, () => Array(10).fill('UNKNOWN')))
+    }
+}
+
+class Field {
+    constructor(sizeX, sizeY, field) {
+        this.sizeX = sizeX;
+        this.sizeY = sizeY;
+        this.field = field;
+    }
+}
+
 export const players = []
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -11,7 +27,7 @@ document.addEventListener('DOMContentLoaded', function () {
     setupEventListeners()
     updateDisplay()
 
-    connect(players[0].name).then()
+    connect(players[0].username).then()
     changeGameStatus(gameStatusTypes['WAITING_SELF_START'])
 })
 
@@ -21,16 +37,12 @@ document.addEventListener('DOMContentLoaded', function () {
  */
 export function addPlayer(username) {
     for (let i = 0; i < players.length; i++) {
-        if (players[i]['name'] === username) {
+        if (players[i].username === username) {
             return
         }
     }
 
-    players.push({
-        id: players.length,
-        name: username,
-        field: Array.from({length: 10}, () => Array(10).fill('UNKNOWN'))
-    })
+    players.push(new Player(players.length, username))
 
     addPlayerIntoBattlefields(username)
     addPlayerIntoList(username)
@@ -40,11 +52,7 @@ export function addPlayer(username) {
  * Initialization function for the user who owns the page.
  */
 function addMainPlayer() {
-    players.push({
-        id: players.length,
-        name: document.body.dataset.username,
-        field: Array.from({length: 10}, () => Array(10).fill('UNKNOWN'))
-    })
+    players.push(new Player(players.length, document.body.dataset.username))
 }
 
 /**
