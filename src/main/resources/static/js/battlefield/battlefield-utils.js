@@ -90,9 +90,7 @@ export function initBattlefield() {
             cell.dataset.state = 'EMPTY'
 
             cell.addEventListener('click', function () {
-                if (currentMode === 'all' || (cell.dataset.player && parseInt(cell.dataset.player) === currentPlayer)) {
-                    handleCellClick(this)
-                }
+                handleCellClick(this)
             })
 
             battlefield.appendChild(cell)
