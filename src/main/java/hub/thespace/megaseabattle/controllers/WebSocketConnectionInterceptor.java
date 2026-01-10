@@ -63,29 +63,32 @@ public class WebSocketConnectionInterceptor implements ChannelInterceptor {
             return;
         if (accessor.getNativeHeader("username").size() != 1)
             return;
+
         String username = accessor.getNativeHeader("username").get(0);
         String id = accessor.getNativeHeader("id").get(0);
-        log.info("Client {} connected into game {}", username, id.toUpperCase());
-        sendJoinAction(username, id);
-
         Game game = GamesController.getGameById(id.toLowerCase());
+
         if (game == null) {
             log.warn("Game {} not found", id);
             return;
+        } else if (game.getPlayers().size() == game.getMaxPlayers()) {
+            log.warn("Trying to connect to a completed game {}", id);
+            return;
         }
-        game.addPlayer(username, Player.Status.PREPARING);
-        addUserToSession(username, id, accessor.getSessionId());
+
+        joinAction(username, id, accessor.getSessionId());
     }
 
-    /**
-     * Send join action.
-     *
-     * @param username Player's name.
-     * @param id       Game's id.
-     */
-    private void sendJoinAction(String username, String id) {
-        GameAction gameAction = new GameAction(GameAction.Action.PLAYER_JOIN, username, null);
-        log.info("The game with ID {} has done the {} action", id, gameAction);
+
+    private void joinAction(String username, String id, String sessionId) {
+        Game game = GamesController.getGameById(id.toLowerCase());
+        log.info("Client {} connected into game {}", username, id.toUpperCase());
+
+        assert game != null;
+        game.addPlayer(username, Player.Status.PREPARING);
+        addUserToSession(username, id, sessionId);
+
+        GameAction gameAction = new GameAction(GameAction.Action.PLAYER_JOIN, username);
         messagingTemplate.convertAndSend("/topic/game-" + id, gameAction);
     }
 
