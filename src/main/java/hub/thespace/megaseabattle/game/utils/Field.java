@@ -4,22 +4,14 @@ package hub.thespace.megaseabattle.game.utils;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
-import lombok.Getter;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Getter
-public class Field {
-
-    private final int sizeX;
-    private final int sizeY;
-    private final List<List<CellState>> field;
+public record Field(int sizeX, int sizeY, List<List<CellState>> field) {
 
     public Field(int sizeX, int sizeY) {
-        this.sizeX = sizeX;
-        this.sizeY = sizeY;
-        field = new ArrayList<>();
+        this(sizeX, sizeY, new ArrayList<>());
         for (int i = 0; i < this.sizeX; i++) {
             List<CellState> row = new ArrayList<>();
             for (int j = 0; j < this.sizeY; j++) {
