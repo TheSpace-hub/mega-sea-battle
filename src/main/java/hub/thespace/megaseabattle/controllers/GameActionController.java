@@ -12,11 +12,7 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
-import org.springframework.messaging.simp.user.SimpSession;
-import org.springframework.messaging.simp.user.SimpUser;
-import org.springframework.messaging.simp.user.SimpUserRegistry;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.socket.WebSocketSession;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,17 +23,15 @@ import java.util.List;
 public class GameActionController {
 
     private final SimpMessagingTemplate messagingTemplate;
-    private final SimpUserRegistry userRegistry;
     private final WebSocketConnectionInterceptor connectionInterceptor;
 
     @Autowired
     public GameActionController(
             @Lazy SimpMessagingTemplate messagingTemplate,
-            @Lazy WebSocketConnectionInterceptor connectionInterceptor,
-            @Lazy SimpUserRegistry userRegistry) {
+            @Lazy WebSocketConnectionInterceptor connectionInterceptor
+    ) {
         this.messagingTemplate = messagingTemplate;
         this.connectionInterceptor = connectionInterceptor;
-        this.userRegistry = userRegistry;
     }
 
     @MessageMapping("/game.attack")
@@ -147,8 +141,9 @@ public class GameActionController {
         }
     }
 
+    // TODO - close connection.
     private void closeGame(Game game) {
-
+        GamesController.closeGame(game.getId());
     }
 
 }

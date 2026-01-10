@@ -66,4 +66,9 @@ public class GamesController {
         return true;
     }
 
+    public static void closeGame(String id) {
+        Game game = getGameById(id);
+        games.remove(game);
+    }
+
 }
