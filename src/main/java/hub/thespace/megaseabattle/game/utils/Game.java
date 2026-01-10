@@ -147,21 +147,23 @@ public class Game {
             currentPlayer = getPlayers().get(0);
             return currentPlayer;
         }
+
         for (Player player : players) {
             if (player.getField().getCellState(position) == Field.CellState.SHIP) {
                 return currentPlayer;
             }
         }
 
-        if (players.indexOf(currentPlayer) == players.size() - 1) {
-            currentPlayer = players.get(0);
-        } else {
-            int i = players.indexOf(currentPlayer) + 1;
-            while (currentPlayer.isDead())
-                currentPlayer = players.get(i);
-        }
+        while (true) {
+            if (players.indexOf(currentPlayer) == players.size() - 1) {
+                currentPlayer = players.get(0);
+            } else {
+                currentPlayer = players.get(players.indexOf(currentPlayer) + 1);
+            }
 
-        return currentPlayer;
+            if (!currentPlayer.isDead())
+                return currentPlayer;
+        }
     }
 
     /**
