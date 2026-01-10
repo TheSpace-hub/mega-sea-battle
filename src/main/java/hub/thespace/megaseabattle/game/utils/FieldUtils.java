@@ -3,7 +3,9 @@ package hub.thespace.megaseabattle.game.utils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Component
@@ -31,7 +33,7 @@ public class FieldUtils {
     private boolean isCorrectNumberOfShips(Field field) {
         int targetX = 0;
         int targetY = 0;
-        Map<Integer, Integer> numberOfShips = new HashMap<>();
+        List<List<Field.Position>> ships = new ArrayList<>();
 
         while (field.getCellState(targetX, targetY) != Field.CellState.SHIP) {
             targetX++;
@@ -45,7 +47,15 @@ public class FieldUtils {
         log.info("Direction {} ", direction);
         if (direction == null) return false;
 
-        log.info("countLengthOfShipCells {}", countLengthOfShipCells(field, targetX, targetY, direction));
+        List<Field.Position> ship = new ArrayList<>();
+        for (int i = 0; i < countLengthOfShipCells(field, targetX, targetY, direction); i++) {
+            ship.add(new Field.Position(
+                    targetX + (direction == Direction.RIGHT ? i : 0),
+                    targetY + (direction == Direction.DOWN ? i : 0)
+            ));
+        }
+        ships.add(ship);
+        log.info("Ships {} ", ships);
         return false;
     }
 
