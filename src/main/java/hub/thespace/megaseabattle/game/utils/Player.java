@@ -45,7 +45,8 @@ public class Player {
     public enum Status {
         PREPARING,
         READY,
-        LOOSE
+        LOOSE,
+        WON
     }
 
     public enum Locale {

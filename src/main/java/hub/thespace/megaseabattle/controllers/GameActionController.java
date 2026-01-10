@@ -125,6 +125,7 @@ public class GameActionController {
 
         if (game.getLivePlayers().size() <= 1) {
             if (game.getLivePlayers().size() == 1) {
+                game.getPlayers().get(0).setStatus(Player.Status.WON);
                 GameAction action = new GameAction(GameAction.Action.PLAYER_WON, game.getPlayers().get(0).getUsername(), null);
                 messagingTemplate.convertAndSend("/topic/game-" + game.getId(), action);
             }
