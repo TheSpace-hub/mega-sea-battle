@@ -111,18 +111,10 @@ export function updateDisplay() {
         }
 
         cells.forEach(cell => {
-            const x = parseInt(cell.dataset.col)
-            const y = parseInt(cell.dataset.row)
-            cell.classList.remove('ship')
-            cell.classList.remove('hit')
-            cell.classList.remove('miss')
+            clearCell(cell)
             for (let i = 0; i < players.length; i++) {
                 const field = players[i].field.field
-                if (field[y][x] === 'SHIP') {
-                    cell.classList.add('ship')
-                } else if (field[y][x] === 'WRECKED_SHIP') {
-                    cell.classList.add('hit')
-                }
+                fillCell(cell, field, players[0].username)
             }
         })
     } else if (currentMode === 'player') {
@@ -132,18 +124,8 @@ export function updateDisplay() {
         modeTitle.textContent = `Режим: Игрок "${player['name']}"`
         modeDescription.textContent = `Ты видишь поле игрока "${player['name']}". Только его корабли отображены на поле.`
         cells.forEach(cell => {
-            const x = parseInt(cell.dataset.col)
-            const y = parseInt(cell.dataset.row)
-            cell.classList.remove('ship')
-            cell.classList.remove('hit')
-            cell.classList.remove('miss')
-            if (field[y][x] === 'SHIP') {
-                cell.classList.add('ship')
-            } else if (field[y][x] === 'WRECKED_SHIP') {
-                cell.classList.add('hit')
-            } else if (field[y][x] === 'EMPTY' && player.username !== players[0].username) {
-                cell.classList.add('miss')
-            }
+            clearCell(cell)
+            fillCell(cell, field)
         })
     }
 }
@@ -196,4 +178,33 @@ function createPlayerBattlefieldItem(username, index) {
 <button type="button" class="btn btn-outline-primary disabled" id="mode-player-${index}">Поле "<span>${username}</span>"
 </button>
 `
+}
+
+/**
+ * Fill the cell.
+ * @param cell HTML object.
+ * @param ignore The name of the user whose EMPTY cells will be ignored.
+ * @param field Field.
+ */
+function fillCell(cell, field, ignore = null) {
+    const x = parseInt(cell.dataset.col)
+    const y = parseInt(cell.dataset.row)
+
+    if (field[y][x] === 'SHIP') {
+        cell.classList.add('ship')
+    } else if (field[y][x] === 'WRECKED_SHIP') {
+        cell.classList.add('hit')
+    } else if (field[y][x] === 'EMPTY' && ignore !== players[0].username) {
+        cell.classList.add('miss')
+    }
+}
+
+/**
+ * Clear the cell.
+ * @param cell The HTML object.
+ */
+function clearCell(cell) {
+    cell.classList.remove('ship')
+    cell.classList.remove('hit')
+    cell.classList.remove('miss')
 }
