@@ -143,7 +143,6 @@ export function updateDisplay() {
 
         modeTitle.textContent = `Режим: Игрок "${player['name']}"`
         modeDescription.textContent = `Ты видишь поле игрока "${player['name']}". Только его корабли отображены на поле.`
-        console.log(JSON.stringify(players))
         cells.forEach(cell => {
             const x = parseInt(cell.dataset.col)
             const y = parseInt(cell.dataset.row)
