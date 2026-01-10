@@ -93,7 +93,11 @@ public class Game {
         for (Player player : players) {
             Field field = new Field(10, 10);
             for (Field.Position position : openCells) {
-                field.setCellState(position, player.getField().getCellState(position));
+                Field.CellState state = switch (player.getField().getCellState(position)) {
+                    case SHIP, WRECKED_SHIP, BROKEN_SHIP -> Field.CellState.WRECKED_SHIP;
+                    case UNKNOWN, EMPTY -> Field.CellState.EMPTY;
+                };
+                field.setCellState(position, state);
             }
             game.addPlayer(player.getUsername(), player.getStatus());
             game.addField(player.getUsername(), field);
@@ -129,13 +133,6 @@ public class Game {
             return;
         }
         openCells.add(position);
-        for (Player player : players) {
-            Field field = player.getField();
-            if (field.getCellState(position) == Field.CellState.SHIP) {
-                // TODO - implement logic for using BROKEN_SHIP and WRECKED_SHIP
-                field.setCellState(position, Field.CellState.WRECKED_SHIP);
-            }
-        }
     }
 
     /**
