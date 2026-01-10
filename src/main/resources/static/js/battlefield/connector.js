@@ -29,7 +29,6 @@ class Connector {
                 onConnect: (socket) => {
                     this.client.subscribe(`/topic/game-${id}`, function (topic) {
                         const response = JSON.parse(topic.body)
-                        console.log('/topic/game Data:', topic.body)
                         if (response['action'] === 'PLAYER_JOIN') {
                             onPlayerJoin(response['username'])
                         } else if (response['action'] === 'PLAYER_READY') {
@@ -44,6 +43,8 @@ class Connector {
                             playerActionLog(response['username'], 'остался без кораблей')
                         } else if (response['action'] === 'PLAYER_WON') {
                             playerActionLog(response['username'], 'всех победил')
+                        } else if (response['action'] === 'GAME_FINISHED') {
+                            onGameFinished()
                         }
                         updateGameData().then()
                     })
@@ -76,6 +77,11 @@ class Connector {
             body: JSON.stringify(body)
         })
     }
+
+    closeConnection() {
+        this.client.deactivate().then()
+    }
+
 }
 
 export async function connect(username) {
@@ -184,4 +190,8 @@ function onPlayerAttack(username, x, y) {
     if (players[0].field.field[y][x] === 'SHIP')
         players[0].field.field[y][x] = 'WRECKED_SHIP'
     playerActionLog(username, `атаковал ${letters[x]} ${y}`)
+}
+
+function onGameFinished() {
+    connector.closeConnection()
 }
