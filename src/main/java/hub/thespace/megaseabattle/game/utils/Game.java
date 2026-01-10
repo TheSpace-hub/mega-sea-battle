@@ -188,5 +188,14 @@ public class Game {
         }
     }
 
+    public List<Player> getLivePlayers() {
+        List<Player> players = new ArrayList<>();
+        for (Player player : this.players) {
+            if (!player.isDead())
+                players.add(player);
+        }
+        return players;
+    }
+
 
 }

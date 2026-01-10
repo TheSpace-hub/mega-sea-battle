@@ -123,8 +123,13 @@ public class GameActionController {
             game.killPlayer(player);
         }
 
-        if (game.getPlayers().size() == 1) {
-            GameAction action = new GameAction(GameAction.Action.PLAYER_WON, game.getPlayers().get(0).getUsername(), null);
+        if (game.getLivePlayers().size() <= 1) {
+            if (game.getLivePlayers().size() == 1) {
+                GameAction action = new GameAction(GameAction.Action.PLAYER_WON, game.getPlayers().get(0).getUsername(), null);
+                messagingTemplate.convertAndSend("/topic/game-" + game.getId(), action);
+            }
+
+            GameAction action = new GameAction(GameAction.Action.GAME_FINISHED, null, null);
             messagingTemplate.convertAndSend("/topic/game-" + game.getId(), action);
         }
 
