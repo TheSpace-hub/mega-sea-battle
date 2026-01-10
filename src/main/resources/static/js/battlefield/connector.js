@@ -70,7 +70,6 @@ export async function connect(username) {
  * @param field List of lists with field.
  */
 export function submitFieldForVerification(field) {
-    console.log(JSON.stringify(field))
     connector.publish('/app/game.verify-field', field)
 }
 
