@@ -94,7 +94,7 @@ public class Game {
             Field field = new Field(10, 10);
             for (Field.Position position : openCells) {
                 Field.CellState state = switch (player.getField().getCellState(position)) {
-                    case SHIP, WRECKED_SHIP, BROKEN_SHIP -> Field.CellState.WRECKED_SHIP;
+                    case SHIP, WRECKED_SHIP -> Field.CellState.WRECKED_SHIP;
                     case UNKNOWN, EMPTY -> Field.CellState.EMPTY;
                 };
                 field.setCellState(position, state);
