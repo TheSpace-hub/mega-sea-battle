@@ -147,7 +147,7 @@ function onGameStarted() {
  * @param x Pos. x.
  * @param y Pos. y.
  */
-function onOtherPlayerStep(username, x, y) {
+function onOtherPlayerStep(username) {
     playerActionLog(username, 'готовит артиллерию')
     changeGameStatus(gameStatusTypes.WAITING_OTHER_MOVE, username)
 }
