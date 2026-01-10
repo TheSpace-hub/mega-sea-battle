@@ -4,7 +4,7 @@ import {submitFieldForVerification} from "./connector.js";
 
 const letters = ['А', 'Б', 'В', 'Г', 'Д', 'Е', 'Ж', 'З', 'И', 'К']
 
-let currentMode = 'all'
+let currentMode = 'prepare'
 let currentPlayer = 0
 
 /**
