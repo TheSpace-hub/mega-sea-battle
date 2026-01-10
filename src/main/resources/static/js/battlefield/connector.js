@@ -179,5 +179,7 @@ function onOtherPlayerStep(username) {
 
 function onPlayerAttack(username, x, y) {
     const letters = ['А', 'Б', 'В', 'Г', 'Д', 'Е', 'Ж', 'З', 'И', 'К']
+    if (players[0].field.field[y][x] === 'SHIP')
+        players[0].field.field[y][x] = 'WRECKED_SHIP'
     playerActionLog(username, `атаковал ${letters[x]} ${y}`)
 }
