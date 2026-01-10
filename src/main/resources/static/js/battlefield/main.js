@@ -28,7 +28,8 @@ export function addPlayer(username) {
 
     players.push({
         id: players.length,
-        name: username
+        name: username,
+        field: Array.from({length: 10}, () => Array(10).fill('UNKNOWN'))
     })
 
     addPlayerIntoBattlefields(username)
