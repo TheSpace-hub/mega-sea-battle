@@ -1,7 +1,7 @@
 import {basicLog, playerActionLog} from "./logging.js";
 import {addPlayer, players} from "./main.js";
 import {setPlayerStatusInList} from "./list-of-players.js";
-import {updateFieldData} from "./battlefield-utils.js";
+import {updateDisplay, updateFieldData} from "./battlefield-utils.js";
 import {changeGameStatus, gameStatusTypes} from "./status.js";
 
 const id = window.location.pathname.split('/').pop();
@@ -111,6 +111,7 @@ export async function updateGameData() {
         updatePlayer(data['players'][i])
     }
 
+    updateDisplay()
 }
 
 /**
