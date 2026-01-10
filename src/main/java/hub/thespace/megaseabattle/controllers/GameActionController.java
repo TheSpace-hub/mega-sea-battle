@@ -14,6 +14,9 @@ import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 @Controller
 @Slf4j
@@ -42,6 +45,8 @@ public class GameActionController {
 
         GameAction action = new GameAction(GameAction.Action.PLAYER_ATTACK, player.getUsername(), position);
         messagingTemplate.convertAndSend("/topic/game-" + game.getId(), action);
+
+        checkDead(game);
 
         action = new GameAction(GameAction.Action.PLAYER_STEP, game.nextPlayer(position).getUsername(), null);
         messagingTemplate.convertAndSend("/topic/game-" + game.getId(), action);
@@ -101,6 +106,22 @@ public class GameActionController {
 
         action = new GameAction(GameAction.Action.PLAYER_STEP, game.getCurrentPlayer().getUsername(), null);
         messagingTemplate.convertAndSend("/topic/game-" + game.getId(), action);
+    }
+
+
+    private void checkDead(Game game) {
+        List<String> queueToDead = new ArrayList<>();
+        for (Player player : game.getPlayers()) {
+            if (player.isLoose(game.getOpenCells())) {
+                log.info("Killing player {}", player.getUsername());
+                queueToDead.add(player.getUsername());
+                GameAction action = new GameAction(GameAction.Action.PLAYER_LOOSE, player.getUsername(), null);
+                messagingTemplate.convertAndSend("/topic/game-" + game.getId(), action);
+            }
+        }
+        for (String player : queueToDead) {
+            game.killPlayer(player);
+        }
     }
 
 }

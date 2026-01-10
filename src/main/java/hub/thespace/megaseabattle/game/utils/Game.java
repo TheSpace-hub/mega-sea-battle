@@ -19,6 +19,7 @@ public class Game {
     private final int maxPlayers;
     @Getter
     private final List<Player> players;
+    @Getter
     private final List<Field.Position> openCells;
     private Player currentPlayer;
 
@@ -159,6 +160,28 @@ public class Game {
         }
 
         return currentPlayer;
+    }
+
+    /**
+     * Kill the player.
+     *
+     * @param username Player's username
+     */
+    public void killPlayer(String username) {
+        Player player = getPlayerByUsername(username);
+        if (player == currentPlayer) {
+            if (players.size() == 1) {
+                currentPlayer = null;
+                return;
+            }
+            int index = players.indexOf(player);
+            if (index == players.size() - 1) {
+                currentPlayer = players.get(0);
+            } else {
+                currentPlayer = players.get(index + 1);
+            }
+        }
+        players.remove(player);
     }
 
 
