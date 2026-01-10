@@ -56,16 +56,6 @@ public class GamesController {
         return new String(code);
     }
 
-    /**
-     * Checks the field for correct ship placement.
-     * TODO - create logic.
-     *
-     * @return Is the field correct.
-     */
-    public static boolean checkIsStartedFieldCorrect(Field field) {
-        return true;
-    }
-
     public static void closeGame(String id) {
         Game game = getGameById(id);
         games.remove(game);

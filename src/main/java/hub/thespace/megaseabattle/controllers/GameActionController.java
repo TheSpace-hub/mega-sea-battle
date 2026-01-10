@@ -1,10 +1,7 @@
 package hub.thespace.megaseabattle.controllers;
 
-import hub.thespace.megaseabattle.game.utils.Game;
-import hub.thespace.megaseabattle.game.utils.GameAction;
-import hub.thespace.megaseabattle.game.utils.Field;
+import hub.thespace.megaseabattle.game.utils.*;
 import hub.thespace.megaseabattle.game.GamesController;
-import hub.thespace.megaseabattle.game.utils.Player;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
@@ -24,14 +21,17 @@ public class GameActionController {
 
     private final SimpMessagingTemplate messagingTemplate;
     private final WebSocketConnectionInterceptor connectionInterceptor;
+    private final FieldUtils fieldUtils;
 
     @Autowired
     public GameActionController(
             @Lazy SimpMessagingTemplate messagingTemplate,
-            @Lazy WebSocketConnectionInterceptor connectionInterceptor
+            @Lazy WebSocketConnectionInterceptor connectionInterceptor,
+            FieldUtils fieldUtils
     ) {
         this.messagingTemplate = messagingTemplate;
         this.connectionInterceptor = connectionInterceptor;
+        this.fieldUtils = fieldUtils;
     }
 
     @MessageMapping("/game.attack")
@@ -76,12 +76,14 @@ public class GameActionController {
 
         log.info("User {} want load field {}", player.getUsername(), field);
 
-        if (GamesController.checkIsStartedFieldCorrect(field)) {
+        if (fieldUtils.isFieldCorrect(field)) {
             GameAction action = new GameAction(GameAction.Action.PLAYER_READY, player.getUsername(), null);
             player.setStatus(Player.Status.READY);
             player.setField(field);
             messagingTemplate.convertAndSend("/topic/game-" + game.getId(), action);
             checkIsGameReady(accessor);
+        } else {
+            log.info("User {} load uncorrected field {}", player.getUsername(), field);
         }
     }
 
