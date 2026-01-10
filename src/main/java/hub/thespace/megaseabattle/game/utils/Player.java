@@ -1,13 +1,11 @@
 package hub.thespace.megaseabattle.game.utils;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
 
-@AllArgsConstructor
 @Getter
 @Setter
 @Slf4j
@@ -15,6 +13,13 @@ public class Player {
     private String username;
     private Status status;
     private Field field;
+    private boolean isDead;
+
+    public Player(String username, Status status, Field field) {
+        this.username = username;
+        this.status = status;
+        this.field = field;
+    }
 
     /**
      * Does the player have ships that are not sunk.
@@ -30,6 +35,10 @@ public class Player {
             }
         }
         return true;
+    }
+
+    public void kill() {
+        isDead = true;
     }
 
     public enum Status {

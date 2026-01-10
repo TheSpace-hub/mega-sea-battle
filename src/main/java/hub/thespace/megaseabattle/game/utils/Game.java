@@ -156,7 +156,9 @@ public class Game {
         if (players.indexOf(currentPlayer) == players.size() - 1) {
             currentPlayer = players.get(0);
         } else {
-            currentPlayer = players.get(players.indexOf(currentPlayer) + 1);
+            int i = players.indexOf(currentPlayer) + 1;
+            while (currentPlayer.isDead())
+                currentPlayer = players.get(i);
         }
 
         return currentPlayer;
@@ -169,6 +171,7 @@ public class Game {
      */
     public void killPlayer(String username) {
         Player player = getPlayerByUsername(username);
+        player.kill();
         if (player == currentPlayer) {
             if (players.size() == 1) {
                 currentPlayer = null;
@@ -181,7 +184,6 @@ public class Game {
                 currentPlayer = players.get(index + 1);
             }
         }
-        players.remove(player);
     }
 
 
