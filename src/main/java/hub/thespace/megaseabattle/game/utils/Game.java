@@ -95,8 +95,8 @@ public class Game {
             for (Field.Position position : openCells) {
                 field.setCellState(position, player.getField().getCellState(position));
             }
+            game.addPlayer(player.getUsername(), player.getStatus());
             game.addField(player.getUsername(), field);
-            game.addField(player.getUsername(), player.getField());
         }
         log.info("Public game info {} has been generated: {}", id, game);
         return game;
