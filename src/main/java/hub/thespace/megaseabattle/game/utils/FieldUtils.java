@@ -4,58 +4,53 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Component
 @Slf4j
 public class FieldUtils {
 
     public boolean isFieldCorrect(Field field) {
-        isCorrectNumberOfShips(field);
-        return false;
-    }
-
-    private boolean isCorrectNumberOfShipCells(Field field) {
-        int shipCells = 0;
-        for (int y = 0; y < field.sizeY(); y++) {
-            for (int x = 0; x < field.sizeX(); x++) {
-                if (field.getCellState(x, y) == Field.CellState.SHIP) {
-                    shipCells++;
-                } else if (field.getCellState(x, y) != Field.CellState.EMPTY)
-                    return false;
-            }
-        }
-        return shipCells == 20;
-    }
-
-    private boolean isCorrectNumberOfShips(Field field) {
         int targetX = 0;
         int targetY = 0;
         List<List<Field.Position>> ships = new ArrayList<>();
 
-        while (field.getCellState(targetX, targetY) != Field.CellState.SHIP) {
-            targetX++;
-            if (targetX == field.sizeX()) {
-                targetX = 0;
-                targetY++;
+        while (true) {
+            while (field.getCellState(targetX, targetY) != Field.CellState.SHIP || isCellInShipsList(ships, targetX, targetY)) {
+                if (targetX == field.sizeX() - 1 && targetY == field.sizeY() - 1) {
+                    return ships.stream().filter(list -> list.size() == 1).count() == 4 &&
+                            ships.stream().filter(list -> list.size() == 2).count() == 3 &&
+                            ships.stream().filter(list -> list.size() == 3).count() == 2 &&
+                            ships.stream().filter(list -> list.size() == 4).count() == 1 &&
+                            ships.size() == 10;
+                }
+                targetX++;
+                if (targetX == field.sizeX()) {
+                    targetX = 0;
+                    targetY++;
+                }
+            }
+
+            Direction direction = getShipDirection(field, targetX, targetY);
+            if (direction == null) return false;
+
+            List<Field.Position> ship = new ArrayList<>();
+            for (int i = 0; i < countLengthOfShipCells(field, targetX, targetY, direction); i++) {
+                ship.add(new Field.Position(
+                        targetX + (direction == Direction.RIGHT ? i : 0),
+                        targetY + (direction == Direction.DOWN ? i : 0)
+                ));
+            }
+            ships.add(ship);
+        }
+    }
+
+    private boolean isCellInShipsList(List<List<Field.Position>> ships, int x, int y) {
+        for (List<Field.Position> ship : ships) {
+            if (ship.contains(new Field.Position(x, y))) {
+                return true;
             }
         }
-
-        Direction direction = getShipDirection(field, targetX, targetY);
-        log.info("Direction {} ", direction);
-        if (direction == null) return false;
-
-        List<Field.Position> ship = new ArrayList<>();
-        for (int i = 0; i < countLengthOfShipCells(field, targetX, targetY, direction); i++) {
-            ship.add(new Field.Position(
-                    targetX + (direction == Direction.RIGHT ? i : 0),
-                    targetY + (direction == Direction.DOWN ? i : 0)
-            ));
-        }
-        ships.add(ship);
-        log.info("Ships {} ", ships);
         return false;
     }
 
