@@ -80,6 +80,10 @@ export function initBattlefield() {
             battlefield.appendChild(cell)
         }
     }
+
+    document.getElementById(`mode-player-0`).addEventListener('click', function () {
+        setMode(`player-0`)
+    })
 }
 
 /**
