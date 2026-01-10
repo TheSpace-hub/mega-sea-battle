@@ -51,10 +51,12 @@ public class MainAPIController {
      */
     @GetMapping("/game-data/{id}")
     public Game getGameData(@PathVariable String id) {
-        Game privateGameData = GamesController.getGameById(id);
-        if (privateGameData == null)
+        Game game = GamesController.getGameById(id);
+        if (game == null) {
+            log.warn("An attempt to get a non-existent game {}", id);
             return null;
-        return privateGameData.generatePublicInfo();
+        }
+        return game.generatePublicInfo();
     }
 
 }
