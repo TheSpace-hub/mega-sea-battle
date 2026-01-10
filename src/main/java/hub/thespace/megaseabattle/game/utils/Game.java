@@ -82,11 +82,13 @@ public class Game {
         Game game = new Game(id, maxPlayers, new ArrayList<>(), openCells);
         for (Player player : players) {
             Field field = new Field(10, 10);
-            for (Field.Position position : openCells) {
-                field.setCellState(position, player.getField().getCellState(position));
-            }
+            // TODO - return changes
+//            for (Field.Position position : openCells) {
+//                field.setCellState(position, player.getField().getCellState(position));
+//            }
+//            game.addField(player.getUsername(), field);
             game.addPlayer(player.getUsername(), player.getStatus());
-            game.addField(player.getUsername(), field);
+            game.addField(player.getUsername(), player.getField());
         }
         log.info("Public game info {} has been generated: {}", id, game);
         return game;
