@@ -141,7 +141,7 @@ export function updateDisplay() {
                 cell.classList.add('ship')
             } else if (field[y][x] === 'WRECKED_SHIP') {
                 cell.classList.add('hit')
-            } else if (field[y][x] === 'EMPTY') {
+            } else if (field[y][x] === 'EMPTY' && player.username !== players[0].username) {
                 cell.classList.add('miss')
             }
         })
