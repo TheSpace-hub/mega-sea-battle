@@ -1,6 +1,5 @@
 package hub.thespace.megaseabattle.game;
 
-import hub.thespace.megaseabattle.game.utils.Field;
 import hub.thespace.megaseabattle.game.utils.Game;
 import lombok.extern.slf4j.Slf4j;
 
@@ -58,7 +57,7 @@ public class GamesController {
 
     public static void closeGame(String id) {
         Game game = getGameById(id);
-        games.remove(game);
+        game.isClosed = true;
     }
 
 }
