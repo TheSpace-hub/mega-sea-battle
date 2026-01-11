@@ -190,11 +190,13 @@ function fillCell(cell, field, ignoreEmpty = false) {
     const x = parseInt(cell.dataset.col)
     const y = parseInt(cell.dataset.row)
 
-    if (field[y][x] === 'WRECKED_SHIP') {
+    if (field[y][x] === 'BROKEN_SHIP') {
+        cell.classList.add('kill')
+    } else if (field[y][x] === 'WRECKED_SHIP' && !cell.classList.contains('kill')) {
         cell.classList.add('hit')
-    } else if (field[y][x] === 'SHIP' && !cell.classList.contains('hit')) {
+    } else if (field[y][x] === 'SHIP' && !cell.classList.contains('hit') && !cell.classList.contains('kill')) {
         cell.classList.add('ship')
-    } else if (field[y][x] === 'EMPTY' && !ignoreEmpty && !cell.classList.contains('ship') && !cell.classList.contains('hit')) {
+    } else if (field[y][x] === 'EMPTY' && !ignoreEmpty && !cell.classList.contains('ship') && !cell.classList.contains('hit') && !cell.classList.contains('kill')) {
         cell.classList.add('miss')
     }
 }

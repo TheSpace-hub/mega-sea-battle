@@ -139,7 +139,7 @@ public class FieldUtils {
             pretty.append("\n");
         }
 
-        System.out.println(pretty);
+        log.info("PF: \n{}", pretty);
     }
 
     /**
@@ -151,18 +151,25 @@ public class FieldUtils {
         Game game = new Game(origin.getId(), origin.getMaxPlayers(), new ArrayList<>(), origin.getOpenCells());
         for (Player player : origin.getPlayers()) {
             Field field = new Field(10, 10);
-            List<Ship> ships = getShipsList(field);
+            List<Ship> ships = getShipsList(player.getField());
             for (Field.Position position : origin.getOpenCells()) {
-                if (field.getCellState(position) == Field.CellState.SHIP) {
-
-                } else if (field.getCellState(position) == Field.CellState.EMPTY) {
+                if (player.getField().getCellState(position) == Field.CellState.SHIP) {
+                    Ship ship = Ship.getShipByCell(ships, position);
+                    if (ship.isAlive(origin.getOpenCells())) {
+                        field.setCellState(position, Field.CellState.WRECKED_SHIP);
+                    } else {
+                        field.setCellState(position, Field.CellState.BROKEN_SHIP);
+                    }
+                } else if (player.getField().getCellState(position) == Field.CellState.EMPTY) {
                     field.setCellState(position, Field.CellState.EMPTY);
                 }
 
             }
             game.addPlayer(player.getUsername(), player.getStatus());
             game.addField(player.getUsername(), field);
+            printPrettyField(player.getField());
         }
+
         log.info("Public game info {} has been generated: {}", origin.getId(), game);
         return game;
     }
@@ -183,8 +190,13 @@ public class FieldUtils {
             return false;
         }
 
-        public static Ship getShipByCell(Field field, Field.Position position) {
-            return new Ship();
+        public static Ship getShipByCell(List<Ship> ships, Field.Position position) {
+            for (Ship ship : ships) {
+                if (ship.positions.contains(position)) {
+                    return ship;
+                }
+            }
+            return null;
         }
 
     }
