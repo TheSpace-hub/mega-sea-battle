@@ -1,7 +1,7 @@
 import {basicLog, importantActionLog, playerActionLog, showMessage} from "./logging.js";
 import {addPlayer, players} from "./main.js";
 import {setPlayerStatusInList} from "./list-of-players.js";
-import {updateDisplay} from "./battlefield-utils.js";
+import {setMode, updateDisplay} from "./battlefield-utils.js";
 import {changeGameStatus, gameStatusTypes} from "./status.js";
 
 const id = window.location.pathname.split('/').pop();
@@ -156,6 +156,8 @@ function onPlayerReady(username) {
     playerActionLog(username, 'расставил свой флот')
     if (username === players[0].username) {
         document.querySelector('#start-game-button').remove()
+        setMode('all')
+        updateDisplay()
         changeGameStatus(gameStatusTypes.WAITING_OTHER_START)
     }
 }
