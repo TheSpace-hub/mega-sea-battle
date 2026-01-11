@@ -3,7 +3,7 @@
  * @param content Log's content.
  */
 export function basicLog(content) {
-    document.querySelector('#logs').insertAdjacentHTML('beforeend', createBasicLogItem(content))
+    document.querySelector('#logs').insertAdjacentHTML('afterbegin', createBasicLogItem(content))
 }
 
 /**
@@ -12,7 +12,7 @@ export function basicLog(content) {
  * @param content Log's content.
  */
 export function playerActionLog(username, content) {
-    document.querySelector('#logs').insertAdjacentHTML('beforeend', createPlayerActionLogItem(username, content))
+    document.querySelector('#logs').insertAdjacentHTML('afterbegin', createPlayerActionLogItem(username, content))
 }
 
 /**
