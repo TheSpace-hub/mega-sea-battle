@@ -167,7 +167,6 @@ public class FieldUtils {
             }
             game.addPlayer(player.getUsername(), player.getStatus());
             game.addField(player.getUsername(), field);
-            printPrettyField(player.getField());
         }
 
         log.info("Public game info {} has been generated: {}", origin.getId(), game);
