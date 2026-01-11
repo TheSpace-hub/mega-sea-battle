@@ -1,4 +1,4 @@
-import {basicLog, playerActionLog} from "./logging.js";
+import {basicLog, importantActionLog, playerActionLog, showMessage} from "./logging.js";
 import {addPlayer, players} from "./main.js";
 import {setPlayerStatusInList} from "./list-of-players.js";
 import {updateDisplay} from "./battlefield-utils.js";
@@ -40,9 +40,9 @@ class Connector {
                         } else if (response['action'] === 'PLAYER_ATTACK') {
                             onPlayerAttack(response['username'], response['position']['x'], response['position']['y'])
                         } else if (response['action'] === 'PLAYER_LOOSE') {
-                            playerActionLog(response['username'], 'остался без кораблей')
+                            importantActionLog(response['username'], 'остался без кораблей!')
                         } else if (response['action'] === 'PLAYER_WON') {
-                            playerActionLog(response['username'], 'всех победил')
+                            importantActionLog(response['username'], 'всех победил!')
                         } else if (response['action'] === 'GAME_FINISHED') {
                             onGameFinished()
                         }
@@ -164,7 +164,7 @@ function onPlayerReady(username) {
  * Allow "mode-all" and allow mode with another players.
  */
 function onGameStarted() {
-    basicLog('Бой начинается')
+    basicLog('Бойня начинается')
     document.querySelector(`#mode-all`).classList.remove('disabled')
     for (let i = 0; i < players.length; i++) {
         document.querySelector(`#mode-player-${i}`).classList.remove('disabled')
@@ -177,7 +177,7 @@ function onGameStarted() {
  */
 function onOtherPlayerStep(username) {
     if (username === players[0].username) {
-        playerActionLog(username, ', твой ход')
+        importantActionLog(username, ', твой ход')
         changeGameStatus(gameStatusTypes.WAITING_SELF_MOVE)
     } else {
         playerActionLog(username, 'готовит артиллерию')

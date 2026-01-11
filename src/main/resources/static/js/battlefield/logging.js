@@ -15,6 +15,10 @@ export function playerActionLog(username, content) {
     document.querySelector('#logs').insertAdjacentHTML('afterbegin', createPlayerActionLogItem(username, content))
 }
 
+export function importantActionLog(username, content) {
+    document.querySelector('#logs').insertAdjacentHTML('afterbegin', createImportantActionLogItem(username, content))
+}
+
 /**
  * Create the HTML item.
  * @param content Message.
@@ -49,6 +53,20 @@ function createPlayerActionLogItem(username, content) {
     return `
 <div class="mb-2">
     <span class="badge bg-secondary">${time}</span>
+    <span>Игрок <strong>${username}</strong> ${content}</span>
+</div>
+`
+}
+
+function createImportantActionLogItem(username, content) {
+    const now = new Date();
+    const hours = now.getHours().toString().padStart(2, '0');
+    const minutes = now.getMinutes().toString().padStart(2, '0');
+    const time = `${hours}:${minutes}`;
+
+    return `
+<div class="mb-2">
+    <span class="badge bg-primary">${time}</span>
     <span>Игрок <strong>${username}</strong> ${content}</span>
 </div>
 `
