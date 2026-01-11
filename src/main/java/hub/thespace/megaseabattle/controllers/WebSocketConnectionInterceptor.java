@@ -68,7 +68,7 @@ public class WebSocketConnectionInterceptor implements ChannelInterceptor {
         String id = accessor.getNativeHeader("id").get(0);
         Game game = GamesController.getGameById(id.toLowerCase());
 
-        if (game == null) {
+        if (game == null || game.isClosed) {
             log.warn("Game {} not found", id);
             return;
         } else if (game.getPlayers().size() == game.getMaxPlayers()) {
