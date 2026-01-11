@@ -145,8 +145,9 @@ function updatePlayer(player) {
  * @param username New player's name.
  */
 function onPlayerJoin(username) {
+    const fixedUsername = username.replace(' ', '')
     playerActionLog(username, 'подключился к серверу')
-    addPlayer(username)
+    addPlayer(fixedUsername)
 }
 
 /**
@@ -155,7 +156,8 @@ function onPlayerJoin(username) {
  */
 function onPlayerReady(username) {
     playerActionLog(username, 'расставил свой флот')
-    if (username === players[0].username) {
+    const fixedUsername = username.replace(' ', '')
+    if (fixedUsername === players[0].username) {
         document.querySelector('#start-game-button').remove()
         setMode('all')
         updateDisplay()
@@ -179,7 +181,8 @@ function onGameStarted() {
  * @param username Player's name.
  */
 function onOtherPlayerStep(username) {
-    if (username === players[0].username) {
+    const fixedUsername = username.replace(' ', '')
+    if (fixedUsername === players[0].username) {
         importantActionLog(username, ', твой ход')
         changeGameStatus(gameStatusTypes.WAITING_SELF_MOVE)
     } else {
