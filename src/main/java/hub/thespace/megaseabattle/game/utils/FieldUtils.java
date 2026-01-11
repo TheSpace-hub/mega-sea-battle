@@ -11,6 +11,16 @@ import java.util.List;
 public class FieldUtils {
 
     public boolean isFieldCorrect(Field field) {
+        List<List<Field.Position>> ships = getShipsList(field);
+        if (ships == null) return false;
+        return ships.stream().filter(list -> list.size() == 1).count() == 4 &&
+                ships.stream().filter(list -> list.size() == 2).count() == 3 &&
+                ships.stream().filter(list -> list.size() == 3).count() == 2 &&
+                ships.stream().filter(list -> list.size() == 4).count() == 1 &&
+                ships.size() == 10;
+    }
+
+    public List<List<Field.Position>> getShipsList(Field field) {
         int targetX = 0;
         int targetY = 0;
         List<List<Field.Position>> ships = new ArrayList<>();
@@ -18,11 +28,7 @@ public class FieldUtils {
         while (true) {
             while (field.getCellState(targetX, targetY) != Field.CellState.SHIP || isCellInShipsList(ships, targetX, targetY)) {
                 if (targetX == field.sizeX() - 1 && targetY == field.sizeY() - 1) {
-                    return ships.stream().filter(list -> list.size() == 1).count() == 4 &&
-                            ships.stream().filter(list -> list.size() == 2).count() == 3 &&
-                            ships.stream().filter(list -> list.size() == 3).count() == 2 &&
-                            ships.stream().filter(list -> list.size() == 4).count() == 1 &&
-                            ships.size() == 10;
+                    return ships;
                 }
                 targetX++;
                 if (targetX == field.sizeX()) {
@@ -32,7 +38,7 @@ public class FieldUtils {
             }
 
             Direction direction = getShipDirection(field, targetX, targetY);
-            if (direction == null) return false;
+            if (direction == null) return null;
 
             List<Field.Position> ship = new ArrayList<>();
             for (int i = 0; i < countLengthOfShipCells(field, targetX, targetY, direction); i++) {
