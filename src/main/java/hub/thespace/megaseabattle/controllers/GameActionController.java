@@ -76,8 +76,7 @@ public class GameActionController {
 
         log.info("User {} want load field {}", player.getUsername(), field);
 
-        // TODO - remove true before develop
-        if (fieldUtils.isFieldCorrect(field) || true) {
+        if (fieldUtils.isFieldCorrect(field)) {
             GameAction action = new GameAction(GameAction.Action.PLAYER_READY, player.getUsername(), null);
             player.setStatus(Player.Status.READY);
             player.setField(field);
