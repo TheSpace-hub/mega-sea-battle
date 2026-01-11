@@ -18,7 +18,7 @@ class Connector {
     connect(username) {
         return new Promise((resolve, reject) => {
             this.client = new StompJs.Client({
-                webSocketFactory: () => new SockJS('http://localhost:8080/ws'),
+                webSocketFactory: () => new SockJS('/ws'),
                 connectHeaders: {
                     'username': username,
                     'id': id
