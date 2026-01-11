@@ -85,29 +85,6 @@ public class Game {
     }
 
     /**
-     * Generate info for public. This method remove secret player's info.
-     *
-     * @return Public data.
-     */
-    public Game generatePublicInfo() {
-        Game game = new Game(id, maxPlayers, new ArrayList<>(), openCells);
-        for (Player player : players) {
-            Field field = new Field(10, 10);
-            for (Field.Position position : openCells) {
-                Field.CellState state = switch (player.getField().getCellState(position)) {
-                    case SHIP, WRECKED_SHIP -> Field.CellState.WRECKED_SHIP;
-                    case UNKNOWN, EMPTY -> Field.CellState.EMPTY;
-                };
-                field.setCellState(position, state);
-            }
-            game.addPlayer(player.getUsername(), player.getStatus());
-            game.addField(player.getUsername(), field);
-        }
-        log.info("Public game info {} has been generated: {}", id, game);
-        return game;
-    }
-
-    /**
      * Check is the game ready.
      *
      * @return Is the game ready.

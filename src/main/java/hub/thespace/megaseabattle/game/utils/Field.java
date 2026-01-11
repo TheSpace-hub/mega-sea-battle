@@ -31,7 +31,8 @@ public record Field(int sizeX, int sizeY, List<List<CellState>> field) {
         UNKNOWN("UNKNOWN"),
         EMPTY("EMPTY"),
         SHIP("SHIP"),
-        WRECKED_SHIP("WRECKED_SHIP");
+        WRECKED_SHIP("WRECKED_SHIP"),
+        BROKEN_SHIP("BROKEN_SHIP");
 
         private final String value;
 

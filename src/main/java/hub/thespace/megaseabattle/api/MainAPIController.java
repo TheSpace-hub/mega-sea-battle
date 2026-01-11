@@ -1,8 +1,10 @@
 package hub.thespace.megaseabattle.api;
 
+import hub.thespace.megaseabattle.game.utils.FieldUtils;
 import hub.thespace.megaseabattle.game.utils.Game;
 import hub.thespace.megaseabattle.game.GamesController;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,6 +17,13 @@ import java.util.Map;
 @RequestMapping("/api")
 @Slf4j
 public class MainAPIController {
+
+    private final FieldUtils fieldUtils;
+
+    @Autowired
+    public MainAPIController(FieldUtils fieldUtils) {
+        this.fieldUtils = fieldUtils;
+    }
 
     /**
      * Get list of games.
@@ -56,7 +65,7 @@ public class MainAPIController {
             log.warn("An attempt to get a non-existent game {}", id);
             return null;
         }
-        return game.generatePublicInfo();
+        return fieldUtils.generatePublicInfo(game);
     }
 
 }

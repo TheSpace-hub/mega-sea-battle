@@ -142,4 +142,27 @@ public class FieldUtils {
         System.out.println(pretty);
     }
 
+    /**
+     * Generate info for public. This method remove secret player's info.
+     *
+     * @return Public data.
+     */
+    public Game generatePublicInfo(Game origin) {
+        Game game = new Game(origin.getId(), origin.getMaxPlayers(), new ArrayList<>(), origin.getOpenCells());
+        for (Player player : origin.getPlayers()) {
+            Field field = new Field(10, 10);
+            for (Field.Position position : origin.getOpenCells()) {
+                Field.CellState state = switch (player.getField().getCellState(position)) {
+                    case SHIP, WRECKED_SHIP, BROKEN_SHIP -> Field.CellState.WRECKED_SHIP;
+                    case UNKNOWN, EMPTY -> Field.CellState.EMPTY;
+                };
+                field.setCellState(position, state);
+            }
+            game.addPlayer(player.getUsername(), player.getStatus());
+            game.addField(player.getUsername(), field);
+        }
+        log.info("Public game info {} has been generated: {}", origin.getId(), game);
+        return game;
+    }
+
 }
