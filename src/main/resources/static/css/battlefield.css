@@ -68,6 +68,11 @@
 }
 
 .cell.hit {
+    background-color: #ffc107;
+    color: white;
+}
+
+.cell.kill {
     background-color: #dc3545;
     color: white;
 }
