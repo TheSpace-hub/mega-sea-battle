@@ -121,8 +121,8 @@ export function updateDisplay() {
         const player = players[currentPlayer]
         const field = player.field.field
 
-        modeTitle.textContent = `Режим: Игрок "${player['name']}"`
-        modeDescription.textContent = `Ты видишь поле игрока "${player['name']}". Только его корабли отображены на поле.`
+        modeTitle.textContent = `Режим: Игрок "${player.username}"`
+        modeDescription.textContent = `Ты видишь поле игрока "${player.username}". Только его корабли отображены на поле.`
         cells.forEach(cell => {
             clearCell(cell)
             fillCell(cell, field)
