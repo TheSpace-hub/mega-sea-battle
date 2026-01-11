@@ -82,7 +82,7 @@ public class GameActionController {
             messagingTemplate.convertAndSend("/topic/game-" + game.getId(), action);
             checkIsGameReady(accessor);
         } else {
-            log.info("User {} load uncorrected field {}", player.getUsername(), field);
+            log.info("User {} load uncorrected field", player.getUsername());
         }
     }
 
