@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -32,7 +33,18 @@ public class MainAPIController {
      */
     @GetMapping("/list-of-games")
     public List<Game> getListOfGames() {
-        return GamesController.games;
+        List<Game> games = new ArrayList<>();
+        int shift = 0;
+        for (int i = 0; i < Math.min(10, GamesController.games.size()); i++) {
+            Game game = GamesController.games.get(i + shift);
+            if (!game.isClosed) {
+                games.add(game);
+            } else {
+                shift++;
+                i--;
+            }
+        }
+        return games;
     }
 
     /**
