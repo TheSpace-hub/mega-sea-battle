@@ -22,6 +22,7 @@ public class Game {
     @Getter
     private final List<Field.Position> openCells;
     private Player currentPlayer;
+    public boolean isClosed = false;
 
     public Game(String id, int maxPlayers) {
         this.id = id;
