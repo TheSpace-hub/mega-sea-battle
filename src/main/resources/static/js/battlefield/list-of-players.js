@@ -15,7 +15,16 @@ export function addPlayerIntoList(username) {
  * @param status Player's status.
  */
 export function setPlayerStatusInList(username, status) {
-    document.querySelector(`#status-${username}`).innerHTML = status;
+    let name = '?Status?'
+    if (status === 'PREPARING')
+        name = 'Готовит флот'
+    else if (status === 'READY')
+        name = 'Готов к бою'
+    else if (status === 'LOOSE')
+        name = 'Без кораблей'
+    else if (status === 'WON')
+        name = 'Всех победил'
+    document.querySelector(`#status-${username}`).innerHTML = name;
 }
 
 /**
