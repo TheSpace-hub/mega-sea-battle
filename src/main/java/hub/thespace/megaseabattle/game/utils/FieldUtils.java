@@ -11,19 +11,19 @@ import java.util.List;
 public class FieldUtils {
 
     public boolean isFieldCorrect(Field field) {
-        List<List<Field.Position>> ships = getShipsList(field);
+        List<Ship> ships = getShipsList(field);
         if (ships == null) return false;
-        return ships.stream().filter(list -> list.size() == 1).count() == 4 &&
-                ships.stream().filter(list -> list.size() == 2).count() == 3 &&
-                ships.stream().filter(list -> list.size() == 3).count() == 2 &&
-                ships.stream().filter(list -> list.size() == 4).count() == 1 &&
+        return ships.stream().filter(ship -> ship.positions.size() == 1).count() == 4 &&
+                ships.stream().filter(ship -> ship.positions.size() == 2).count() == 3 &&
+                ships.stream().filter(ship -> ship.positions.size() == 3).count() == 2 &&
+                ships.stream().filter(ship -> ship.positions.size() == 4).count() == 1 &&
                 ships.size() == 10;
     }
 
-    public List<List<Field.Position>> getShipsList(Field field) {
+    private List<Ship> getShipsList(Field field) {
         int targetX = 0;
         int targetY = 0;
-        List<List<Field.Position>> ships = new ArrayList<>();
+        List<Ship> ships = new ArrayList<>();
 
         while (true) {
             while (field.getCellState(targetX, targetY) != Field.CellState.SHIP || isCellInShipsList(ships, targetX, targetY)) {
@@ -40,9 +40,9 @@ public class FieldUtils {
             Direction direction = getShipDirection(field, targetX, targetY);
             if (direction == null) return null;
 
-            List<Field.Position> ship = new ArrayList<>();
+            Ship ship = new Ship();
             for (int i = 0; i < countLengthOfShipCells(field, targetX, targetY, direction); i++) {
-                ship.add(new Field.Position(
+                ship.positions.add(new Field.Position(
                         targetX + (direction == Direction.RIGHT ? i : 0),
                         targetY + (direction == Direction.DOWN ? i : 0)
                 ));
@@ -51,9 +51,9 @@ public class FieldUtils {
         }
     }
 
-    private boolean isCellInShipsList(List<List<Field.Position>> ships, int x, int y) {
-        for (List<Field.Position> ship : ships) {
-            if (ship.contains(new Field.Position(x, y))) {
+    private boolean isCellInShipsList(List<Ship> ships, int x, int y) {
+        for (Ship ship : ships) {
+            if (ship.positions.contains(new Field.Position(x, y))) {
                 return true;
             }
         }
@@ -151,18 +151,42 @@ public class FieldUtils {
         Game game = new Game(origin.getId(), origin.getMaxPlayers(), new ArrayList<>(), origin.getOpenCells());
         for (Player player : origin.getPlayers()) {
             Field field = new Field(10, 10);
+            List<Ship> ships = getShipsList(field);
             for (Field.Position position : origin.getOpenCells()) {
-                Field.CellState state = switch (player.getField().getCellState(position)) {
-                    case SHIP, WRECKED_SHIP, BROKEN_SHIP -> Field.CellState.WRECKED_SHIP;
-                    case UNKNOWN, EMPTY -> Field.CellState.EMPTY;
-                };
-                field.setCellState(position, state);
+                if (field.getCellState(position) == Field.CellState.SHIP) {
+
+                } else if (field.getCellState(position) == Field.CellState.EMPTY) {
+                    field.setCellState(position, Field.CellState.EMPTY);
+                }
+
             }
             game.addPlayer(player.getUsername(), player.getStatus());
             game.addField(player.getUsername(), field);
         }
         log.info("Public game info {} has been generated: {}", origin.getId(), game);
         return game;
+    }
+
+    private static class Ship {
+        public List<Field.Position> positions;
+
+        public Ship() {
+            this.positions = new ArrayList<>();
+        }
+
+        public boolean isAlive(List<Field.Position> openCells) {
+            for (Field.Position position : positions) {
+                if (!openCells.contains(position)) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public static Ship getShipByCell(Field field, Field.Position position) {
+            return new Ship();
+        }
+
     }
 
 }
