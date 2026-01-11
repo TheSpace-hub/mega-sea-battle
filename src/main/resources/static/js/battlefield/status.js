@@ -3,7 +3,7 @@ export const gameStatusTypes = Object.freeze({
     WAITING_OTHER_START: 'waiting-other-start',
     WAITING_SELF_MOVE: 'waiting-self-move',
     WAITING_OTHER_MOVE: 'waiting-other-move',
-    GAME_END: 'game-end',
+    PLAYER_WON: 'player-won',
 })
 
 let status = gameStatusTypes.WAITING_SELF_START
@@ -30,8 +30,8 @@ export function changeGameStatus(type, username = null) {
     } else if (type === 'waiting-other-move') {
         statusInfo.textContent = 'Подожди, сейчас ход игрока '
         statusUsername.textContent = username
-    } else if (type === 'waiting-other-move') {
-        statusInfo.textContent = 'Весь флот на дне! В игре победил '
+    } else if (type === 'player-won') {
+        statusInfo.textContent = 'Весь флот врагов на дне! В игре победил '
         statusUsername.textContent = username
     }
 }

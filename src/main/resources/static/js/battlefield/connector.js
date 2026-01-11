@@ -43,6 +43,7 @@ class Connector {
                             importantActionLog(response['username'], 'остался без кораблей!')
                         } else if (response['action'] === 'PLAYER_WON') {
                             importantActionLog(response['username'], 'всех победил!')
+                            changeGameStatus(gameStatusTypes.PLAYER_WON, response['username'])
                         } else if (response['action'] === 'GAME_FINISHED') {
                             onGameFinished()
                         }
