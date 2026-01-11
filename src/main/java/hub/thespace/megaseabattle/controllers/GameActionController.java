@@ -74,9 +74,8 @@ public class GameActionController {
         Player player = getPlayer(accessor);
         Game game = getGame(accessor);
 
-        log.info("User {} want load field {}", player.getUsername(), field);
-
         if (fieldUtils.isFieldCorrect(field)) {
+            log.info("Player {} load field", player.getUsername());
             GameAction action = new GameAction(GameAction.Action.PLAYER_READY, player.getUsername(), null);
             player.setStatus(Player.Status.READY);
             player.setField(field);
