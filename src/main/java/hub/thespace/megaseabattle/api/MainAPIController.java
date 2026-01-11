@@ -36,6 +36,9 @@ public class MainAPIController {
         List<Game> games = new ArrayList<>();
         int shift = 0;
         for (int i = 0; i < Math.min(10, GamesController.games.size()); i++) {
+            if (GamesController.games.size() == i + shift) {
+                return games;
+            }
             Game game = GamesController.games.get(i + shift);
             if (!game.isClosed) {
                 games.add(game);
