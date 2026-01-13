@@ -91,6 +91,7 @@ export function updateDisplay() {
     const cells = battlefield.querySelectorAll('.cell:not(.coordinate)')
     const modeTitle = document.getElementById('current-mode')
     const modeDescription = document.getElementById('mode-description')
+    console.log(JSON.stringify(players))
 
     cells.forEach(cell => {
         cell.style.opacity = '1'
@@ -206,6 +207,7 @@ function fillCell(cell, field, ignoreEmpty = false) {
  * @param cell The HTML object.
  */
 function clearCell(cell) {
+    cell.classList.remove('kill')
     cell.classList.remove('ship')
     cell.classList.remove('hit')
     cell.classList.remove('miss')
