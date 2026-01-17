@@ -103,7 +103,7 @@ function canJoin(): boolean {
 async function createGame() {
     if (!canJoin())
         return
-    const playersCount = (document.querySelector('#players-count') as HTMLInputElement).value
+    const playersCount = (document.querySelector('#players-count') as HTMLSelectElement).value
 
     const response = await fetch(`/api/create-game/${playersCount}`)
     if (!response.ok) {
