@@ -1,5 +1,5 @@
 import {initBattlefield, updateDisplay} from "./battlefield-utils.js";
-import {GameStatus} from "./status.js";
+import {connect} from "./connector.js";
 
 export class Player {
     private readonly _username: string;
@@ -115,7 +115,9 @@ document.addEventListener('DOMContentLoaded', function () {
     setupEventListeners();
     updateDisplay();
 
-    // connect(players[0].username).then();
+    mainPlayerUsername = document.body.dataset.username as string;
+
+    connect(mainPlayerUsername).then();
     // changeGameStatus(gameStatusTypes['WAITING_SELF_START']);
 })
 
