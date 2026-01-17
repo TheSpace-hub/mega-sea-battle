@@ -1,3 +1,5 @@
+import {initBattlefield} from "./battlefield-utils.js";
+
 export class Player {
     private readonly _username: string;
     private readonly _uuid: string;
@@ -25,7 +27,7 @@ export class Player {
         this._field = value;
     }
 
-    static mainPlayer(): Player {
+    static getMainPlayer(): Player {
         const player: Player | null = Player.getPlayerByUuid(mainPlayerUsername);
         if (player == null)
             throw new Error(`Can not find main player by username ${player}`);
@@ -41,13 +43,13 @@ export class Player {
         return null;
     }
 
-    static playersCount(): number {
+    static getPlayersCount(): number {
         return players.length;
     }
 
-    static playersUUIDs(): Array<string> {
+    static getPlayersUUIDs(): Array<string> {
         const uuids: string[] = [];
-        for (let i = 0; i < Player.playersCount(); i++) {
+        for (let i = 0; i < Player.getPlayersCount(); i++) {
             uuids.push(players[i].uuid.toString());
         }
         return uuids;
@@ -55,7 +57,7 @@ export class Player {
 }
 
 
-enum CellType {
+export enum CellType {
     UNKNOWN,
     EMPTY,
     SHIP,
@@ -63,7 +65,7 @@ enum CellType {
     BROKEN_SHIP,
 }
 
-class Field {
+export class Field {
     private readonly _sizeX: number;
     private readonly _sizeY: number;
     private readonly _field: Array<Array<CellType>>;
@@ -103,8 +105,8 @@ const players: Array<Player> = [];
 
 document.addEventListener('DOMContentLoaded', function () {
     addMainPlayer();
-    // initBattlefield();
-    setupEventListeners();
+    initBattlefield();
+    // setupEventListeners();
     // updateDisplay();
 
     // connect(players[0].username).then();
@@ -125,7 +127,7 @@ export function addPlayer(uuid: string, username: string) {
 }
 
 function addMainPlayer() {
-    const uuid = 'uuid';
+    const uuid = crypto.randomUUID();
     players.push(new Player(uuid, document.body.dataset.username as string));
     players[0].field = new Field(10, 10, Field.generateNew(10, 10, CellType.EMPTY));
 }
