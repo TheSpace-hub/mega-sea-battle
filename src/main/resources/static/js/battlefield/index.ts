@@ -26,22 +26,22 @@ export class Player {
     }
 
     static mainPlayer(): Player {
-        const player: Player | null = getPlayerByUuid(mainPlayerUsername);
+        const player: Player | null = Player.getPlayerByUuid(mainPlayerUsername);
         if (player == null)
             throw new Error(`Can not find main player by username ${player}`);
 
         return player;
     }
 
+    static getPlayerByUuid(uuid: string): Player | null {
+        for (let i = 0; i < players.length; i++) {
+            if (players[i].uuid === uuid)
+                return players[i];
+        }
+        return null;
+    }
 }
 
-function getPlayerByUuid(uuid: string): Player | null {
-    for (let i = 0; i < players.length; i++) {
-        if (players[i].uuid === uuid)
-            return players[i];
-    }
-    return null;
-}
 
 enum CellType {
     UNKNOWN,
