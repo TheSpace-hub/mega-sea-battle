@@ -6,8 +6,7 @@ export class Player {
     constructor(uuid: string, username: string) {
         this._username = username;
         this._uuid = uuid;
-        this._field = new Field(10, 10,
-            Array.from({length: 10}, () => Array(10).fill('UNKNOWN')));
+        this._field = new Field(10, 10, Field.createEmpty(10, 10, CellType.UNKNOWN));
     }
 
     get username(): string {
@@ -63,6 +62,13 @@ class Field {
         this._field = field;
     }
 
+    static createEmpty(sizeX: number, sizeY: number, cellType: CellType): Array<Array<CellType>> {
+        let field: Array<Array<CellType>> = Array(sizeY);
+        for (let y = 0; y < sizeY; y++)
+            field.push(Array(sizeX).fill(cellType));
+
+        return field;
+    }
 
     get sizeX(): number {
         return this._sizeX;
@@ -90,18 +96,14 @@ document.addEventListener('DOMContentLoaded', function () {
     // changeGameStatus(gameStatusTypes['WAITING_SELF_START']);
 })
 
-/**
- * Add other player.
- * @param username Player's name.
- */
-export function addPlayer(username: string) {
+export function addPlayer(uuid: string, username: string) {
     for (let i = 0; i < players.length; i++) {
         if (players[i].username === username) {
             return;
         }
     }
 
-    players.push(new Player(username));
+    players.push(new Player(uuid, username));
 
     // addPlayerIntoBattlefields(username);
     // addPlayerIntoList(username);
@@ -111,7 +113,8 @@ export function addPlayer(username: string) {
  * Initialization function for the user who owns the page.
  */
 function addMainPlayer() {
-    players.push(new Player(document.body.dataset.username as string));
+    const uuid = 'uuid';
+    players.push(new Player(uuid, document.body.dataset.username as string));
     players[0].field = new Field(10, 10,
         Array.from({length: 10}, () => Array(10).fill(CellType.EMPTY)));
 }
