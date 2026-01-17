@@ -1,5 +1,5 @@
 import {basicLog, importantActionLog, playerActionLog, showMessage} from "./logging.js";
-import {addPlayer, players} from "./main.js";
+import {addPlayer, players} from "./index.js";
 import {setPlayerStatusInList} from "./list-of-players.js";
 import {setMode, updateDisplay} from "./battlefield-utils.js";
 import {changeGameStatus, gameStatusTypes} from "./status.js";

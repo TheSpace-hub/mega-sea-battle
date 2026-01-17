@@ -1,4 +1,4 @@
-import {players} from "./main.js";
+import {players} from "./index.js";
 import {gameStatusTypes, getStatus} from "./status.js";
 import {attack, submitFieldForVerification} from "./connector.js";
 

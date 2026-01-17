@@ -1,4 +1,4 @@
-import {players} from "./main.js";
+import {players} from "./index.js";
 
 /**
  * Add new player into list.
