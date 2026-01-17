@@ -6,7 +6,7 @@ export class Player {
     constructor(uuid: string, username: string) {
         this._username = username;
         this._uuid = uuid;
-        this._field = new Field(10, 10, Field.createEmpty(10, 10, CellType.UNKNOWN));
+        this._field = new Field(10, 10, Field.generateNew(10, 10, CellType.UNKNOWN));
     }
 
     get username(): string {
@@ -62,11 +62,14 @@ class Field {
         this._field = field;
     }
 
-    static createEmpty(sizeX: number, sizeY: number, cellType: CellType): Array<Array<CellType>> {
+    static generateNew(sizeX: number, sizeY: number, cellType: CellType): Array<Array<CellType>> {
         let field: Array<Array<CellType>> = Array(sizeY);
-        for (let y = 0; y < sizeY; y++)
-            field.push(Array(sizeX).fill(cellType));
-
+        for (let y = 0; y < sizeY; y++) {
+            let row = Array(sizeX);
+            for (let x = 0; x < sizeX; x++)
+                row.push(cellType)
+            field.push(row);
+        }
         return field;
     }
 
@@ -109,19 +112,12 @@ export function addPlayer(uuid: string, username: string) {
     // addPlayerIntoList(username);
 }
 
-/**
- * Initialization function for the user who owns the page.
- */
 function addMainPlayer() {
     const uuid = 'uuid';
     players.push(new Player(uuid, document.body.dataset.username as string));
-    players[0].field = new Field(10, 10,
-        Array.from({length: 10}, () => Array(10).fill(CellType.EMPTY)));
+    players[0].field = new Field(10, 10, Field.generateNew(10, 10, CellType.EMPTY));
 }
 
-/**
- * Configure Event handlers.
- */
 function setupEventListeners() {
     document.getElementById('mode-all')?.addEventListener('click', function () {
         // setMode('all', 0);
@@ -131,6 +127,3 @@ function setupEventListeners() {
         // verifyField();
     })
 }
-
-
-
