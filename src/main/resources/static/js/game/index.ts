@@ -56,6 +56,13 @@ export class Player {
     }
 }
 
+export enum GameState {
+    WAITING_SELF_START,
+    WAITING_OTHER_START,
+    WAITING_SELF_MOVE,
+    WAITING_OTHER_MOVE,
+    PLAYER_WON,
+}
 
 export enum CellType {
     UNKNOWN,
@@ -77,8 +84,8 @@ export class Field {
     }
 
     static generateNew(sizeX: number, sizeY: number, cellType: CellType): Array<Array<CellType>> {
-        return Array.from({ length: sizeY }, () =>
-            Array.from({ length: sizeX }, () => CellType.SHIP)
+        return Array.from({length: sizeY}, () =>
+            Array.from({length: sizeX}, () => CellType.SHIP)
         );
     }
 
