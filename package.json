@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/TheSpace-hub/sea-battle-royal/issues"
   },
-  "homepage": "https://github.com/TheSpace-hub/sea-battle-royal#readme"
+  "homepage": "https://github.com/TheSpace-hub/sea-battle-royal#readme",
+  "dependencies": {
+    "typescript": "^5.9.3"
+  }
 }
