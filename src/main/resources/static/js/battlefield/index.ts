@@ -44,6 +44,14 @@ export class Player {
     static playersCount(): number {
         return players.length;
     }
+
+    static playersUUIDs(): Array<string> {
+        const uuids: string[] = [];
+        for (let i = 0; i < Player.playersCount(); i++) {
+            uuids.push(players[i].uuid.toString());
+        }
+        return uuids;
+    }
 }
 
 
