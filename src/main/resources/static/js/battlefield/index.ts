@@ -40,6 +40,10 @@ export class Player {
         }
         return null;
     }
+
+    static playersCount(): number {
+        return players.length;
+    }
 }
 
 
