@@ -50,7 +50,7 @@ export function initBattlefield() {
             cell.dataset.col = col.toString();
 
             cell.addEventListener('click', function () {
-                // handleCellClick(this);
+                handleCellClick(this);
             })
 
             battlefield.appendChild(cell);
@@ -132,27 +132,23 @@ export function updateDisplay() {
     }
 }
 
-/**
- * Cell click executor.
- * @param cell Cell as div object.
- */
-// function handleCellClick(cell: HTMLDivElement) {
-//     // if (getStatus() === gameStatusTypes.WAITING_SELF_START) {
-//     const x = parseInt(cell.dataset.col);
-//     const y = parseInt(cell.dataset.row);
-//     if (cell.classList.contains('ship')) {
-//         cell.classList.remove('ship');
-//         currentPlayer.field.field[y][x] = 'EMPTY';
-//     } else {
-//         cell.classList.add('ship');
-//         players[0].field.field[y][x] = 'SHIP';
-//     }
-//     // } else if (getStatus() === gameStatusTypes.WAITING_SELF_MOVE) {
-//     //     const x = parseInt(cell.dataset.col);
-//     //     const y = parseInt(cell.dataset.row);
-//     //     attack(x, y);
-//     // }
-// }
+function handleCellClick(cell: HTMLDivElement) {
+    // if (getStatus() === gameStatusTypes.WAITING_SELF_START) {
+    const x = parseInt(<string>cell.dataset.col);
+    const y = parseInt(<string>cell.dataset.row);
+    if (cell.classList.contains('ship')) {
+        cell.classList.remove('ship');
+        Player.getMainPlayer().field.field[y][x] = CellType.EMPTY;
+    } else {
+        cell.classList.add('ship');
+        Player.getMainPlayer().field.field[y][x] = CellType.SHIP;
+    }
+    // } else if (getStatus() === gameStatusTypes.WAITING_SELF_MOVE) {
+    //     const x = parseInt(cell.dataset.col);
+    //     const y = parseInt(cell.dataset.row);
+    //     attack(x, y);
+    // }
+}
 
 /**
  * Add new player into list of battlefields.
