@@ -25,7 +25,7 @@ export class Player {
         this._field = value;
     }
 
-    get mainPlayer(): Player {
+    static mainPlayer(): Player {
         const player: Player | null = getPlayerByUuid(mainPlayerUsername);
         if (player == null)
             throw new Error(`Can not find main player by username ${player}`);
