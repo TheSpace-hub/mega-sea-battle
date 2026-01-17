@@ -4,9 +4,8 @@ import {setPlayerStatusInList} from "./list-of-players.js";
 import {GameMode, setMode, updateDisplay} from "./battlefield-utils.js";
 import {GameStatus, setStatus} from "./status.js";
 
-// @ts-ignore
-import * as SockJS from 'sockjs-client';
-// @ts-ignore
+
+import SockJS from 'sockjs-client';
 import {Client} from "@stomp/stompjs";
 
 let connector: any = null;
@@ -50,6 +49,8 @@ class Connector {
 
                         if (uuid != null)
                             player = Player.getPlayerByUuid(uuid)
+
+                        console.log(JSON.stringify(response));
 
                         if (response['action'] === 'PLAYER_JOIN') {
                             if (uuid == null)
