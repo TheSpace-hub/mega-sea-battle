@@ -87,7 +87,7 @@ class Field {
 }
 
 export let mainPlayerUsername: string;
-export const players: Array<Player> = [];
+const players: Array<Player> = [];
 
 document.addEventListener('DOMContentLoaded', function () {
     addMainPlayer();
