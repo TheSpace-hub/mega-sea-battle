@@ -6,7 +6,7 @@ export enum GameStatus {
     PLAYER_WON,
 }
 
-export function setStatus(status: GameStatus, username: string) {
+export function setStatus(status: GameStatus, username: string | null = null) {
     const statusInfo: HTMLElement = document.querySelector('#status-info') as HTMLElement;
     const statusUsername: HTMLElement = document.querySelector('#status-username') as HTMLElement;
     currentStatus = status;

@@ -106,6 +106,7 @@ export class Field {
 }
 
 export let mainPlayerUsername: string;
+export const gameId: string = window.location.pathname.split('/').pop() as string;
 const players: Array<Player> = [];
 
 document.addEventListener('DOMContentLoaded', function () {

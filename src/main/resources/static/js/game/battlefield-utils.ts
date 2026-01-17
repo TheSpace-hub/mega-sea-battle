@@ -2,7 +2,7 @@ import {CellType, Field, Player} from "./index.js";
 // import {gameStatusTypes, getStatus} from "./status";
 // import {attack, submitFieldForVerification} from "./connector";
 
-enum GameMode {
+export enum GameMode {
     Prepare,
     AllPlayers,
     Player
@@ -62,7 +62,7 @@ export function initBattlefield() {
     })
 }
 
-export function setMode(gameMode: GameMode, player: Player) {
+export function setMode(gameMode: GameMode, player: Player | null) {
     currentGameMode = gameMode;
     currentPlayer = player;
 
@@ -73,8 +73,8 @@ export function setMode(gameMode: GameMode, player: Player) {
     let activeButton;
     if (currentGameMode === GameMode.AllPlayers || currentGameMode === GameMode.Prepare)
         activeButton = document.getElementById(`mode-${gameMode}`);
-    else if (currentGameMode === GameMode.Player)
-        activeButton = document.getElementById(`mode-player-${currentPlayer.username}`);
+    else if (currentGameMode === GameMode.Player && player !== null)
+        activeButton = document.getElementById(`mode-player-${player.username}`);
     activeButton?.classList.add('active', 'mode-active');
 
     updateDisplay();

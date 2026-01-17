@@ -2,7 +2,7 @@
   "name": "sea-battle-royal",
   "version": "0.1",
   "description": "Sea battle royal",
-  "main": "index.js",
+  "main": "",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -18,6 +18,8 @@
   },
   "homepage": "https://github.com/TheSpace-hub/sea-battle-royal#readme",
   "dependencies": {
+    "@stomp/stompjs": "^7.2.1",
+    "sockjs-client": "^1.6.1",
     "typescript": "^5.9.3"
   }
 }
