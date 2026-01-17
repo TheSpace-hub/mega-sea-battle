@@ -28,7 +28,7 @@ export class Player {
     }
 
     static getMainPlayer(): Player {
-        const player: Player | null = Player.getPlayerByUuid(mainPlayerUsername);
+        const player: Player | null = players[0];
         if (player == null)
             throw new Error(`Can not find main player by username ${player}`);
 
@@ -128,7 +128,9 @@ export function addPlayer(uuid: string, username: string) {
 
 function addMainPlayer() {
     const uuid = crypto.randomUUID();
-    players.push(new Player(uuid, document.body.dataset.username as string));
+    const username = document.body.dataset.username as string;
+
+    players.push(new Player(uuid, username));
     players[0].field = new Field(10, 10, Field.generateNew(10, 10, CellType.EMPTY));
 }
 
