@@ -1,6 +1,7 @@
 import {CellType, Field, Player} from "./index.js";
-// import {gameStatusTypes, getStatus} from "./status";
-// import {attack, submitFieldForVerification} from "./connector";
+import {GameStatus, getStatus} from "./status.js";
+// import {gameStatusTypes, getStatus} from "./status.js";
+// import {attack, submitFieldForVerification} from "./connector.js";
 
 export enum GameMode {
     Prepare,
@@ -17,7 +18,6 @@ export function verifyField() {
 }
 
 export function initBattlefield() {
-    console.log("initBattlefield()");
     const battlefield: HTMLElement | null = document.getElementById('battlefield')
     if (!battlefield) return;
 
@@ -133,17 +133,17 @@ export function updateDisplay() {
 }
 
 function handleCellClick(cell: HTMLDivElement) {
-    // if (getStatus() === gameStatusTypes.WAITING_SELF_START) {
     const x = parseInt(<string>cell.dataset.col);
     const y = parseInt(<string>cell.dataset.row);
 
-    if (cell.classList.contains('ship')) {
-        cell.classList.remove('ship');
-        Player.getMainPlayer().field.field[y][x] = CellType.EMPTY;
-    } else {
-        cell.classList.add('ship');
-        Player.getMainPlayer().field.field[y][x] = CellType.SHIP;
+    if (getStatus() === GameStatus.WAITING_SELF_START) {
+        if (Player.getMainPlayer().field.field[y][x] === CellType.SHIP) {
+            Player.getMainPlayer().field.field[y][x] = CellType.EMPTY;
+        } else {
+            Player.getMainPlayer().field.field[y][x] = CellType.SHIP;
+        }
     }
+    updateDisplay()
     // } else if (getStatus() === gameStatusTypes.WAITING_SELF_MOVE) {
     //     const x = parseInt(cell.dataset.col);
     //     const y = parseInt(cell.dataset.row);

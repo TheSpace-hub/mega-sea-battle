@@ -1,5 +1,5 @@
-import {initBattlefield} from "./battlefield-utils.js";
-import {GameStatus} from "./status";
+import {initBattlefield, updateDisplay} from "./battlefield-utils.js";
+import {GameStatus} from "./status.js";
 
 export class Player {
     private readonly _username: string;
@@ -112,8 +112,8 @@ const players: Array<Player> = [];
 document.addEventListener('DOMContentLoaded', function () {
     addMainPlayer();
     initBattlefield();
-    // setupEventListeners();
-    // updateDisplay();
+    setupEventListeners();
+    updateDisplay();
 
     // connect(players[0].username).then();
     // changeGameStatus(gameStatusTypes['WAITING_SELF_START']);
@@ -138,7 +138,6 @@ function addMainPlayer() {
 
     players.push(new Player(uuid, username));
     players[0].field = new Field(10, 10, Field.generateNew(10, 10, CellType.EMPTY));
-    console.log(`Field: ${JSON.stringify(Field.generateNew(10, 10, CellType.EMPTY))}`)
 }
 
 function setupEventListeners() {
