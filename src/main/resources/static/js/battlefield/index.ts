@@ -1,15 +1,21 @@
 export class Player {
     private readonly _username: string;
+    private readonly _uuid: string;
     private _field: Field;
 
-    constructor(username: string) {
+    constructor(uuid: string, username: string) {
         this._username = username;
+        this._uuid = uuid;
         this._field = new Field(10, 10,
             Array.from({length: 10}, () => Array(10).fill('UNKNOWN')));
     }
 
     get username(): string {
         return this._username;
+    }
+
+    get uuid(): string {
+        return this._uuid;
     }
 
     get field(): Field {
@@ -19,6 +25,23 @@ export class Player {
     set field(value: Field) {
         this._field = value;
     }
+
+    get mainPlayer(): Player {
+        const player: Player | null = getPlayerByUuid(mainPlayerUsername);
+        if (player == null)
+            throw new Error(`Can not find main player by username ${player}`);
+
+        return player;
+    }
+
+}
+
+function getPlayerByUuid(uuid: string): Player | null {
+    for (let i = 0; i < players.length; i++) {
+        if (players[i].uuid === uuid)
+            return players[i];
+    }
+    return null;
 }
 
 enum CellType {
@@ -54,16 +77,17 @@ class Field {
     }
 }
 
+export let mainPlayerUsername: string;
 export const players: Array<Player> = [];
 
 document.addEventListener('DOMContentLoaded', function () {
     addMainPlayer();
-    initBattlefield();
+    // initBattlefield();
     setupEventListeners();
-    updateDisplay();
+    // updateDisplay();
 
-    connect(players[0].username).then();
-    changeGameStatus(gameStatusTypes['WAITING_SELF_START']);
+    // connect(players[0].username).then();
+    // changeGameStatus(gameStatusTypes['WAITING_SELF_START']);
 })
 
 /**
@@ -79,8 +103,8 @@ export function addPlayer(username: string) {
 
     players.push(new Player(username));
 
-    addPlayerIntoBattlefields(username);
-    addPlayerIntoList(username);
+    // addPlayerIntoBattlefields(username);
+    // addPlayerIntoList(username);
 }
 
 /**
@@ -97,11 +121,11 @@ function addMainPlayer() {
  */
 function setupEventListeners() {
     document.getElementById('mode-all')?.addEventListener('click', function () {
-        setMode('all', 0);
+        // setMode('all', 0);
     })
 
     document.getElementById('start-game-button')?.addEventListener('click', function () {
-        verifyField();
+        // verifyField();
     })
 }
 
