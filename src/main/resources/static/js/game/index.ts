@@ -4,11 +4,13 @@ import {GameStatus} from "./status";
 export class Player {
     private readonly _username: string;
     private readonly _uuid: string;
+    public status: PlayerStatus;
     private _field: Field;
 
     constructor(uuid: string, username: string) {
         this._username = username;
         this._uuid = uuid;
+        this.status = PlayerStatus.UNKNOWN;
         this._field = new Field(10, 10, Field.generateNew(10, 10, CellType.UNKNOWN));
     }
 
@@ -55,6 +57,14 @@ export class Player {
         }
         return uuids;
     }
+}
+
+export enum PlayerStatus {
+    UNKNOWN,
+    PREPARING,
+    READY,
+    LOOSE,
+    WON
 }
 
 export enum CellType {
