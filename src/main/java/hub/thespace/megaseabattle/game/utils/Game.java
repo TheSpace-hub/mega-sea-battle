@@ -43,8 +43,8 @@ public class Game {
      *
      * @param username Player's username.
      */
-    public void addPlayer(String username, Player.Status status) {
-        players.add(new Player(username, status, new Field(10, 10)));
+    public void addPlayer(String uuid, String username, Player.Status status) {
+        players.add(new Player(uuid, username, status, new Field(10, 10)));
     }
 
     /**

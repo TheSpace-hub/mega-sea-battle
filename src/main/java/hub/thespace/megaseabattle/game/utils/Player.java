@@ -11,12 +11,14 @@ import java.util.List;
 @Slf4j
 public class Player {
     private String username;
+    private String uuid;
     private Status status;
     private Field field;
     private boolean isDead;
 
-    public Player(String username, Status status, Field field) {
+    public Player(String uuid, String username, Status status, Field field) {
         this.username = username;
+        this.uuid = uuid;
         this.status = status;
         this.field = field;
     }

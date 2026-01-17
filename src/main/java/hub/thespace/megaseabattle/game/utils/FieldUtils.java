@@ -165,7 +165,7 @@ public class FieldUtils {
                 }
 
             }
-            game.addPlayer(player.getUsername(), player.getStatus());
+            game.addPlayer(player.getUuid(), player.getUsername(), player.getStatus());
             game.addField(player.getUsername(), field);
         }
 

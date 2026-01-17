@@ -20,6 +20,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 @Component
 @Slf4j
@@ -85,7 +86,8 @@ public class WebSocketConnectionInterceptor implements ChannelInterceptor {
         log.info("Client {} connected into game {}", username, id.toUpperCase());
 
         assert game != null;
-        game.addPlayer(username, Player.Status.PREPARING);
+        String uuid = UUID.randomUUID().toString();
+        game.addPlayer(uuid, username, Player.Status.PREPARING);
         addUserToSession(username, id, sessionId);
 
         GameAction gameAction = new GameAction(GameAction.Action.PLAYER_JOIN, username);
