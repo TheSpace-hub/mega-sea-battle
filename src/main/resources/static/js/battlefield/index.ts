@@ -4,7 +4,8 @@ export class Player {
 
     constructor(username: string) {
         this._username = username;
-        this._field = new Field(10, 10, Array.from({length: 10}, () => Array(10).fill('UNKNOWN')))
+        this._field = new Field(10, 10,
+            Array.from({length: 10}, () => Array(10).fill('UNKNOWN')));
     }
 
     get username(): string {
@@ -53,16 +54,16 @@ class Field {
     }
 }
 
-export const players: Array<Player> = []
+export const players: Array<Player> = [];
 
 document.addEventListener('DOMContentLoaded', function () {
-    addMainPlayer()
-    initBattlefield()
-    setupEventListeners()
-    updateDisplay()
+    addMainPlayer();
+    initBattlefield();
+    setupEventListeners();
+    updateDisplay();
 
-    connect(players[0].username).then()
-    changeGameStatus(gameStatusTypes['WAITING_SELF_START'])
+    connect(players[0].username).then();
+    changeGameStatus(gameStatusTypes['WAITING_SELF_START']);
 })
 
 /**
@@ -72,23 +73,23 @@ document.addEventListener('DOMContentLoaded', function () {
 export function addPlayer(username: string) {
     for (let i = 0; i < players.length; i++) {
         if (players[i].username === username) {
-            return
+            return;
         }
     }
 
-    players.push(new Player(username))
+    players.push(new Player(username));
 
-    addPlayerIntoBattlefields(username)
-    addPlayerIntoList(username)
+    addPlayerIntoBattlefields(username);
+    addPlayerIntoList(username);
 }
 
 /**
  * Initialization function for the user who owns the page.
  */
 function addMainPlayer() {
-    players.push(new Player(document.body.dataset.username as string))
+    players.push(new Player(document.body.dataset.username as string));
     players[0].field = new Field(10, 10,
-        Array.from({length: 10}, () => Array(10).fill(CellType.EMPTY)))
+        Array.from({length: 10}, () => Array(10).fill(CellType.EMPTY)));
 }
 
 /**
@@ -96,11 +97,11 @@ function addMainPlayer() {
  */
 function setupEventListeners() {
     document.getElementById('mode-all')?.addEventListener('click', function () {
-        setMode('all', 0)
+        setMode('all', 0);
     })
 
     document.getElementById('start-game-button')?.addEventListener('click', function () {
-        verifyField()
+        verifyField();
     })
 }
 
