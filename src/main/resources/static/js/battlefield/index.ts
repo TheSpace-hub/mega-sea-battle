@@ -77,14 +77,9 @@ export class Field {
     }
 
     static generateNew(sizeX: number, sizeY: number, cellType: CellType): Array<Array<CellType>> {
-        let field: Array<Array<CellType>> = Array(sizeY);
-        for (let y = 0; y < sizeY; y++) {
-            let row = Array(sizeX);
-            for (let x = 0; x < sizeX; x++)
-                row.push(cellType)
-            field.push(row);
-        }
-        return field;
+        return Array.from({ length: sizeY }, () =>
+            Array.from({ length: sizeX }, () => CellType.SHIP)
+        );
     }
 
     get sizeX(): number {
@@ -132,6 +127,7 @@ function addMainPlayer() {
 
     players.push(new Player(uuid, username));
     players[0].field = new Field(10, 10, Field.generateNew(10, 10, CellType.EMPTY));
+    console.log(`Field: ${JSON.stringify(Field.generateNew(10, 10, CellType.EMPTY))}`)
 }
 
 function setupEventListeners() {
