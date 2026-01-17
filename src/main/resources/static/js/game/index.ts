@@ -1,4 +1,5 @@
 import {initBattlefield} from "./battlefield-utils.js";
+import {GameStatus} from "./status";
 
 export class Player {
     private readonly _username: string;
@@ -54,14 +55,6 @@ export class Player {
         }
         return uuids;
     }
-}
-
-export enum GameState {
-    WAITING_SELF_START,
-    WAITING_OTHER_START,
-    WAITING_SELF_MOVE,
-    WAITING_OTHER_MOVE,
-    PLAYER_WON,
 }
 
 export enum CellType {
