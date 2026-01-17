@@ -136,6 +136,7 @@ function handleCellClick(cell: HTMLDivElement) {
     // if (getStatus() === gameStatusTypes.WAITING_SELF_START) {
     const x = parseInt(<string>cell.dataset.col);
     const y = parseInt(<string>cell.dataset.row);
+
     if (cell.classList.contains('ship')) {
         cell.classList.remove('ship');
         Player.getMainPlayer().field.field[y][x] = CellType.EMPTY;
