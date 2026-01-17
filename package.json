@@ -1,7 +1,7 @@
 {
   "name": "sea-battle-royal",
-  "version": "1.0.0",
-  "description": "",
+  "version": "0.1",
+  "description": "Sea battle royal",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
