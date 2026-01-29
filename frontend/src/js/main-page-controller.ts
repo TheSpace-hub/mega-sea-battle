@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", generateListOfGames)
-document.querySelector('#join').addEventListener('click', joinInToGameByJoinButton)
-document.querySelector('#create-game').addEventListener('click', createGame)
+document.querySelector('#join')?.addEventListener('click', joinInToGameByJoinButton)
+document.querySelector('#create-game')?.addEventListener('click', createGame)
 document.addEventListener('click', joinInToGameByList)
 
 /**
@@ -29,8 +29,8 @@ async function generateListOfGames() {
  * @param players Players in the game.
  * @param maxPlayers Max players of the game.
  */
-function addGameToListOfGames(id, players, maxPlayers) {
-    document.querySelector('#list-of-games').insertAdjacentHTML('beforeend', createItem(id, players, maxPlayers))
+function addGameToListOfGames(id: string, players: number, maxPlayers: number) {
+    document.querySelector('#list-of-games')?.insertAdjacentHTML('beforeend', createItem(id, players, maxPlayers))
 }
 
 /**
@@ -40,7 +40,7 @@ function addGameToListOfGames(id, players, maxPlayers) {
  * @param maxPlayers Max players count in the game.
  * @returns {string}
  */
-function createItem(id, players, maxPlayers) {
+function createItem(id: string, players: number, maxPlayers: number): string {
     return `
 <li class="list-group-item align-items-center justify-content-between d-flex">
     <a href="#" id="game-${id}" class="text-decoration-none">Бой #${id.toUpperCase()}</a>
@@ -53,8 +53,8 @@ function createItem(id, players, maxPlayers) {
  * Join in to the game by id.
  * @param id Game's id.
  */
-function joinInToGame(id) {
-    const username = document.querySelector('#username').value
+function joinInToGame(id: string) {
+    const username: string = (document.querySelector('#username') as HTMLInputElement).value
     if (id === '')
         return false
     if (canJoin())
@@ -65,7 +65,7 @@ function joinInToGame(id) {
  * Open game button executor.
  */
 function joinInToGameByJoinButton() {
-    const id = document.querySelector('#game-id').value
+    const id: string = (document.querySelector('#game-id') as HTMLInputElement).value
     joinInToGame(id)
 }
 
@@ -73,7 +73,7 @@ function joinInToGameByJoinButton() {
  * Join in to the game by link in the list.
  * @param event
  */
-function joinInToGameByList(event) {
+function joinInToGameByList(event: any) {
     if (!event.target.matches('a'))
         return
     if (!event.target.href.endsWith('#'))
@@ -87,10 +87,10 @@ function joinInToGameByList(event) {
  * Check is user can join.
  * @returns {boolean} Can user join.
  */
-function canJoin() {
-    const username = document.querySelector('#username').value
+function canJoin(): boolean {
+    const username = (document.querySelector('#username') as HTMLInputElement).value
     if (username === '') {
-        document.querySelector('#write-username-error').classList.remove('d-none')
+        document.querySelector('#write-username-error')?.classList.remove('d-none')
         return false
     }
 
@@ -99,12 +99,11 @@ function canJoin() {
 
 /**
  * Create game by list of player's count.
- * @param event
  */
-async function createGame(event) {
+async function createGame() {
     if (!canJoin())
         return
-    const playersCount = document.querySelector('#players-count').value
+    const playersCount = (document.querySelector('#players-count') as HTMLSelectElement).value
 
     const response = await fetch(`/api/create-game/${playersCount}`)
     if (!response.ok) {
